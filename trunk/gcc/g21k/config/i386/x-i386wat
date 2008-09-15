@@ -1,0 +1,11 @@
+INSTALL=cp
+RANLIB = :
+RANLIB_TEST = false
+CC = : g386
+OLDCC = g386
+CCLIBFLAGS =
+XCFLAGS =
+HOST_CC = gcc
+HOST_PREFIX=sparc-
+HOST_PREFIX_1=sparc-
+EXTRA_GCCOBJS=atfile.o

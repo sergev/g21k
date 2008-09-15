@@ -1,0 +1,66 @@
+.\" -----------------------------------
+.TH LD21K 1 \"20 Oct 1999\" \"Release 3.3 Version 2.30\"
+.SH NAME
+ld21k \- Analog Devices ADSP-210x0 Linker
+
+.SH SYNOPSIS
+.B ld21k
+[
+.I options
+]
+.I file
+\& ...
+
+.SH OPTIONS
+.TP
+\fB-a\fP \fIfile\fP
+Specify architecture file.
+.TP
+\fB-h\fP
+Display usage.
+.TP
+\fB-i\fP \fIfile\fP
+Specify file containing list of object files.
+.TP
+\fB-L\fP\fIpath\fP
+Add path name to search of libraries.
+.TP
+\fB-l\fP\fIxxx\fP
+Add library name lib\fIxxx\fP.a to link
+.TP
+\fB-m\fP
+Generate memory map file.
+.TP
+\fB-o\fP \fIfile\fP
+Specify executable filename.
+.TP
+\fB-s\fP
+Strip symbol table from executable
+.TP
+\fB-v\fP
+Verbose.
+.TP
+\fB-x\fP
+Strip local symbol info.
+
+.SH "BUGS"
+.PP
+This man page needs more work.
+
+.SH "COPYRIGHT"
+Copyright (c) 1991-1997 Analog Devices, Inc.
+.PP
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+.SH "SEE ALSO"
+.IR asm21k (1),
+.IR mem21k (1)
+

@@ -1,0 +1,1 @@
+../g21k/c-aux-info.c

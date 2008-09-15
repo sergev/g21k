@@ -1,0 +1,83 @@
+# *EK*  completely rewritten in accordance with 21k and 21csp
+CC = gcc
+
+X_DEBUG_OBJS = debug-trace.o stat-md.o debug-prints.o debug-tree.o
+# /usr/lib/debug/malloc.o
+CLIB=-lm
+EXTRA_OBJS =   $(X_DEBUG_OBJS) atfile.o
+EXTRA_CPPOBJS = atfile.o
+LANGUAGES = c
+GCC_PASSES=g21${exe} cc1 cpp $(EXTRA_PASSES)
+ADISUPPORT = $(srcdir)/../adiach
+ALL=all.adi
+
+#*EK* make a default ADI_DSP location:
+ADI_DSP=$(prefix)
+etcdir=$(ADI_DSP)/$(target)/etc
+
+INSTALL_TARGET=install.adi
+
+install.adi:
+	$(MAKE) exe=${exe} install.21xx
+
+install.21xx: $(GCC_PASSES)
+	-parent=`echo $(bindir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(bindir) ] ; then true ; else mkdir -p $(bindir) ; fi
+	-parent=`echo $(etcdir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(etcdir) ] ; then true ; else mkdir -p $(etcdir) ; fi
+	$(INSTALL_DATA) g21${exe} $(bindir)/g21${exe}
+	$(INSTALL_DATA) cc1${exe} $(etcdir)/cc1${exe}
+	$(INSTALL_DATA) cccp${exe} $(etcdir)/cpp${exe}
+
+#
+#
+all.adi:
+	$(MAKE) exe=${exe} all.21xx
+
+all.21xx: g21${exe} cc1 cpp
+
+EXTRA_GCCOBJS = atfile.o
+
+ADISUPPORT = $(srcdir)/../adiach
+
+%.o : $(ADISUPPORT)/%.c
+	$(CC) -c $(ALL_CFLAGS) $(INCLUDES) -I$(ADISUPPORT) $< -o $@
+# ADI common files
+
+atfile.o : $(ADISUPPORT)/atfile.c $(ADISUPPORT)/atfile.h
+
+atof.o : atof.c
+
+g21.o : gcc.c tm.h gvarargs.h obstack.h
+	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -I$(ADISUPPORT) \
+	-DADI_DSP=\"$(ADI_DSP)\" \
+	-DDEFAULT_TARGET_MACHINE=\"$(target)\" \
+	`echo $(srcdir)/gcc.c | sed 's,^\./,,'` \
+	-c -o g21.o
+
+g21: g21.o version.o obstack.o $(LIBDEPS) $(EXTRA_GCCOBJS)
+	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o g21 g21.o version.o $(EXTRA_GCCOBJS) $(LIBS)
+
+#*EK* end of Unix stuff
+
+.SUFFIXES:.obj
+CLFLAGS= -DMSC -F 5000 -Os -D__MSDOS__ -DMSDOS
+G21_EXE_O=gcc.obj obstack.obj version.obj atfile.obj
+
+g21.exe: $(G21_EXE_O)
+	cl86 $(CLFLAGS) -Feg21.exe $(G21_EXE_O)
+
+atfile.o : $(ADISUPPORT)/atfile.c $(ADISUPPORT)/atfile.h
+
+.c.obj:
+	cl86 $(CLFLAGS) $(INCLUDES) -I. -c $*.c
+
+atfile.obj : $(ADISUPPORT)/atfile.c $(ADISUPPORT)/atfile.h
+	cp $(ADISUPPORT)/atfile.c .
+	cl86 $(CLFLAGS) $(INCLUDES) -I. -I$(ADISUPPORT) -D__MSDOS__ -c atfile.c
+	rm -f atfile.c
+
+gcc.obj : gcc.c
+

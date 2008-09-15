@@ -1,0 +1,11 @@
+%{
+/* Command-line:
+ /usr/gcc/bin/gperf -D -p -g -o -t -N is_library_function -k1,3,$ 21libs.gperf
+ */
+%}
+struct lib_func { char *name; int num_pptrs; int dountils; int df; int rp; enum call_modifier_tag modifier;  };
+%%
+memcpy,  2, -1, 0, 0, MODIFY_DD
+strcpy,  2, -1, 0, 0, MODIFY_DD
+%%
+

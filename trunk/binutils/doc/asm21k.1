@@ -1,0 +1,70 @@
+.\" -----------------------------------
+.TH ASM21K 1 \"20 Oct 1999\" \"Release 3.3 Version 2.30\"
+.SH NAME
+asm21k \- Analog Devices ADSP-210x0 Assembler Pre-Processor
+
+.SH SYNOPSIS
+.B asm21k
+[
+.I options
+]
+.I filename
+
+.SH OPTIONS
+.TP
+\fB-D\fP\fIname\fP
+Define 
+.I name
+to the assembler preprocessor.
+.TP
+\fB-h\fP
+Display usage.
+.TP
+\fB-l\fP
+Generate a listing file.
+.TP
+\fB-o\fP \fIfile\fP
+Name the output object file.
+.TP
+\fB-pp\fP
+Preprocessor only.
+.TP
+\fB-sp\fP
+Skip the assembler preprocessor
+.TP
+\fB-v\fP
+Verbose.
+
+.SH DESCRIPTION
+.PP
+Input files are preprocessed using the preprocessor,
+unless the \fB-sp\fP option is specified.
+
+.SH BUGS
+.PP
+This man page needs more work.
+.PP
+The assembler ignores the rest of
+.B any
+line following an exclamation mark (\fB!\fP). This
+means that if you have a \fB!\fP inside an assembler comment (ie. comment
+enclosed in \fB{\fP and \fB}\fP) then the closing \fB}\fP will not be
+processed and the following lines of code will be silently ignored
+until the next \fB}\fP is encountered.
+
+.SH "COPYRIGHT"
+Copyright (c) 1991-1997 Analog Devices, Inc.
+.PP
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+.SH "SEE ALSO"
+.IR a21000 (1),
+.IR ld21k (1)

@@ -1,0 +1,127 @@
+
+This is the source code for GCC for the Analog Devices Sharc DSP,
+essentially as distributed on the AD ftp site:
+
+    ftp://ftp.analog.com/pub/dsp/dev_tool/21k_tool/gnu_src/g21k-3.3-src.tar.Z
+
+In addition, a release for the DSP 21xx has been included, presently
+not available from AD, but from:
+
+    ftp://ftp.dgii.com/users/rick/g21xx.tar.gz
+
+These compilers are all based on the GCC version 2.3.3
+
+
+HOSTS
+
+This version has currently only been tested under Linux/i386. Since all
+GCC host configuration files have been included, it will probably work
+under most other Unixes with no or minimum work. You probably cannot 
+build a cross compiler on a Vax, however, since it uses a non standard 
+float format.
+
+To compile you will need, in addition to a good C compiler, various
+GNU tools like gperf and bison.
+
+Altough it is believed that the compilers are all right, they really have
+NOT been verified for correctness.
+
+
+WHAT IS MISSING
+
+Please also note that this is only the compiler. It can be useful enough
+for those who already posess an assembler and a linker. But for all others,
+many essential parts of a useful DSP development system are still missing:
+
+    a.  An assembler (a21000 for the Sharc/21k, a21c for 21csp,
+	asm2 for 21xx).
+    b.  Linker/librarian.
+    c.  C library.
+    d.  Debugger.
+
+This is now being remedied.
+
+WRT a C library, the AD C library may or may not be available for public
+use - I have not yet been able to establish the exact status.
+
+WRT a debugger, the AD Sharc debugger source code will soon be made
+available on the AD FTP site, ftp.analog.com.
+
+For the Analog Devices ADSP-2181 EZ-Kit Lite DSP evaluation board, a 
+complete host download/support package for Unix/Linux, plus some
+sample 2181 DSP source code, can be found on the AD ftp site:
+
+	ftp://ftp.analog.com/public/dsp/ezkitlt/ezkit_unix_1.6.tar.Z
+
+
+
+DOCUMENTATION
+
+The only documentation included in this package is a g21k/g21/g21c man 
+page, in addition to the standard GNU man pages.
+
+Much excellent, and highly relevant documentation can be found at the 
+Analog Devices web site. Some examples:
+
+	ADSP-2106x SHARC User's Manual
+	http://www.analog.com/publications/documentation/ADSP_2106x_SHARC_Users_Manual/books.html
+
+	ADSP-21000 Family C Tools Manual
+	http://www.analog.com/publications/documentation/C_Tools_Manual/books.html
+
+	ADSP-21000 Family C Runtime Library Manual
+	http://www.analog.com/publications/documentation/C_Library_Manual/books.html
+
+	ADSP-21000 Family Assembler Tools & Simulator Manual
+	http://www.analog.com/publications/documentation/ASM-Sim_Manual/books.html
+
+	ADSP-21060 Data Sheet
+	http.//products.analog.com/products/info.asp?product=ADSP-21060
+
+	ADSP-2181 Data Sheet
+	http.//products.analog.com/products/info.asp?product=ADSP-2181
+
+The Sharcpage also contains much information, as well as software:
+
+	http://www.home.ch/~spaw1616/sharcpage.html
+
+
+
+LICENSE
+
+GPL. See the file COPYING for further detail.
+
+
+COMMENTS
+
+Please send any comments, patches etc. to:
+
+	Egil Kvaleberg
+	egil@kvaleberg.no
+
+
+INSTALLATION
+
+To build and install the g21k, the C compiler for the Sharc and friends:
+
+	make build-g21k
+	su
+	make install-g21k
+
+To build and install the g21c, the C compiler for the 21csp:
+
+	make build-g21c
+	su
+	make install-g21c
+
+To build and install the g21, the C compiler for the 21xx:
+
+	make build-g21
+	su
+	make install-g21
+
+To install the man-page:
+
+	make install-man
+
+

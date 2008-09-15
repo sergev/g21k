@@ -1,0 +1,37 @@
+#
+#  *EK*
+#
+#  general makefile definitions
+#
+
+include ../config.def
+
+CFLAGS = -g -I../include ${CDEFS}
+
+OBJ = ${SRC:%.c=%.o}
+
+%.o: ../lib/%.c
+	${CC} ${CFLAGS} -c ../lib/$*.c -o $*.o
+
+%.o: ../modify/%.c
+	${CC} ${CFLAGS} -c ../modify/$*.c -o $*.o
+
+clean:
+	rm -f *.o out *~
+
+realclean: clean
+	rm depend
+
+dep:
+	rm -f depend
+	${MAKE} depend
+
+# for gcc only
+depend:
+	-(      echo '# Auto generated: program dependencies';           \
+		if [ "${SRC}" != "" ]; then                              \
+			gcc -MM ${SRC} ${CFLAGS};                        \
+		fi                                                       \
+	 ) >>depend;
+
+-include depend

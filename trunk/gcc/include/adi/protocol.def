@@ -1,0 +1,118 @@
+/* @section TCP TargetTrace Protocol
+
+   This is a mapping language used to implemented a protocol 
+   which is not procedure based but networked based.
+
+   a - address
+   P - pointer
+   < - input block
+   > - output block
+   l - long integer (length)
+   i - long integer (arbitrary integer)
+   r - register no
+   s - zero terminated string.
+   f - function hook 
+   * - message is unavailable
+   ? - marks next object as return entity
+   @ - signifies that this message produces output.
+   
+   if < is not followed by l then 1 is implied. 
+   if > is not followed by l then 1 is implied.
+
+
+   The following table compiler is a lisp form 
+   that generates 2 tables from the list of messages
+   1. a debug table
+   2. a protocol table
+*/
+
+/* begin:protocol */
+/*       message         enum   operands     protocol */
+PROTOCOL(TGT_NAME,                      1L,     0,   "?s")
+
+PROTOCOL(TGT_REGNAMES,                  2L,     0,   "")
+PROTOCOL(TGT_REGSIZES,                  3L,     0,   "?l")
+PROTOCOL(TGT_LASTREG,                   4L,     0,   "?r")
+PROTOCOL(TGT_BKPTSIZE_NEEDS,            5L,     0,   "?l")
+PROTOCOL(TGT_PCREG,                     6L,     0,   "?r")
+
+PROTOCOL(TGT_ATTACH,                    50L,    0,   "?l")
+PROTOCOL(TGT_DETACH,                    51L,    0,   "")
+
+PROTOCOL(TGT_RESUME,                    52L,    0,   "@")
+PROTOCOL(TGT_RESET_COLD,                53L,    0,   "")
+PROTOCOL(TGT_RESET_WARM,                54L,    0,   "")
+PROTOCOL(TGT_RESET_COLD_CLEAR,          55L,    0,   "")
+
+/* GetMemory Arguments:
+   long address
+   pointer to buffer to transfer to
+   long len */
+PROTOCOL(TGT_GETMEM,                    56L,    0,   "a>l")
+PROTOCOL(TGT_GETMEMPM,                  57L,    0,   "a>l")
+PROTOCOL(TGT_GETMEMDM,                  58L,    0,   "a>l")
+
+/* SetMemory Arguments:
+   long address
+   pointer to buffer to transfer from
+   long len */
+PROTOCOL(TGT_SETMEM,                    59L,    0,   "a<l")
+PROTOCOL(TGT_SETMEMPM,                  60L,    0,   "a<l")
+PROTOCOL(TGT_SETMEMDM,                  61L,    0,   "a<l")
+
+/* SetMemoryPacked Arguments:
+   long address
+   pointer to a packed buffer to transfer from
+   long len 
+   long flags */
+PROTOCOL(TGT_SETMEMPACKED,              62L,    0,   "a<li")
+PROTOCOL(TGT_GETMEMPACKED,              82L,    0,   "a>li")
+
+PROTOCOL(TGT_GETREG,                    63L,    0,   "r>")
+PROTOCOL(TGT_SETREG,                    64L,    0,   "r<")
+
+PROTOCOL(TGT_GETREGS,                   65L,    0,   "*")
+PROTOCOL(TGT_SETREGS,                   66L,    0,   "*")
+
+PROTOCOL(TGT_GETSTACK,                  67L,    0,   "*")
+PROTOCOL(TGT_SETSTACK,                  68L,    0,   "*")
+
+PROTOCOL(TGT_SETBKPT,                   69L,    0,   "*")
+PROTOCOL(TGT_CLRBKPT,                   70L,    0,   "*")
+PROTOCOL(TGT_SINGLESTEP,                71L,    0,   "@")
+
+PROTOCOL(TGT_HALT,                      72L,    0,   "")
+
+PROTOCOL(TGT_KILL,                      73L,    0,   "i")
+PROTOCOL(TGT_STATUS,                    74L,    0,   "?l")
+PROTOCOL(TGT_STARTLOAD,                 75L,    0,   "")
+PROTOCOL(TGT_ENDLOAD,                   76L,    0,   "")
+PROTOCOL(TGT_STEP_AFTER_BREAK,          77L,    0,   "")
+PROTOCOL(TGT_SET_STDOUT_ADDR,           78L,    0,   "a")
+PROTOCOL(TGT_RAISE_INT,                 79L,    0,   "i")
+PROTOCOL(TGT_GET_FLAGS,                 80L,    0,   "?l")
+
+PROTOCOL(TGTSIM_SET_VALIDATION_PROBE,   130L,   0,   "f")
+PROTOCOL(TGTSIM_SET_LIB_HOOK,           131L,   0,   "f")
+PROTOCOL(TGTSIM_SET_UNINIT_REG_HOOK,    133L,   0,   "f")
+PROTOCOL(TGTSIM_SET_UNINIT_MEM_HOOK,    134L,   0,   "f")
+PROTOCOL(TGTSIM_SET_WRITE2ROM_HOOK,     135L,   0,   "f")
+PROTOCOL(TGTSIM_SET_WRITE2NONEXIST_HOOK,136L,   0,   "f")
+PROTOCOL(TGTSIM_SET_MONITOR_MEM_HOOK,   137L,   0,   "f")
+
+PROTOCOL(TGTSIM_PHASE1_HOOK,            138L,   0,   "f")
+PROTOCOL(TGTSIM_BEFORE_CYCLE_HOOK,      139L,   0,   "f")
+PROTOCOL(TGTSIM_PHASE2_HOOK,            140L,   0,   "f")
+PROTOCOL(TGTSIM_AFTER_CYCLE_HOOK,       141L,   0,   "f")
+PROTOCOL(TGTSIM_HOOK_ADDRESS,           142L,   0,   "*")/*<af*/
+PROTOCOL(TGTSIM_PRINTF,                 143L,   0,   "f")
+PROTOCOL(TGTSIM_ABORTED,                144L,   0,   "?l")
+PROTOCOL(TGTSIM_MAPIOSPACE,             145L,   0,   "f")
+PROTOCOL(TGTSIM_KILL,                   146L,   0,   "a")
+PROTOCOL(TGTSIM_DEFAULTMEMVAL,          147L,   0,   "a")
+PROTOCOL(TGTSIM_ASSOCDATAOBJECT,        148L,   0,   "a")
+PROTOCOL(TGTSIM_OCM,                    149L,   0,   "i")
+PROTOCOL(TGT_DEBUG,			250L,   0,   "i")
+PROTOCOL(TGT_LASTMESSAGE,               255L,   0,    "")
+
+/* end:protocol */

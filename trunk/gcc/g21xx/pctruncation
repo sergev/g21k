@@ -1,0 +1,57 @@
+#                    12345678
+# use this file to maintain the same files on the pc
+# under 4.0 pcnfs.
+#
+ln -s c-convert.c    c-conver.c
+ln -s c-aux-info.c   c-aux-in.c
+ln -s print-tree.c   print-tr.c
+ln -s stor-layout.c  stor-lay.c
+ln -s fold-const.c   fold-con.c
+ln -s print-rtl.c    print-rt.c
+ln -s integrate.c    integrat.c
+ln -s local-alloc.c  local-al.c
+ln -s global-alloc.c global-a.c
+ln -s caller-save.c  caller-s.c
+ln -s insn-peep.c    insn-pee.c
+ln -s reg-stack.c    reg-stac.c
+ln -s insn-recog.c   insn-rec.c
+ln -s insn-extract.c insn-ext.c
+ln -s insn-output.c  insn-out.c
+ln -s insn-emit.c    insn-emi.c
+ln -s insn-attrtab.c insn-att.c
+ln -s aux-output.c   aux-outp.c
+
+ln -s typeclass.h    typeclas.h
+ln -s integrate.h    integrat.h
+ln -s insn-config.h  insn-con.h
+ln -s insn-codes.h   insn-cod.h
+ln -s insn-flags.h   insn-fla.h
+ln -s basic-block.h  basic-bl.h
+ln -s conditions.h   conditio.h
+ln -s hard-reg-set.h hard-reg.h
+ln -s insn-attr.h    insn-att.h
+ln -s sys-protos.h   sys-prot.h
+ln -s sys-types.h    sys-type.h
+
+#
+# This is for building with go32 and the cross development platform.
+#
+ln -s c-convert.o    c-conver.o
+ln -s c-aux-info.o   c-aux-in.o
+ln -s print-tree.o   print-tr.o
+ln -s stor-layout.o  stor-lay.o
+ln -s fold-const.o   fold-con.o
+ln -s print-rtl.o    print-rt.o
+ln -s integrate.o    integrat.o
+ln -s local-alloc.o  local-al.o
+ln -s global-alloc.o global-a.o
+ln -s caller-save.o  caller-s.o
+ln -s insn-peep.o    insn-pee.o
+ln -s reg-stack.o    reg-stac.o
+ln -s insn-recog.o   insn-rec.o
+ln -s insn-extract.o insn-ext.o
+ln -s insn-output.o  insn-out.o
+ln -s insn-emit.o    insn-emi.o
+ln -s insn-attrtab.o insn-att.o
+ln -s aux-output.o   aux-outp.o
+

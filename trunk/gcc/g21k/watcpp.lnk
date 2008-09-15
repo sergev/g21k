@@ -1,0 +1,11 @@
+sys dos4g
+option map=g21.map
+option stack=65500
+name cpp.exe
+debug all
+
+file file0.obj
+file file1.obj
+file file2.obj
+file file3.obj
+file file4.obj

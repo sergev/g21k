@@ -1,0 +1,41 @@
+#
+# This fragment is used in the following situation:
+#   - Build gcc on one platform ("build" machine).
+#   - Build gcc with a cross compiler to another platform ("host" machine)
+#       which is where gcc will run.
+#   - Gcc produces code for a third platform ("target" machine).
+#
+# The "build" machine is where we compile gcc.
+# The "host" machine is where we execute gcc.
+# The "target" machine is where we execute the programs produced by gcc.
+#
+# The gcc we are making is host->target.
+#   (runs on host, produces output which runs on target)
+# The compiler we use to make it is build->host.
+#   (runs on build, produces output (gcc) which runs on host)
+
+
+# The x- Makefile fragment for the host machine should define
+# CROSS_TO_HOST_CC as the name of the build->host compiler.  This
+# assumes that the name only depends on the host machine (the target
+# of the CROSS_TO_HOST_CC compiler), and is the same for any possible
+# build machine.
+CC = $(CROSS_TO_HOST_CC)
+
+# The gen* programs are built and run (on the build machine) during the
+# build process to generate code which goes into gcc.  To compile these,
+# we need a build->build compiler, which is called HOST_CC in the
+# Makefile.  The b- Makefile fragment for the build machine should
+# define HOST_CC and B_CFLAGS, and override other variables below as
+# needed.
+#
+HOST_PREFIX=l-
+HOST_PREFIX_1=$(HOST_PREFIX)
+HOST_CC = $(OLDCC)
+HOST_CFLAGS=$(INTERNAL_CFLAGS) $(T_CFLAGS) $(B_CFLAGS) $(CFLAGS) $(XCFLAGS)
+HOST_CLIB=
+HOST_LDFLAGS=$(LDFLAGS)
+HOST_CPPFLAGS=$(ALL_CPPFLAGS)
+HOST_ALLOCA=$(ALLOCA)
+HOST_MALLOC=$(MALLOC)
+HOST_OBSTACK=$(OBSTACK)

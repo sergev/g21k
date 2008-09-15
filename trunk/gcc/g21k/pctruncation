@@ -1,0 +1,62 @@
+#                    12345678
+# use this file to maintain the same files on the pc
+# under 4.0 pcnfs.
+#
+SRC=.
+ln -s $SRC/c-convert.c    c-conver.c
+ln -s $SRC/c-aux-info.c   c-aux-in.c
+ln -s $SRC/print-tree.c   print-tr.c
+ln -s $SRC/stor-layout.c  stor-lay.c
+ln -s $SRC/fold-const.c   fold-con.c
+ln -s $SRC/print-rtl.c    print-rt.c
+ln -s $SRC/integrate.c    integrat.c
+ln -s $SRC/local-alloc.c  local-al.c
+ln -s $SRC/caller-save.c  caller-s.c
+ln -s $SRC/insn-peep.c    insn-pee.c
+ln -s $SRC/reg-stack.c    reg-stac.c
+ln -s $SRC/insn-recog.c   insn-rec.c
+ln -s $SRC/insn-extract.c insn-ext.c
+ln -s $SRC/insn-output.c  insn-out.c
+ln -s $SRC/insn-emit.c    insn-emi.c
+ln -s $SRC/insn-attrtab.c insn-att.c
+ln -s $SRC/aux-output.c   aux-outp.c
+
+ln -s $SRC/typeclass.h    typeclas.h
+ln -s $SRC/integrate.h    integrat.h
+ln -s $SRC/insn-config.h  insn-con.h
+ln -s $SRC/insn-codes.h   insn-cod.h
+ln -s $SRC/insn-flags.h   insn-fla.h
+ln -s $SRC/basic-block.h  basic-bl.h
+ln -s $SRC/conditions.h   conditio.h
+ln -s $SRC/hard-reg-set.h hard-reg.h
+ln -s $SRC/insn-attr.h    insn-att.h
+ln -s $SRC/sys-protos.h   sys-prot.h
+ln -s $SRC/sys-types.h    sys-type.h
+
+#
+# This is for building with go32 and the cross development platform.
+#
+ln -s $SRC/c-convert.o    c-conver.o
+ln -s $SRC/c-aux-info.o   c-aux-in.o
+ln -s $SRC/print-tree.o   print-tr.o
+ln -s $SRC/stor-layout.o  stor-lay.o
+ln -s $SRC/fold-const.o   fold-con.o
+ln -s $SRC/print-rtl.o    print-rt.o
+ln -s $SRC/integrate.o    integrat.o
+ln -s $SRC/local-alloc.o  local-al.o
+ln -s $SRC/global-alloc.o global-a.o
+ln -s $SRC/caller-save.o  caller-s.o
+ln -s $SRC/insn-peep.o    insn-pee.o
+ln -s $SRC/reg-stack.o    reg-stac.o
+ln -s $SRC/insn-recog.o   insn-rec.o
+ln -s $SRC/insn-extract.o insn-ext.o
+ln -s $SRC/insn-output.o  insn-out.o
+ln -s $SRC/insn-emit.o    insn-emi.o
+ln -s $SRC/insn-attrtab.o insn-att.o
+ln -s $SRC/aux-output.o   aux-outp.o
+ln -s $SRC/c-iterate.o    c-iterat.o
+
+
+ln -s $SRC/c-iterate.o c-iterat.o
+ln -s $SRC/c-iterate.c c-iterat.c
+

@@ -1,0 +1,21 @@
+
+Make binary RPM package
+
+There is a problem in generation of a map file. There is now a guard for
+that problem, see link/output.c. This may be a bug in the original AD 
+tools for symbols of classes C_NULL and C_AUTO not detected in the Windows
+runtime environment, but it should be investigated.
+
+Some minor issues:
+	Handle standard filenames like "\\21k\\lib\\"
+	Handle other standard stuff like getenv( "ADII_21K");
+
+Making the binutils more portable (32 bit vz. 64 bit)
+
+Making the emulator in the non-GUI mode work.
+
+Adapting the emulator in the GUI mode, under X and GTK or similar.
+
+Adapting the debugger in the GUI mode, under X and GTK or similar.
+
+Making a device driver for the JTAG probe.
