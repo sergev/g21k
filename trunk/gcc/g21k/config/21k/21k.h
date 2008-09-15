@@ -420,7 +420,7 @@ do { fputs(".global ", FILE);    assemble_name (FILE, NAME);\
 #define PRINT_OPERAND_ADDRESS(FILE, ADDR)\
   print_operand_address(FILE,ADDR)
 
-/* Print a symbol separating elements of an array or 
+/* Print a symbol separating elements of an array or
    a record */
 #define ASM_OUTPUT_ELT_SEP(FILE)\
   fprintf(FILE, ",")
@@ -620,7 +620,7 @@ extern char *temp_segment_name;	/* used to point to scratch space for macro '(TE
 #endif /* ACH_PARSE */
 
 #ifdef ACH_PARSE
-#define ACH_SWITCH(x,y,z) { z, "-m"##x }
+#define ACH_SWITCH(x,y,z) { z, "-m"x }
 #else /*  ACH_PARSE */
 #define ACH_SWITCH(x,y,z) { x, y }
 #endif /*  ACH_PARSE */
@@ -829,13 +829,13 @@ extern long target_flags;
 #define USE_ADI_DSP            "ADI_DSP"
 
 #ifndef __MSDOS__
-#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE ## "/include"
-#define CC1_LOCATION           DEFAULT_TARGET_MACHINE ## "/etc/"
-#define LIB_LOCATION           DEFAULT_TARGET_MACHINE ## "/lib/"
+#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE "/include"
+#define CC1_LOCATION           DEFAULT_TARGET_MACHINE "/etc/"
+#define LIB_LOCATION           DEFAULT_TARGET_MACHINE "/lib/"
 #else /* __MSDOS__ */
-#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE ## "\\include"
-#define CC1_LOCATION           DEFAULT_TARGET_MACHINE ## "\\etc\\"
-#define LIB_LOCATION           DEFAULT_TARGET_MACHINE ## "\\lib\\"
+#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE "\\include"
+#define CC1_LOCATION           DEFAULT_TARGET_MACHINE "\\etc\\"
+#define LIB_LOCATION           DEFAULT_TARGET_MACHINE "\\lib\\"
 #endif /* __MSDOS__ */
 
 #define STANDARD_EXEC_PREFIX   0
@@ -1915,7 +1915,7 @@ extern void * function_arg();
 
 #define FUNCTION_ARG(CUM, MODE, TYPE, NAMED) \
 	 function_arg(CUM,MODE,TYPE,NAMED)
-	   
+
 
 /* For an arg passed partly in registers and partly in memory,
 	 FUNCTION_ARG_PARTIAL_NREGS(CUM, MODE, TYPE, NAMED)

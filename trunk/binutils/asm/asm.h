@@ -25,6 +25,7 @@
 #endif
 
 #include <ctype.h>
+#include <string.h>
 
 #define FATAL 1
 #define SUCCESS 0
@@ -58,7 +59,7 @@ typedef unsigned char DM_WORD[5];
 #define DATA32_MIDDLE8(x)      (((x) & 0x0000FF00L) >> 8L)
 #define DATA32_BOTTOM8(x)      ((x) & 0x000000FFL)
 
-#define MAX_FILE_NAME_SIZE  512 
+#define MAX_FILE_NAME_SIZE  512
 
 
 #ifndef FOPEN_MAX

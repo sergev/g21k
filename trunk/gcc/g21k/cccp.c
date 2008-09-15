@@ -90,7 +90,7 @@ static char DIR_SEPARATOR_string[] = { DIR_SEPARATOR, 0 };
 #include <errno.h> /*EK*/
 
 #ifndef VMS
-#ifndef USG
+#if !defined (USG) && !defined (__linux__)
 #include <sys/time.h>           /* for __DATE__ and __TIME__ */
 #include <sys/resource.h>
 #else
@@ -127,7 +127,7 @@ typedef struct { unsigned :16, :16, :16; } vms_ino_t;
 #define BSTRING                 /* VMS/GCC supplies the bstring routines */
 #endif /* __GNUC__ */
 #endif /* VMS */
-   
+
 extern char *index ();
 extern char *rindex ();
 
@@ -405,11 +405,11 @@ static enum {dump_none, dump_only, dump_names, dump_definitions}
 static int debug_output = 0;
 
 /* Nonzero indicates special processing used by the pcp program.  The
-   special effects of this mode are: 
-      
+   special effects of this mode are:
+
      Inhibit all macro expansion, except those inside #if directives.
 
-     Process #define directives normally, and output their contents 
+     Process #define directives normally, and output their contents
      to the output file.
 
      Output preconditions to pcp_outfile indicating all the relevant
@@ -607,7 +607,7 @@ static char *include_prefix;
 /* Global list of strings read in from precompiled files.  This list
    is kept in the order the strings are read in, with new strings being
    added at the end through stringlist_tailp.  We use this list to output
-   the strings at the end of the run. 
+   the strings at the end of the run.
 */
 static STRINGDEF *stringlist;
 static STRINGDEF **stringlist_tailp = &stringlist;
@@ -686,7 +686,7 @@ union hashval {
 };
 
 /*
- * special extension string that can be added to the last macro argument to 
+ * special extension string that can be added to the last macro argument to
  * allow it to absorb the "rest" of the arguments when expanded.  Ex:
  *              #define wow(a, b...)            process(b, a, b)
  *              { wow(1, 2, 3); }       ->      { process( 2, 3, 1,  2, 3); }
@@ -898,7 +898,7 @@ static U_CHAR is_space[256];
 
 #define SKIP_WHITE_SPACE(p) do { while (is_hor_space[(unsigned char)*p]) p++; } while (0)
 #define SKIP_ALL_WHITE_SPACE(p) do { while (is_space[(unsigned char)*p]) p++; } while (0)
-   
+
 static int errors = 0;                  /* Error counter for exit code */
 
 /* Zero means dollar signs are punctuation.
@@ -954,7 +954,7 @@ static int ignore_srcdir;
 
 static int main_1 (int, char **);
 
-int 
+int
 main (argc, argv)
      int argc;
      char **argv;
@@ -962,7 +962,7 @@ main (argc, argv)
   process_atfiles(&argc, &argv);
   return main_1 (argc, argv);
 }
-static int 
+static int
 main_1 (int argc, char **argv)
 #else
 int
@@ -1125,7 +1125,7 @@ main (argc, argv)
 	  pedantic_errors = 1;
 	} else if (!strcmp (argv[i], "-pcp")) {
 	  char *pcp_fname = argv[++i];
-	  pcp_outfile = 
+	  pcp_outfile =
 	    ((pcp_fname[0] != '-' || pcp_fname[1] != '\0')
 	     ? fopen (pcp_fname, "w")
 	     : fdopen (dup (fileno (stdout)), "w"));
@@ -1219,7 +1219,7 @@ main (argc, argv)
 	     and suppress the usual output.  */
 	  deps_stream = stdout;
 	  inhibit_output = 1;
-	}         
+	}
 	break;
 
       case 'd':
@@ -1394,7 +1394,7 @@ main (argc, argv)
 #if defined(USE_ADI_DSP) && defined(ADII)
   p = (char *) getenv (ADII);
 #else
-  p = (char *) getenv ("CPATH");  
+  p = (char *) getenv ("CPATH");
 #endif
   if (p != 0 && ! no_standard_includes)
     path_include (p);
@@ -1431,7 +1431,7 @@ main (argc, argv)
       char *q;
       while (*p == ' ' || *p == '\t')
 	p++;
-      /* Handle -D options.  */ 
+      /* Handle -D options.  */
       if (p[0] == '-' && p[1] == 'D') {
 	q = &p[2];
 	while (*p && *p != ' ' && *p != '\t')
@@ -1444,7 +1444,7 @@ main (argc, argv)
 	while (*p == ' ' || *p == '\t')
 	  p++;
       } else if (p[0] == '-' && p[1] == 'A') {
-	/* Handle -A options (assertions).  */ 
+	/* Handle -A options (assertions).  */
 	char *assertion;
 	char *past_name;
 	char *value;
@@ -1521,7 +1521,7 @@ main (argc, argv)
       case 0:
 
 #ifdef USE_ADI_DSP
-	if ( epath = getenv (USE_ADI_DSP) ) { 
+	if ( epath = getenv (USE_ADI_DSP) ) {
 	  char *cp = epath + strlen(epath);
 	  char *x = alloca(strlen(epath)+20);
 	  strcpy(x,epath);
@@ -1710,7 +1710,7 @@ main (argc, argv)
       deps_target = 0;
       output_file = spec;
     }
-       
+
     deps_file = output_file;
   }
 
@@ -2132,7 +2132,7 @@ get_lintcmd (ibp, limit, argstart, arglen, cmdlen)
   if (ibp >= limit) return NULL;
 
   linsize = limit - ibp;
-   
+
   /* Oh, I wish C had lexical functions... hell, I'll just open-code the set */
   if ((linsize >= 10) && !strncmp (ibp, "NOTREACHED", 10)) {
     *cmdlen = 10;
@@ -2328,7 +2328,7 @@ do { ip = &instack[indepth];            \
       if (ident_length)
 	goto specialchar;
 
-       
+
       /* # keyword: a # must be first nonblank char on the line */
       if (beg_of_line == 0)
 	goto randomchar;
@@ -2507,7 +2507,7 @@ do { ip = &instack[indepth];            \
       }
       {
 	U_CHAR *before_bp = ibp+2;
-	
+
 	while (ibp < limit) {
 	  if (*ibp++ == '\n') {
 	    ibp--;
@@ -2536,7 +2536,7 @@ do { ip = &instack[indepth];            \
 
       --ibp;                    /* Back over the slash */
       --obp;
-       
+
       /* Comments are equivalent to spaces. */
       if (! put_out_comments)
 	*obp++ = ' ';
@@ -2546,7 +2546,7 @@ do { ip = &instack[indepth];            \
       }
       {
 	U_CHAR *before_bp = ibp+1;
-	
+
 	while (ibp < limit) {
 	  if (*ibp++ == '}') {
 	    ibp--;
@@ -2558,7 +2558,7 @@ do { ip = &instack[indepth];            \
 	  }
 	}
 	if (ibp >= limit)
-	  error_with_line (line_for_error (start_line), 
+	  error_with_line (line_for_error (start_line),
 			   "unterminated comment");
 	else {
 	  ibp++;
@@ -2571,7 +2571,7 @@ do { ip = &instack[indepth];            \
       break;
 #endif
 
-       
+
     case '/':
       if (*ibp == '\\' && ibp[1] == '\n')
 	newline_fix (ibp);
@@ -2905,7 +2905,7 @@ randomchar:
 
 	  for (hp = hashtab[MAKE_POS (hash) % HASHSIZE]; hp != NULL;
 	       hp = hp->next) {
-	     
+
 	    if (hp->length == ident_length) {
 	      int obufp_before_macroname;
 	      int op_lineno_before_macroname;
@@ -2913,30 +2913,30 @@ randomchar:
 	      register U_CHAR *p = hp->name;
 	      register U_CHAR *q = obp - i;
 	      int disabled;
-	       
+
 	      if (! redo_char)
 		q--;
-	       
+
 	      do {              /* All this to avoid a strncmp () */
 		if (*p++ != *q++)
 		  goto hashcollision;
 	      } while (--i);
-	       
+
 	      /* We found a use of a macro name.
 		 see if the context shows it is a macro call.  */
-	       
+
 	      /* Back up over terminating character if not already done.  */
 	      if (! redo_char) {
 		ibp--;
 		obp--;
 	      }
-	       
+
 	      /* Save this as a displacement from the beginning of the output
 		 buffer.  We can not save this as a position in the output
 		 buffer, because it may get realloc'ed by RECACHE.  */
 	      obufp_before_macroname = (obp - op->buf) - ident_length;
 	      op_lineno_before_macroname = op->lineno;
-	       
+
 	      if (hp->type == T_PCSTRING) {
 		pcstring_used (hp); /* Mark the definition of this key
 				       as needed, ensuring that it
@@ -2947,10 +2947,10 @@ randomchar:
 
 	      /* Record whether the macro is disabled.  */
 	      disabled = hp->type == T_DISABLED;
-	       
+
 	      /* This looks like a macro ref, but if the macro was disabled,
 		 just copy its name and put in a marker if requested.  */
-	       
+
 	      if (disabled) {
 #if 0
 		/* This error check caught useful cases such as
@@ -2959,7 +2959,7 @@ randomchar:
 		if (traditional)
 		  error ("recursive use of macro `%s'", hp->name);
 #endif
-		
+
 		if (output_marks) {
 		  check_expand (op, limit - ibp + 2);
 		  *obp++ = '\n';
@@ -2967,7 +2967,7 @@ randomchar:
 		}
 		break;
 	      }
-	       
+
 	      /* If macro wants an arglist, verify that a '(' follows.
 		 first skip all whitespace, copying it to the output
 		 after the macro name.  Then, if there is no '(',
@@ -2979,7 +2979,7 @@ randomchar:
 		  U_CHAR *old_obp = obp;
 		  int old_iln = ip->lineno;
 		  int old_oln = op->lineno;
-		   
+
 		  while (1) {
 		    /* Scan forward over whitespace, copying it to the output.  */
 		    if (ibp == limit && ip->macro != 0) {
@@ -3058,19 +3058,19 @@ randomchar:
 		    break;
 		  }
 		}
-	       
+
 	      /* This is now known to be a macro call.
 		 Discard the macro name from the output,
 		 along with any following whitespace just copied.  */
 	      obp = op->buf + obufp_before_macroname;
 	      op->lineno = op_lineno_before_macroname;
-	       
+
 	      /* Expand the macro, reading arguments as needed,
 		 and push the expansion on the input stack.  */
 	      ip->bufp = ibp;
 	      op->bufp = obp;
 	      macroexpand (hp, op);
-	       
+
 	      /* Reexamine input stack, since macroexpand has pushed
 		 a new level on it.  */
 	      obp = op->bufp;
@@ -3634,7 +3634,7 @@ special_symbol (hp, op)
       && hp->type != T_SPEC_DEFINED && hp->type != T_CONST)
     error ("Predefined macro `%s' used inside `#if' during precompilation",
 	   hp->name);
-     
+
   for (i = indepth; i >= 0; i--)
     if (instack[i].fname != NULL) {
       ip = &instack[i];
@@ -3934,7 +3934,7 @@ get_filename:
   case '<':
     fend = fbeg;
     while (fend != limit && *fend != '>') fend++;
-    if (*fend == '>' && (fend + 1 == limit 
+    if (*fend == '>' && (fend + 1 == limit
 			 || (lang_asm && *(fend+1) == ';'))) {
       angle_brackets = 1;
       /* If -I-, start with the first -I dir after the -I-.  */
@@ -4050,7 +4050,7 @@ get_filename:
       error_from_errno (fname);
     else
       error ("No include path in which to find %s", fname);
-     
+
     /* For -M, add this file to the dependencies.  */
     if (print_deps > (angle_brackets || (system_include_depth > 0))) {
       /* Break the line before this.  */
@@ -4110,7 +4110,7 @@ get_filename:
 	deps_output (fname, 0);
 	deps_output (" ", 0);
       }
-    }   
+    }
 
     /* Handle -H option.  */
     if (print_include_names)
@@ -4131,7 +4131,7 @@ get_filename:
     if (!no_precomp)
       do {
 	sprintf (pcftry, "%s%d", fname, pcfnum++);
-	
+
 	pcf = open (pcftry, O_RDONLY, 0666);
 	if (pcf != -1)
 	  {
@@ -4153,7 +4153,7 @@ get_filename:
 	      }
 	  }
       } while (pcf != -1 && !pcfbuf);
-     
+
     /* Actually process the file */
     if (pcfbuf) {
       pcfname = xmalloc (strlen (pcftry) + 1);
@@ -4378,7 +4378,7 @@ static struct import_file *import_hash_table[IMPORT_HASH_SIZE];
 
 /* Hash a file name for import_hash_table.  */
 
-static int 
+static int
 import_hash (f)
      char *f;
 {
@@ -4458,9 +4458,9 @@ add_import (fd, fname)
 
 /* Load the specified precompiled header into core, and verify its
    preconditions.  PCF indicates the file descriptor to read, which must
-   be a regular file.  FNAME indicates the file name of the original 
+   be a regular file.  FNAME indicates the file name of the original
    header.  *LIMIT will be set to an address one past the end of the file.
-   If the preconditions of the file are not satisfied, the buffer is 
+   If the preconditions of the file are not satisfied, the buffer is
    freed and we return 0.  If the preconditions are satisfied, return
    the address of the buffer following the preconditions.  The buffer, in
    this case, should never be freed because various pieces of it will
@@ -4482,7 +4482,7 @@ check_precompiled (pcf, fname, limit)
 
   if (pcp_outfile)
     return 0;
-   
+
   if (file_size_and_mode (pcf, &st_mode, &st_size) < 0)
     return 0;
 
@@ -4498,15 +4498,15 @@ check_precompiled (pcf, fname, limit)
 	    break;
 	  length += i;
 	  st_size -= i;
-	}         
+	}
     }
   else
     abort ();
-     
+
   if (length > 0 && buf[length-1] != '\n')
     buf[length++] = '\n';
   buf[length] = '\0';
-   
+
   *limit = buf + length;
 
   /* File is in core.  Check the preconditions. */
@@ -4531,29 +4531,29 @@ check_precompiled (pcf, fname, limit)
    precompiled header.  These are a series of #define and #undef
    lines which must match the current contents of the hash
    table.  */
-static int 
+static int
 check_preconditions (prec)
      char *prec;
 {
   MACRODEF mdef;
   char *lineend;
-   
+
   while (*prec) {
     lineend = (char *) index (prec, '\n');
-     
+
     if (*prec++ != '#') {
       error ("Bad format encountered while reading precompiled file");
       return 0;
     }
     if (!strncmp (prec, "define", 6)) {
       HASHNODE *hp;
-       
+
       prec += 6;
       mdef = create_definition (prec, lineend, NULL_PTR);
 
       if (mdef.defn == 0)
 	abort();
-       
+
       if ((hp = lookup (mdef.symnam, mdef.symlen, -1)) == NULL
 	  || (hp->type != T_MACRO && hp->type != T_CONST)
 	  || (hp->type == T_MACRO
@@ -4565,7 +4565,7 @@ check_preconditions (prec)
     } else if (!strncmp (prec, "undef", 5)) {
       char *name;
       int len;
-       
+
       prec += 5;
       while (is_hor_space[(unsigned char)*prec])
 	prec++;
@@ -4573,7 +4573,7 @@ check_preconditions (prec)
       while (is_idchar[(unsigned char)*prec])
 	prec++;
       len = prec - name;
-       
+
       if (lookup (name, len, -1))
 	return 0;
     } else {
@@ -4605,14 +4605,14 @@ pcfinclude (buf, limit, name, op)
   nstrings = (nstrings << 8) | *cp++;
   nstrings = (nstrings << 8) | *cp++;
   nstrings = (nstrings << 8) | *cp++;
-   
+
   /* Looping over each string... */
   while (nstrings--) {
     U_CHAR *string_start;
     U_CHAR *endofthiskey;
     STRINGDEF *str;
     int nkeys;
-     
+
     /* Each string starts with a STRINGDEF structure (str), followed */
     /* by the text of the string (string_start) */
 
@@ -4624,14 +4624,14 @@ pcfinclude (buf, limit, name, op)
        Do not include gstddef.h or stddef.h--either one will fail!  */
     if ((HOST_WIDE_INT) cp & 3)
       cp += 4 - ((HOST_WIDE_INT) cp & 3);
-     
+
     /* Now get the string. */
     str = (STRINGDEF *) cp;
     string_start = cp += sizeof (STRINGDEF);
-     
+
     for (; *cp; cp++)           /* skip the string */
       ;
-     
+
     /* We need to macro expand the string here to ensure that the
        proper definition environment is in place.  If it were only
        expanded when we find out it is needed, macros necessary for
@@ -4643,11 +4643,11 @@ pcfinclude (buf, limit, name, op)
     str->writeflag = 0;
     str->filename = name;
     str->output_mark = outbuf.bufp - outbuf.buf;
-     
+
     str->chain = 0;
     *stringlist_tailp = str;
     stringlist_tailp = &str->chain;
-     
+
     /* Next comes a fourbyte number indicating the number of keys */
     /* for this string. */
     nkeys = *cp++;
@@ -4663,19 +4663,19 @@ pcfinclude (buf, limit, name, op)
       for (; nkeys--; free (tmpbuf.buf), cp = endofthiskey + 1) {
 	KEYDEF *kp = (KEYDEF *) cp;
 	HASHNODE *hp;
-	
+
 	/* It starts with a KEYDEF structure */
 	cp += sizeof (KEYDEF);
-	
+
 	/* Find the end of the key.  At the end of this for loop we
 	   advance CP to the start of the next key using this variable. */
 	endofthiskey = cp + strlen (cp);
 	kp->str = str;
-	
+
 	/* Expand the key, and enter it into the hash table. */
 	tmpbuf = expand_to_temp_buffer (cp, endofthiskey, 0, 0);
 	tmpbuf.bufp = tmpbuf.buf;
-	
+
 	while (is_hor_space[*tmpbuf.bufp])
 	  tmpbuf.bufp++;
 	if (!is_idstart[*tmpbuf.bufp]
@@ -4683,7 +4683,7 @@ pcfinclude (buf, limit, name, op)
 	  str->writeflag = 1;
 	  continue;
 	}
-	     
+
 	hp = lookup (tmpbuf.bufp, -1, -1);
 	if (hp == NULL) {
 	  kp->chain = 0;
@@ -4698,7 +4698,7 @@ pcfinclude (buf, limit, name, op)
       }
   }
   /* This output_line_command serves to switch us back to the current
-     input file in case some of these strings get output (which will 
+     input file in case some of these strings get output (which will
      result in line commands for the header file being output). */
   output_line_command (&instack[indepth], op, 0, enter_file);
 }
@@ -4710,7 +4710,7 @@ pcstring_used (hp)
      HASHNODE *hp;
 {
   KEYDEF *kp;
-   
+
   for (kp = hp->value.keydef; kp; kp = kp->chain)
     kp->str->writeflag = 1;
   delete_macro (hp);
@@ -4731,32 +4731,32 @@ write_output ()
   /* next_string_loc, in which case we print a series of strings, or */
   /* it is less than next_string_loc, in which case we write some of */
   /* the buffer. */
-  cur_buf_loc = outbuf.buf; 
+  cur_buf_loc = outbuf.buf;
   next_string = stringlist;
-   
+
   while (cur_buf_loc < outbuf.bufp || next_string) {
     if (next_string
 	&& cur_buf_loc - outbuf.buf == next_string->output_mark) {
       if (next_string->writeflag) {
 	len = strlen (next_string->filename);
 	if (len > line_command_len)
-	  line_command = xrealloc (line_command, 
+	  line_command = xrealloc (line_command,
 				   line_command_len *= 2);
 	sprintf (line_command, "\n# %d \"%s\"\n",
 		 next_string->lineno, next_string->filename);
-	write (fileno (stdout), line_command, 
+	write (fileno (stdout), line_command,
 	       strlen (line_command));
 	write (fileno (stdout),
 	       next_string->contents, next_string->len);
-      }       
+      }
       next_string = next_string->chain;
     }
     else {
       len = (next_string
-	     ? (next_string->output_mark 
+	     ? (next_string->output_mark
 		- (cur_buf_loc - outbuf.buf))
 	     : outbuf.bufp - cur_buf_loc);
-       
+
       write (fileno (stdout), cur_buf_loc, len);
       cur_buf_loc += len;
     }
@@ -4811,7 +4811,7 @@ struct arglist {
   char rest_args;
 };
 
-/* Create a DEFINITION node from a #define directive.  Arguments are 
+/* Create a DEFINITION node from a #define directive.  Arguments are
    as for do_define. */
 static MACRODEF
 create_definition (buf, limit, op)
@@ -4867,7 +4867,7 @@ create_definition (buf, limit, op)
 
       if (!is_idstart[*bp])
 	pedwarn ("invalid character in macro parameter name");
-       
+
       /* Find the end of the arg name.  */
       while (is_idchar[*bp]) {
 	bp++;
@@ -4961,7 +4961,7 @@ create_definition (buf, limit, op)
   mdef.defn = 0;
   return mdef;
 }
-  
+
 /* Process a #define command.
 BUF points to the contents of the #define command, as a contiguous string.
 LIMIT points to the first character past the end of the definition.
@@ -5148,7 +5148,7 @@ comp_def_part (first, beg1, len1, beg2, len2, last)
    in that list, or -1 for a macro name that wants no argument list.
    MACRONAME is the macro name itself (so we can avoid recursive expansion)
    and NAMELEN is its length in characters.
-    
+
 Note that comments and backslash-newlines have already been deleted
 from the argument.  */
 
@@ -6058,7 +6058,7 @@ do_once ()
 
   if (ip != NULL) {
     struct file_name_list *new;
-     
+
     new = (struct file_name_list *) xmalloc (sizeof (struct file_name_list));
     new->next = dont_repeat_files;
     dont_repeat_files = new;
@@ -6109,7 +6109,7 @@ do_pragma (buf, limit)
     fname = p + 1;
     if (p = (U_CHAR *) index (fname, '\"'))
       *p = '\0';
-     
+
     for (ptr = all_include_files; ptr; ptr = ptr->next) {
       inc_fname = (U_CHAR *) rindex (ptr->fname, '/');
       inc_fname = inc_fname ? inc_fname + 1 : (U_CHAR *) ptr->fname;
@@ -6270,7 +6270,7 @@ do_xifdef (buf, limit, op, keyword)
 {
   int skip;
   FILE_BUF *ip = &instack[indepth];
-  U_CHAR *end; 
+  U_CHAR *end;
   int start_of_file = 0;
   U_CHAR *control_macro = 0;
 
@@ -6340,7 +6340,7 @@ do_xifdef (buf, limit, op, keyword)
       control_macro[end - buf] = 0;
     }
   }
-   
+
   conditional_skip (ip, skip, T_IF, control_macro);
   return 0;
 }
@@ -7031,7 +7031,7 @@ output_line_command (ip, op, conditional, file_change)
    `stringified_length' is the length the argument would have
    if stringified.
    `use_count' is the number of times this macro arg is substituted
-   into the macro.  If the actual use count exceeds 10, 
+   into the macro.  If the actual use count exceeds 10,
    the value stored is 10.
    `free1' and `free2', if nonzero, point to blocks to be freed
    when the macro argument data is no longer needed.  */
@@ -7078,7 +7078,7 @@ macroexpand (hp, op)
   /* recorded as a precondition.  */
   if (pcp_inside_if && pcp_outfile && defn->predefined)
     dump_single_macro (hp, pcp_outfile);
-   
+
   nargs = defn->nargs;
 
   if (nargs >= 0) {
@@ -7622,7 +7622,7 @@ macarg1 (start, limit, depthptr, newlines, comments, rest_args)
 /* Discard comments and duplicate newlines
    in the string of length LENGTH at START,
    except inside of string constants.
-   The string is copied into itself with its beginning staying fixed.  
+   The string is copied into itself with its beginning staying fixed.
 
    NEWLINES is the number of newlines that must be duplicated.
    We assume that that much extra space is available past the end
@@ -8495,7 +8495,7 @@ make_definition (str, op)
     }
     *q = 0;
   }
-   
+
   ip = &instack[++indepth];
   ip->nominal_fname = ip->fname = "*Initialization*";
 
@@ -8579,7 +8579,7 @@ make_assertion (option, str)
     error ("malformed option `%s %s'", option, str);
     return;
   }
-   
+
   ip = &instack[++indepth];
   ip->nominal_fname = ip->fname = "*Initialization*";
 
@@ -8871,11 +8871,11 @@ hack_vms_include_specification (fname)
   /* We are trying to do a number of things here.  First of all, we are
      trying to hammer the filenames into a standard format, such that later
      processing can handle them.
-      
+
      If the file name contains something like [dir.], then it recognizes this
      as a root, and strips the ".]".  Later processing will add whatever is
      needed to get things working properly.
-      
+
      If no device is specified, then the first directory name is taken to be
      a device name (or a rooted logical). */
 
@@ -9075,7 +9075,7 @@ fopen (fname, type)
   return fopen (fname, type, "mbc=16");
 }
 
-static int 
+static int
 open (fname, flags, prot)
      char *fname;
      int flags;

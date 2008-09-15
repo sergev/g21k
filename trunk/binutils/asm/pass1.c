@@ -66,6 +66,7 @@ short pass1( void )
     if ((parse_error = yyparse()))
 	USER_ERROR("Badly Formed Instruction.");
     fclose( src_stream );
+    src_stream = 0;
 
     if (!parse_error && in_section) {
 	USER_ERROR("Missing endseg directive.");
@@ -73,7 +74,7 @@ short pass1( void )
     }
 
     flush_temp_files();
-     
+
     if ( !check_if_errors() && (!parse_error) )
 	 return( pass2() );
     else
@@ -81,4 +82,3 @@ short pass1( void )
 	 asm_exit( FATAL );
     }
 }
-

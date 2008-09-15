@@ -1,7 +1,11 @@
-#ifndef __GNUC__
-/* Use the system's macros with the system's compiler.  */
-#include <varargs.h>
+#if 1
+#include <stdarg.h>
+#define va_dcl
 #else
+/*#ifndef __GNUC__*/
+/* Use the system's macros with the system's compiler.  */
+/*#include <varargs.h>*/
+/*#else*/
 /* Record that this is varargs.h; this turns off stdarg.h.  */
 
 #ifndef _VARARGS_H
@@ -41,7 +45,7 @@
 #ifdef _ANSI_STDARG_H_
 #define _VA_LIST_
 #endif
-#define _ANSI_STDARG_H_ 
+#define _ANSI_STDARG_H_
 
 #undef va_alist
 #undef va_dcl

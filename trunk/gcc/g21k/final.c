@@ -107,6 +107,10 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #define DIR_SEPARATOR '/'
 #endif
 
+#ifdef __linux__
+#define __USE_STDARGS__
+#endif
+
 rtx peephole ();
 void output_asm_insn ();
 rtx alter_subreg ();
@@ -136,7 +140,7 @@ typedef struct stream {
 #if (!defined(ADI_MERGED_LISTING))
        /* If not merged listings, there is only one input stream.
 	  Set up a single structure to handle it */
-static STREAM the_stream;    /* used to make the only stream fit into 
+static STREAM the_stream;    /* used to make the only stream fit into
 			        a structure similar to the merged listing*/
 #else
        /* Merged listing.  Declare functions to keep track of the various
@@ -155,7 +159,7 @@ static void profile_after_prologue ();
 static int asm_insn_count ();
 #endif
 
-/* Nonzero means this function is a leaf function, with no function calls. 
+/* Nonzero means this function is a leaf function, with no function calls.
    This variable exists to be examined in FUNCTION_PROLOGUE
    and FUNCTION_EPILOGUE.  Always zero, unless set by some action.  */
 int leaf_function;
@@ -306,7 +310,7 @@ void
 get_path_from_name(char *name)
 {
   char *last_slash;
-  last_slash = (char *)strrchr(name, DIR_SEPARATOR);  
+  last_slash = (char *)strrchr(name, DIR_SEPARATOR);
   /* locate right-most slash */
   if (last_slash == (char *)NULL)
     {
@@ -342,7 +346,7 @@ init_final (filename)
 #ifdef ADI_MERGED_LISTING
   get_path_from_name( filename );
 #endif
-  
+
 }
 
 /* Called at end of source file,
@@ -432,19 +436,19 @@ end_final (filename)
     free (old_filename);
   for (stream = first_stream; stream; stream=next_stream)
     {
-      if (stream->file) 
+      if (stream->file)
 	fclose(stream->file);
       if (stream->line_note_exists)
 	free (stream->line_note_exists);
-      if (stream->line_loc_in_file) 
+      if (stream->line_loc_in_file)
 	free (stream->line_loc_in_file);
-      if (stream->filename)         
+      if (stream->filename)
 	free (stream->filename);
       next_stream = stream->next;
       free (stream);
     }
 #else
-  if (the_stream.file) 
+  if (the_stream.file)
     fclose (the_stream.file);
 #endif
 }
@@ -474,7 +478,7 @@ app_disable ()
     }
 }
 
-/* Return the number of slots filled in the current 
+/* Return the number of slots filled in the current
    delayed branch sequence (we don't count the insn needing the
    delay slot).   Zero if not in a delayed branch sequence.  */
 
@@ -617,7 +621,7 @@ shorten_branches (first)
       insn_addresses[uid] = insn_current_address;
       insn_lengths[uid] = 0;
       varying_length[uid] = 0;
-      
+
       if (GET_CODE (insn) == NOTE || GET_CODE (insn) == BARRIER
 	  || GET_CODE (insn) == CODE_LABEL)
 	continue;
@@ -665,7 +669,7 @@ shorten_branches (first)
 				* insn_default_length (inner_insn));
 	      else
 		inner_length = insn_default_length (inner_insn);
-	      
+
 	      insn_lengths[inner_uid] = inner_length;
 	      if (const_delay_slots)
 		{
@@ -715,7 +719,7 @@ shorten_branches (first)
 	  if (GET_CODE (insn) == INSN && GET_CODE (PATTERN (insn)) == SEQUENCE)
 	    {
 	      int i;
-	      
+
 	      body = PATTERN (insn);
 	      new_length = 0;
 	      for (i = 0; i < XVECLEN (body, 0); i++)
@@ -805,7 +809,7 @@ final_start_function (first, file, optimize)
 	  regs_ever_live[i] = 1;
     }
 #endif
-  
+
   /* Initial line number is supposed to be output
      before the function's prologue and label
      so that the function's address will not appear to be
@@ -814,7 +818,7 @@ final_start_function (first, file, optimize)
     {
       if (write_symbols == SDB_DEBUG
 #ifdef ADI_MERGED_LISTING
-	  || LISTING_WITH_SOURCE  
+	  || LISTING_WITH_SOURCE
 	  /* need linenums if merging source into output */
 #endif
 	  ) {
@@ -831,7 +835,7 @@ final_start_function (first, file, optimize)
 	  last_linenum = NOTE_LINE_NUMBER (first);
 	  xcoffout_output_first_source_line (file, last_linenum);
 	}
-#endif	  
+#endif
       else
 	output_source_line (file, first);
     }
@@ -1075,7 +1079,7 @@ final (first, file, optimize, prescan)
 	    if (NOTE_LINE_NUMBER (insn) > stream->max_line)
 	      stream->max_line = NOTE_LINE_NUMBER (insn);
 	  }
-    
+
           /* -------- allocate arrays keeping track of lines ------ */
          /* allocate line_note_exist & line_loc_in_file vectors for each input file */
 #if defined (ADI_MERGED_LISTING)
@@ -1087,21 +1091,21 @@ final (first, file, optimize, prescan)
 	      /* for nth procedure in a file, realloc spaces */
 	      stream->line_note_exists
 		= (char *)xrealloc (stream->line_note_exists, stream->max_line + 1);
-	      stream->line_loc_in_file 
+	      stream->line_loc_in_file
 		= (long *)xrealloc (stream->line_loc_in_file, sizeof(long)*(stream->max_line + 1));
-	    } 
-	  else 
+	    }
+	  else
 	    {
-	      stream->line_note_exists 
+	      stream->line_note_exists
 		= (char *)xmalloc (stream->max_line + 1);
-	      stream->line_loc_in_file 
+	      stream->line_loc_in_file
 		= (long *)xmalloc (sizeof(long)*(stream->max_line + 1));
 	      stream->old_max_line = -1;
 	    }
 
-	  bzero (stream->line_note_exists+stream->old_max_line+1, 
+	  bzero (stream->line_note_exists+stream->old_max_line+1,
 		 stream->max_line - stream->old_max_line);
-	  
+
 	  {
 	    int i;
 	    for (i=0;i<stream->max_line - stream->old_max_line;i++)
@@ -1116,7 +1120,7 @@ final (first, file, optimize, prescan)
   for (insn = first; insn; insn = NEXT_INSN (insn))
     if (GET_CODE (insn) == NOTE && NOTE_LINE_NUMBER (insn) > 0)
       {
-#if defined(ADI_MERGED_LISTING) 
+#if defined(ADI_MERGED_LISTING)
 	stream = get_source_stream (NOTE_SOURCE_FILE (insn));
 #endif
 	stream->line_note_exists[NOTE_LINE_NUMBER (insn)] = 1;
@@ -1136,7 +1140,7 @@ final (first, file, optimize, prescan)
   if (LISTING_WITH_SOURCE)
     {
       /* Make sure the leading lines get included in the merged listing.
-         But unfortunately, sdb can't live with having the initial 
+         But unfortunately, sdb can't live with having the initial
 	 line insn put out, so hence the flag. */
       dont_put_line_number = TRUE;
       output_source_line (file, first);
@@ -1385,7 +1389,7 @@ final_scan_insn (insn, file, optimize, prescan, nopeepholes)
 		}
 	    }
 
-	  /* Output this line note. This will output the merged source and 
+	  /* Output this line note. This will output the merged source and
 	     if it is the first or the last line note in a row, output the line directive.  */
 	  if( note_after )
 	    dont_put_line_number = TRUE;
@@ -1398,7 +1402,7 @@ final_scan_insn (insn, file, optimize, prescan, nopeepholes)
 #ifdef ASM_OUTPUT_ALIGN_CODE
       /* Don't litter the assembler output with needless alignments.  A
 	 BARRIER will be placed at the end of every function if HAVE_epilogue
-	 is true.  */	 
+	 is true.  */
       if (NEXT_INSN (insn))
 	ASM_OUTPUT_ALIGN_CODE (file);
 #endif
@@ -1927,11 +1931,11 @@ final_scan_insn (insn, file, optimize, prescan, nopeepholes)
 	    /* If we didn't split the insn, go away.  */
 	    if (new == insn && PATTERN (new) == body)
 	      abort ();
-	      
+
 	    new_block = 0;
 	    return new;
 	  }
-	
+
 	if (prescan > 0)
 	  break;
 
@@ -1969,7 +1973,7 @@ static void print_from(start_line, instream, out_file)
   for( end_print = start_line+1;
 	                        end_print < instream->max_line; end_print++)
     {
-      if ( instream->line_note_exists[end_print] ) 
+      if ( instream->line_note_exists[end_print] )
 	break;
     }
   number_to_print = end_print - start_line;
@@ -2003,7 +2007,7 @@ output_source_line (file, insn)
   last_linenum = NOTE_LINE_NUMBER (insn);
 
   if (write_symbols != NO_DEBUG || LISTING_WITH_SOURCE )
-    {	
+    {
 #ifdef SDB_DEBUGGING_INFO
       if (write_symbols == SDB_DEBUG
 #if 0 /* People like having line numbers even in wrong file!  */
@@ -2013,7 +2017,7 @@ output_source_line (file, insn)
 	  /* COFF relative line numbers must be positive.  */
 	  && last_linenum > sdb_begin_function_line
 
-	  /* dont_put_line_number is there because SDB doesn't like 
+	  /* dont_put_line_number is there because SDB doesn't like
 	     a line number for the start of a file, but we still need
 	     to put out the merged listing */
 	  && dont_put_line_number==FALSE )
@@ -2037,7 +2041,7 @@ output_source_line (file, insn)
       if (write_symbols == DWARF_DEBUG)
 	dwarfout_line (filename, NOTE_LINE_NUMBER (insn));
 #endif
-      
+
 #ifdef ADI_MERGED_LISTING
     if (LISTING_WITH_SOURCE)
       {
@@ -2073,11 +2077,11 @@ output_source_line (file, insn)
 	if( instream->file==(FILE *)NULL ) return;
 
 	print_from(last_linenum,instream,file);
-      
+
 	if( old_filename)
 	  old_filename = xrealloc(old_filename,strlen(filename)+1);
 	else
-	  old_filename = xmalloc(strlen(filename)+1);	  
+	  old_filename = xmalloc(strlen(filename)+1);
 	strcpy( old_filename, filename);
       }
 #endif
@@ -2482,7 +2486,7 @@ output_asm_insn (template, operands)
       if (debug_insn)
 	{
 	  register int num = INSN_CODE (debug_insn);
-	  fprintf (asm_out_file, " %s %d %s", 
+	  fprintf (asm_out_file, " %s %d %s",
 		   ASM_COMMENT_START, INSN_UID (debug_insn), insn_name[num]);
 	  if (insn_n_alternatives[num] > 1)
 	    fprintf (asm_out_file, "/%d", which_alternative + 1);
@@ -3049,9 +3053,9 @@ leaf_renumber_regs_insn (in_rtx)
    that are getting included in the "merged" output file.  This merged
    file is the assembler output intermixed with the original source code.
    The source code is isolated in comments.
-   
-   Specifically, the stream functions maintain a stack of input descriptors 
-   along the chain "deeper_nest", one for each open input file.  The stack 
+
+   Specifically, the stream functions maintain a stack of input descriptors
+   along the chain "deeper_nest", one for each open input file.  The stack
    grows as %include file get nested deeper.  */
 
 void
@@ -3060,7 +3064,7 @@ get_fseek_locs(STREAM *instream)
   int i;
   char c;
 
-  if( instream->file == (FILE *)NULL ) 
+  if( instream->file == (FILE *)NULL )
     return;
 
   fseek (instream->file, 0L, 0);   /* go to start of file */
@@ -3091,7 +3095,7 @@ open_source (STREAM *instream)
       strcpy (temp_filename,input_file_path);
       strcat (temp_filename,instream->filename);
     }
-  
+
   instream->file = fopen(temp_filename,"r");
   if (instream->file == (FILE *)NULL)
     {
@@ -3100,7 +3104,7 @@ open_source (STREAM *instream)
 	  close_a_file();    /* try again to open file */
 	  instream->file = fopen (temp_filename, "r");
 	}
-      
+
       if (instream->file != (FILE *)NULL) {
 	/* ---------- fill line_loc_in_file -------- */
 	get_fseek_locs(instream);
@@ -3146,11 +3150,11 @@ get_source_stream (filename)
   return (stream);
 }
 
-/* try and close an input stream because we've exceeded our 
-   open file quota.  Pick the oldest file (as per time of 
+/* try and close an input stream because we've exceeded our
+   open file quota.  Pick the oldest file (as per time of
    last open) except for the first descriptor which is the
    main source file */
-static void 
+static void
 close_a_file()
 {
   STREAM *stream, *close_stream;
@@ -3159,7 +3163,7 @@ close_a_file()
   close_stream = (STREAM *)NULL;
   earliest_time = 0l;
 
-  /* never close uppermost stream. Also, if we got here there 
+  /* never close uppermost stream. Also, if we got here there
      are > 2 streams so we don't have to worry about null pointers. */
 
   for(stream=first_stream->next; stream; stream=stream->next)
@@ -3180,8 +3184,3 @@ close_a_file()
     }
 }
 #endif
-
-
-
-
-

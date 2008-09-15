@@ -190,7 +190,7 @@ enum direction {none, upward, downward};  /* Value has this type.  */
 /* Supply a default definition for FUNCTION_ARG_BOUNDARY.  Normally, we let
    FUNCTION_ARG_PADDING, which also pads the length, handle any needed
    alignment.  */
-  
+
 #ifndef FUNCTION_ARG_BOUNDARY
 #define FUNCTION_ARG_BOUNDARY(MODE, TYPE)	PARM_BOUNDARY
 #endif
@@ -285,7 +285,7 @@ extern optab add_optab;
 extern optab sub_optab;
 extern optab smul_optab;	/* Signed and floating-point multiply */
 extern optab umul_optab;        /* Unsigned multiply */
-extern optab smul_widen_optab;	/* Signed multiply with result 
+extern optab smul_widen_optab;	/* Signed multiply with result
 				   one machine mode wider than args */
 extern optab umul_widen_optab;
 extern optab sdiv_optab;	/* Signed divide */
@@ -533,7 +533,7 @@ extern rtx convert_to_mode PROTO((enum machine_mode, rtx, int));
 /* Emit code to push some arguments and call a library routine,
    storing the value in a specified place.  Calling sequence is
    complicated.  */
-extern void emit_library_call ();
+extern void emit_library_call PROTO((rtx, int, enum machine_mode, int, ...));
 
 /* Given an rtx that may include add and multiply operations,
    generate them as insns and return a pseudo-reg containing the value.

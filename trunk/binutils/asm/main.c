@@ -123,14 +123,14 @@ int main( int argc, char **argv )
 
     filename_seen = FALSE;
 
-    for( arg=1; arg < argc; arg++ ) 
+    for( arg=1; arg < argc; arg++ )
     {
-	if( *argv[arg] == '-')  
+	if( *argv[arg] == '-')
 	{
 	    arg_str = argv[arg];
 	    arg_str++;
 
-	    switch((*arg_str)) 
+	    switch((*arg_str))
 	    {
 
 		    case 'l':   /* Listing file */
@@ -193,7 +193,7 @@ int main( int argc, char **argv )
 				Crts = TRUE;
 			else
 				Crts = FALSE;
-			
+
 			if ((*(arg_str+4) == 'f') || (*(arg_str+4) == 'F'))
 				True_doubles = FALSE;
 			else
@@ -221,11 +221,11 @@ int main( int argc, char **argv )
 		       usage();
 		       asm_exit(FATAL);
 		}
-	        
+
 	}
-	else 
+	else
 	{
-	    if( filename_seen ) 
+	    if( filename_seen )
 	    {
 		USER_ERROR( "Only one source file may be specified" );
 		asm_exit(FATAL);
@@ -247,7 +247,8 @@ int main( int argc, char **argv )
     append_ext (src_name, ".asm");
     strcpy(coff_name, src_name);
     if( (src_stream = fopen(src_name, READ_TEXT) ) != NULL ) {
-      fclose( src_stream );     
+      fclose( src_stream );
+      src_stream = 0;
     } else {
       FATAL_ERROR1( "Cannot open input file %s ", src_name );
     }
@@ -283,7 +284,7 @@ int main( int argc, char **argv )
        listing_banner ();
 
     }
-        
+
     token_make_null();
     token_init();
     symbol_make_null();
@@ -318,7 +319,7 @@ int main( int argc, char **argv )
 
 static void usage( void )
 {
-    fprintf( stderr, "\n" );    
+    fprintf( stderr, "\n" );
     fprintf( stderr, "Usage: a21000 [-h -l -o name -r -v -w] filename\n");
     fprintf( stderr, "Where:\n");
     fprintf( stderr, "\t-h\tDisplay usage\n" );
@@ -327,7 +328,7 @@ static void usage( void )
     fprintf( stderr, "\t-r\tRemove pre-processor output\n" );
     fprintf( stderr, "\t-v\tVerbose\n" );
     fprintf( stderr, "\t-w\tSuppress warning messages\n" );
-    fprintf( stderr, "\n" );    
+    fprintf( stderr, "\n" );
 }
 
 

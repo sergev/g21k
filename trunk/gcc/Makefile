@@ -5,6 +5,10 @@ HERE = `pwd | sed "sX.*/XX"`
 
 all:
 	@echo "Please read the file README first"
+	cd g21k ;\
+	./configure --target=21k --host=i686-unknown-linux ;\
+	make clean;\
+	make
 
 which.host:
 	echo -n "HOST=" >which.host

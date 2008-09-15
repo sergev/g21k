@@ -441,7 +441,7 @@ static char *lib_spec = LIB_SPEC;
 static char *endfile_spec = ENDFILE_SPEC;
 static char *switches_need_spaces = SWITCHES_NEED_SPACES;
 
-/* Need this as global for gcc_ach.c.  This was changed to allow the 
+/* Need this as global for gcc_ach.c.  This was changed to allow the
 architecture file to dictate which runtime header to place in the linker
 command line.  The assignment is done in gcc_ach.c - AS*/
 
@@ -572,7 +572,7 @@ static struct compiler default_compilers[] =
 	   "%{g*:%!Warning: The global code optimizer is incompatible "
 	   "with -g and will be suppressed.  For full optimization, "
 	   "turn off debugging.}}"
-	
+
 	 "%{!SO:" ASM_CMD " %{R} %{j} %{J} %{h} %{d2} %a %Y "
 	   "%{c:%W{o*}%{!o*:-o %w%b.o}}%{!c:-o %d%w%b.o} "
 	   "%{" APIPE "%g.%{CO:%{!g*:i}%{g*:%{!S1:i}}}%{!CO:%{!S1:i}}s} "
@@ -773,7 +773,7 @@ static struct compiler default_compilers[] =
 	   "%{g*:%!Warning: The global code optimizer is incompatible "
 	   "with -g and will be suppressed.  For full optimization, "
 	   "turn off debugging.}}",
-	
+
 	 "%{!SO:" ASM_CMD " %{R} %{j} %{J} %{h} %{d2} %a %Y "
 	   "%{c:%W{o*}%{!o*:-o %w%b.o}}%{!c:-o %d%w%b.o} "
 	   "%{" APIPE "%{CO:%{g*:%{S1:%i}%{!S1:%g.is}}%{!no-CO:%{!g*:%g.is}}}"
@@ -841,16 +841,16 @@ static char *link_command_spec =
 #else
 /* Use -L and have the linker do the search for -lgcc.  */
 #if defined (A21C0)
-static char *link_command_spec = 
+static char *link_command_spec =
 "%{!c:%{!M:%{!MM:%{!E:%{!S:ld21c "
 		       "%l %X %{o*} %{A} %{d} %{e*} %{m} %{N} %{n} "
 		       "%{r} %{s} %{T*} %{t} %{u*} %{x} %{z} "
 		       "%{!A:%{!nostdlib:%S}} "
 		       "%{arch*:-a %*} "
 		       "%{L*} %D %o %{!nostdlib: %L %{!A:%E}}\n }}}}}";
-			
+
 #elif defined (DSP21XX)     /*EK*/
-static char *link_command_spec = 
+static char *link_command_spec =
 "%{!c:%{!M:%{!MM:%{!E:%{!S:ld21 "
 		       "%l %X %{o*} %{A} %{d} %{e*} %{m} %{N} %{n} "
 		       "%{r} %{s} %{T*} %{t} %{u*} %{x} %{z} "
@@ -858,7 +858,7 @@ static char *link_command_spec =
 		       "%{arch*:-a %*} "
 		       "%{L*} %D %o %{!nostdlib: %L %{!A:%E}}\n }}}}}";
 #else
-static char *link_command_spec = 
+static char *link_command_spec =
 "%{!c:%{!M:%{!MM:%{!E:%{!S:ld %l %X %{o*} %{A} %{d} %{e*} %{m} %{N} %{n} "
 			"%{r} %{s} %{T*} %{t} %{u*} %{x} %{z} "
 			"%{!A:%{!nostdlib:%S}} "
@@ -1497,7 +1497,7 @@ choose_temp_base (void)
 #if defined (MSDOS) && !defined (DOSENV)
   {
     char *p;
-    for (p=base; *p; p++) 
+    for (p=base; *p; p++)
       if (*p == '\\')
 	*p = '/';
   }
@@ -1607,7 +1607,7 @@ putenv_from_prefixes (struct path_prefix *paths, char *env_var)
 	{
 	  if (!first_time)
 	    obstack_grow (&collect_obstack, ":", 1);
-		
+
 	  first_time = FALSE;
 	  obstack_grow (&collect_obstack, pprefix->prefix, len);
 	  obstack_grow (&collect_obstack, machine_suffix, suffix_len);
@@ -1661,7 +1661,7 @@ find_a_file (struct path_prefix *pprefix, char *name, int mode)
     for (pl = pprefix->plist; pl; pl = pl->next)
       {
 	if (debug_flag)
-	  printf ("prefixing::  %s%s%s\n", 
+	  printf ("prefixing::  %s%s%s\n",
 		  pl->prefix, machine_suffix ? machine_suffix : "", name);
 	if (machine_suffix)
 	  {
@@ -1859,7 +1859,7 @@ pexecute (search_flag, program, argv, not_last)
   i=(*func) (P_WAIT, program, scmd, NULL);
   if (i == -1)
     pfatal_with_name ("spawn");
-	
+
   remove (scmd[1] + 1);
   return i << 8;
 }
@@ -1876,7 +1876,7 @@ pexecute (int search_flag, char *program, char **argv, int not_last)
 
 /* Number of extra char in scmd: ' ', '@', ".gp", '\0' */
 #define EXTRA_CHARS 6
-	
+
   scmd = xmalloc (strlen (program) + strlen (temp_filename) + EXTRA_CHARS);
   sprintf (scmd, "%s @%s.gp", program, temp_filename);
 
@@ -2040,7 +2040,7 @@ pexecute (search_flag, program, argv, not_last)
       /* Backslashes have no special meaning except before a double-quote.
 	 Each backslash in a continuous string before a double-quote
 	 must be doubled, and the double-quote must also be backslashed.
-	   
+
 	 Some examples:
 		Command argv            Command argv
 		\a      \a              \"      "
@@ -2302,7 +2302,7 @@ static char *warn_switch[] = WARN_SWITCH;
 #endif
 
 #if defined (ADI) && (defined (A21C0) || defined (DSP21XX)) /*EK*/
-static char *help_lines[] = 
+static char *help_lines[] =
 {
     "-E                preprocess source files only",
     "-S                generate assembly source files only",
@@ -2330,7 +2330,7 @@ static char *help_lines[] =
     "-Wmissing-prototypes warn if missing prototypes",
 };
 #elif defined (CRIPPLE)
-static char *help_lines[] = 
+static char *help_lines[] =
 {
     "-E                preprocess source files only",
     "-S                generate assembly source files only",
@@ -2344,7 +2344,7 @@ static char *help_lines[] =
     "-o filename       place output in filename",
 };
 #else
-static char *help_lines[] = 
+static char *help_lines[] =
 {
     "-E                preprocess source files only",
     "-S                generate assembly source files only",
@@ -2408,7 +2408,7 @@ process_command (int argc, char **argv)
 	fatal ("Must set ADI_DSP environment variable to root of ADI tools "
 	   "directory.");
   }
-    {  
+    {
       char *adi_dsp = temp;
       int len = strlen (adi_dsp) + 1;
       char *libp = (char *) alloca (len + sizeof LIB_LOCATION);
@@ -2433,7 +2433,7 @@ process_command (int argc, char **argv)
       for (s1 = adi_dsp; *s1; s1++)
 	if (*s1 == '/')
 	  *s1 = '\\';
-    
+
       if (debug_flag)
 	printf ("Adjusted ADI_DSP: %s\n", adi_dsp);
   #endif
@@ -2448,12 +2448,12 @@ process_command (int argc, char **argv)
 	  strcat (execp, dir_separator_str);
 	  strcat (incp, dir_separator_str);
 	}
-	
+
       strcat(libp, LIB_LOCATION);
       strcat(execp, CC1_LOCATION);
       strcat (incp, INCLUDE_FILES_LOCATION);
       cpp_default_include = incp;
-	
+
       add_prefix (&exec_prefixes, execp, 0, 0, 0);
       add_prefix (&startfile_prefixes, libp, 0, 0, 0);
 /* This ifdef is inserted because of VDSP Linker bug with duplicate -L */
@@ -3723,7 +3723,7 @@ do_spec_1 (char *spec, int inswitch, char *soft_matched_part)
 	      }
 	    }
 	    break;
-		
+
 	  case '*':
 	    do_spec_1 (soft_matched_part, 1, NULL_PTR);
 	    do_spec_1 (" ", 0, NULL_PTR);
@@ -4238,16 +4238,16 @@ fatal_error (int signum)
 #if !defined (GO32)
 static int main_1 (int, char **, char **);
 
-int 
+int
 main (int argc, char **argv, char **envp)
 {
   process_atfiles(&argc, &argv);
   return main_1 (argc, argv, envp);
 }
-static int 
+static int
 main_1 (int argc, char **argv, char **envp)
 #else
-int 
+int
 main (int argc, char **argv, char **envp)
 #endif
 {
@@ -4264,7 +4264,7 @@ main (int argc, char **argv, char **envp)
 
 #ifdef MSDOS
   /* Redirect the output of stderr to stdout */
-  dup2 (1,2); 
+  dup2 (1,2);
 #ifdef DOS_MEM_STATS
   if (debug_flag)
     printf("Free memory at start: %u  stack: %u\n", _memavl(), stackavail());
@@ -4956,7 +4956,7 @@ validate_switches (char *start)
 #ifdef __WATCOMC__
 char *mktemp(char *template)
 {
-  char *p, 
+  char *p,
   *choice="ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789";
   while(p=strchr(template,'X'))
     {
@@ -5002,7 +5002,7 @@ is_bad_switch(char *p)
 
       /* Special case switches */
 
-    case 'C':  
+    case 'C':
       return (strcmp(p, "C") != 0       /* C preprocessor switch */
 #ifdef DSP21K
 	      && strcmp(p, "CO") != 0   /* Code Optimizer 'gco' */
@@ -5073,7 +5073,7 @@ is_suppressed_option (char *option)
     case 'Q':
       /* These are single-character options in the full version. */
       return option[1] == '\0';
-	
+
     case 'a':
       return (strcmp (option, "a") == 0
 	      || strcmp (option, "arch") == 0

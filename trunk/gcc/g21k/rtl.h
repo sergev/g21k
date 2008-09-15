@@ -111,7 +111,7 @@ typedef struct rtx_def
      0 if the MEM was a variable or the result of a * operator in C;
      1 if it was the result of a . or -> operator (on a struct) in C.
      1 in a REG if the register is used only in exit code a loop.
-     1 in a SUBREG expression if was generated from a variable with a 
+     1 in a SUBREG expression if was generated from a variable with a
      promoted mode.
      1 in a CODE_LABEL if the label is used for nonlocal gotos
      and must not be deleted even if its count is zero.
@@ -125,10 +125,10 @@ typedef struct rtx_def
   unsigned int in_struct : 1;
   /* 1 if this rtx is used.  This is used for copying shared structure.
      See `unshare_all_rtl'.
-     In a REG, this is not needed for that purpose, and used instead 
+     In a REG, this is not needed for that purpose, and used instead
      in `leaf_renumber_regs_insn'.
      In a SYMBOL_REF, means that emit_library_call
-     has used it as the function.  
+     has used it as the function.
      1 if doloop insn is a single basic block loop */
   unsigned int used : 1;
   /* Nonzero if this rtx came from procedure integration.
@@ -285,7 +285,7 @@ typedef struct rtvec_def{
    register is spilled to the stack then the constant value
    should be substituted for it.  The contents of the REG_EQUIV
    is the constant value or memory address, which may be different
-   from the source of the SET although it has the same value. 
+   from the source of the SET although it has the same value.
      REG_EQUAL is like REG_EQUIV except that the destination
    is only momentarily equal to the specified rtx.  Therefore, it
    cannot be used for substitution; but it can be used for cse.
@@ -329,7 +329,7 @@ enum reg_note { REG_DEAD = 1, REG_INC = 2, REG_EQUIV = 3, REG_WAS_0 = 4,
 		REG_EQUAL = 5, REG_RETVAL = 6, REG_LIBCALL = 7,
 		REG_NONNEG = 8, REG_NO_CONFLICT = 9, REG_UNUSED = 10,
 		REG_CC_SETTER = 11, REG_CC_USER = 12, REG_LABEL = 13,
-		REG_DEP_ANTI = 14, REG_DEP_OUTPUT = 15 
+		REG_DEP_ANTI = 14, REG_DEP_OUTPUT = 15
 #ifdef DSP21XX
 		, INSN_START_CALL=16
 #endif
@@ -477,7 +477,7 @@ extern char *note_insn_name[];
 /* 1 if the REG contained in SUBREG_REG is already known to be
    sign- or zero-extended from the mode of the SUBREG to the mode of
    the reg.  SUBREG_PROMOTED_UNSIGNED_P gives the signedness of the
-   extension.  
+   extension.
 
    When used as a LHS, is means that this extension must be done
    when assigning to SUBREG_REG.  */
@@ -524,7 +524,7 @@ extern char *note_insn_name[];
    with the preceding insn.  */
 #define SCHED_GROUP_P(INSN) ((INSN)->in_struct)
 
-/* True if loop is a single basic block, used by sched to 
+/* True if loop is a single basic block, used by sched to
    pipeline loops. */
 #define SNGL_BB_LOOP_P(RTX) ((RTX)->in_struct)
 
@@ -647,18 +647,8 @@ extern rtx plus_constant_for_output_wide PROTO((rtx, HOST_WIDE_INT));
 
 #define GEN_INT(N) gen_rtx (CONST_INT, VOIDmode, (N))
 
-#if 0
-/* We cannot define prototypes for the variable argument functions,
-   since they have not been ANSI-fied, and an ANSI compiler would
-   complain when compiling the definition of these functions.  */
-
 extern rtx gen_rtx			PROTO((enum rtx_code, enum machine_mode, ...));
 extern rtvec gen_rtvec			PROTO((int, ...));
-
-#else
-extern rtx gen_rtx ();
-extern rtvec gen_rtvec ();
-#endif
 
 #ifdef BUFSIZ			/* stdio.h has been included */
 extern rtx read_rtx			PROTO((FILE *));
@@ -814,7 +804,7 @@ extern rtx const_true_rtx;
 
 extern rtx const_tiny_rtx[3][(int) MAX_MACHINE_MODE];
 
-/* Returns a constant 0 rtx in mode MODE.  Integer modes are treated the 
+/* Returns a constant 0 rtx in mode MODE.  Integer modes are treated the
    same as VOIDmode.  */
 
 #define CONST0_RTX(MODE) (const_tiny_rtx[0][(int) (MODE)])
