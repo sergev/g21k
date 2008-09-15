@@ -9,6 +9,8 @@
 /*EK* removed: #include "xm-svr3.h" */
 
 /*EK* new bits follows... */
+#include <stdlib.h>
+#include <string.h>
 
 #define bcopy(src,dst,len) memcpy ((dst),(src),(len))
 #define bzero(dst,len) memset ((dst),0,(len))
@@ -24,6 +26,7 @@
 #endif
 #define HAVE_VPRINTF
 #define HAVE_PUTENV
+#define HAVE_STRERROR
 
 #ifndef SVR4
 #define SVR4
@@ -37,9 +40,9 @@
 
 #undef BSTRING
 #define BSTRING
-#undef bcmp
-#undef bcopy
-#undef bzero
+/*#undef bcmp*/
+/*#undef bcopy*/
+/*#undef bzero*/
 #undef index
 #undef rindex
 

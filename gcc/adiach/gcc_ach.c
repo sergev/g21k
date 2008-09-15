@@ -37,7 +37,7 @@ static int      target_z3 = 0;
 extern char *startfile_spec;
 
 /* 0 == uninitialized, non-zero == initialzed */
-static int	 have_value[4] = {0,0,0,0}; 
+static int	 have_value[4] = {0,0,0,0};
 
 static int	 print_anal_ach_file_ignore_warnings = 0;
 
@@ -94,7 +94,7 @@ static void fatal(msg, a1, a2, a3)
 
 #endif /* TEST_ACHFILE */
 
-#define obsolete(x) ach_error ("switch is obsolete " ## x ## " refer to manual")
+#define obsolete(x) ach_error ("switch is obsolete " x " refer to manual")
 
 /**************************************************************/
 
@@ -108,7 +108,7 @@ void process_architecture_file(int *pargc, char ***pargv)
     int		 nnargs;
     int		 runhdr = 0;
 
-    /* 
+    /*
      * find the architecture file
      */
     for(i = 1 ; i < *pargc ; i++)
@@ -117,12 +117,12 @@ void process_architecture_file(int *pargc, char ***pargv)
 	{
 	    if(NULL != ach_file)
 		fatal("-a given more than once");
-	    
+
 	    (*pargv)[i] = ARCH_FLAG;
 
 	    if(++i == *pargc)
 		fatal("no architecture file specified with -a");
-	    
+
 	    ach_file = (*pargv)[i];
 	}
 
@@ -130,13 +130,13 @@ void process_architecture_file(int *pargc, char ***pargv)
 	{
 	    if(++i == *pargc)
 		fatal("no runtime header specified with -runhdr");
-	    
+
 	    runhdr = 1;
 	}
     }
 
-    /* 
-     * save the last switch because 'expand_args()' needs to REPLACE it 
+    /*
+     * save the last switch because 'expand_args()' needs to REPLACE it
      */
     add_switch((*pargv)[*pargc - 1]);
 
@@ -190,11 +190,11 @@ void process_architecture_file(int *pargc, char ***pargv)
 	    add_switch (ach_file);
 	  }
       }
-    
+
     if(NULL != ach_file)
       {
-	/* 
-	 * we found one somewhere - parse it and add the 
+	/*
+	 * we found one somewhere - parse it and add the
 	 * appropriate switches
 	 */
 	if(ach_parse(ach_file))
@@ -210,7 +210,7 @@ void process_architecture_file(int *pargc, char ***pargv)
        the ach_parse. */
     if(!runhdr)
       {
-	/* 
+	/*
 	 * if -runhdr wasn't given on the command line, look for
 	 * the runtime header in the current directory
 	 */
@@ -238,11 +238,11 @@ void process_architecture_file(int *pargc, char ***pargv)
 	    sprintf (tmp_file_spec, "%%{!runhdr:%s}", default_runhdr);
 	    startfile_spec=tmp_file_spec;
 	  }
-	else 
-	  { 
+	else
+	  {
 	    /* If -runhdr specified is not in the local directory (done above),
 	       go look for it in the lib directory of the ADI_DSP tree */
-	    
+
 	    sprintf (tmp_file_spec, "%%{!nostdlib:%%{!runhdr:%s%%s}%%{runhdr*:%%*}}", default_runhdr);
 	    startfile_spec=tmp_file_spec;
 	  }
@@ -271,7 +271,7 @@ void process_architecture_file(int *pargc, char ***pargv)
 	atfile_copy_list(*pargv + last, ach_arg_list);
 	*pargc += nnargs - 1;
     }
-    
+
 }
 
 
@@ -289,7 +289,7 @@ static void add_switch(char *sw)
 
     new_consp->next = NULL;
     strcpy(CAR(new_consp), sw);
-    
+
     if(NULL == ach_arg_list)
 	last_cons = ach_arg_list = new_consp;
     else
@@ -299,7 +299,7 @@ static void add_switch(char *sw)
     }
 
 }
-    
+
 
 
 /**************************************************************/
@@ -316,14 +316,14 @@ void add_reg(char **reg_str, char *new_reg)
 	*reg_str = realloc(*reg_str, strlen(*reg_str) + strlen(new_reg) + 2);
 	strcat(*reg_str, ",");
 	strcat(*reg_str, new_reg);
-    }	
+    }
 
     for(cp = *reg_str ; *cp ; cp++)
 	if(isupper(*cp))
 	    *cp += 32; /* tolower(*cp); */
 }
-	
-    
+
+
 /**************************************************************/
 
 
@@ -349,19 +349,19 @@ static void make_switch(SW_TYPE sw, char *val)
 	    add_switch(target_switches[i].sw_name);
 	    found = 1;
 	}
-    
+
     for(i = 0 ; i < NUM_TARGET_OPTIONS ; i++)
 	if(target_options[i].id == sw)
 	{
 	    if((strlen(target_options[i].sw_name) + strlen(val) + 1) > BUFSIZ)
 		fatal("string too long");
-	    
+
 	    strcpy(buf, target_options[i].sw_name);
 	    strcat(buf, val);
 	    add_switch(buf);
 	    found = 1;
 	}
-    
+
     if(!found)
     	fatal("unknown SW_%d:%s switch", sw, val);
 
@@ -378,7 +378,7 @@ void ach_cstack (unsigned long length, int type, int access, char *label)
     else if(ACH_PM == type)
 	    error("Cannot put stack in program memory");
 }
-	
+
 
 /**************************************************************/
 
@@ -405,7 +405,7 @@ void ach_processor(int processor_token)
 {
   switch (processor_token)
     {
-    case ACH_ADSP21010: 
+    case ACH_ADSP21010:
       make_switch(SW_ADSP21010, "");
       break;
 
@@ -453,8 +453,8 @@ void ach_compiler(short map_double_to_float, short jjb, short param_passing, sho
 		make_switch(SW_DAD, "");
 	    else
 	      obsolete("doubles-are-floats");
-    
-    
+
+
     if(jjb)
 	if(have_value[CALL_MODEL]++)
 	    error("calling model redefinition ignored");
@@ -463,8 +463,8 @@ void ach_compiler(short map_double_to_float, short jjb, short param_passing, sho
 	      obsolete ("pc-rts");
 	    else
 		make_switch(SW_RTRTS, "");
-    
-    
+
+
     if(param_passing)
 	if(have_value[PARAMETER_MODEL]++)
 	    error("parameter passing model redefinition ignored");
@@ -473,11 +473,11 @@ void ach_compiler(short map_double_to_float, short jjb, short param_passing, sho
 	      obsolete ("paramaters on stack");
 	    else
 		make_switch(SW_PPINREG, "");
-    
-    
+
+
     if(chip_rev)
 	ignore(".COMPILER/chip_rev");
-    
+
 }
 
 
@@ -519,7 +519,7 @@ void ach_cdefaults (ACH_TOKEN which_def, int type, char *label)
 	else
 	    make_switch(SW_DMDATA, label);
 	break;
-	
+
       default:
 	ignore("/Csegment");
 	break;
@@ -598,7 +598,7 @@ Name:           remove_new_lines
 Function:       Removes new line characters, <cr>, <lf>
                 Allows unix/dos compatibility
 
-Return Value:   none 
+Return Value:   none
 
 ********************************************************************/
 
@@ -616,7 +616,7 @@ void remove_new_lines (char *string) {
  }
 
 /* Need a dummy function here.  The linker actually uses this function for
-something.  g21k could care less about this, but in order to resolve 
+something.  g21k could care less about this, but in order to resolve
 definitions, we need to have something - see GAS for more info.  Updated on
 1/95 */
 

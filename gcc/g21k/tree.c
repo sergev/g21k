@@ -132,7 +132,7 @@ char *temp_decl_firstobj;
 int all_types_permanent;
 
 /* Stack of places to restore the momentary obstack back to.  */
-   
+
 struct momentary_level
 {
   /* Pointer back to previous such level.  */
@@ -924,7 +924,7 @@ make_node (code)
 
 #if defined(ADI) && defined(MEMSEG)
   TREE_MEMSEG(t) = default_memory_segment;
-#endif  
+#endif
 
   return t;
 }
@@ -1050,7 +1050,7 @@ get_identifier (text)
 
   hi &= (1 << HASHBITS) - 1;
   hi %= MAX_HASH_TABLE;
-  
+
   /* Search table for identifier */
   for (idp = hash_table[hi]; idp; idp = TREE_CHAIN (idp))
     if (IDENTIFIER_LENGTH (idp) == len
@@ -1109,7 +1109,7 @@ set_identifier_size (size)
 
 /* Return a newly constructed INTEGER_CST node whose constant value
    is specified by the two ints LOW and HI.
-   The TREE_TYPE is set to `int'. 
+   The TREE_TYPE is set to `int'.
 
    This function should be used via the `build_int_2' macro.  */
 
@@ -1152,7 +1152,7 @@ build_real (type, d)
 
 /* this constant is one bigger than max unsigned long */
 
-#ifdef  BROKEN_DJGCC_DOUBLE_UNSIGNED 
+#ifdef  BROKEN_DJGCC_DOUBLE_UNSIGNED
 #define LONGER_DOUBLE 4294967296.0l
 /*
   This is a kludge needed for compilation with djgcc (on pc).
@@ -1425,7 +1425,7 @@ real_twop (expr)
 }
 
 /* Nonzero if EXP is a constant or a cast of a constant.  */
- 
+
 int
 really_constant_p (exp)
      tree exp;
@@ -1766,7 +1766,7 @@ int_size_in_bytes (type)
 }
 
 /* Return, as an INTEGER_CST node, the number of elements for
-   TYPE (which is an ARRAY_TYPE) minus one. 
+   TYPE (which is an ARRAY_TYPE) minus one.
    This counts only elements of the top array.  */
 
 tree
@@ -1833,7 +1833,7 @@ save_expr (expr)
   /* If the tree evaluates to a constant, then we don't want to hide that
      fact (i.e. this allows further folding, and direct checks for constants).
      However, a read-only object that has side effects cannot be bypassed.
-     Since it is no problem to reevaluate literals, we just return the 
+     Since it is no problem to reevaluate literals, we just return the
      literal node. */
 
   if (TREE_CONSTANT (t) || (TREE_READONLY (t) && ! TREE_SIDE_EFFECTS (t))
@@ -1978,7 +1978,7 @@ stabilize_reference_1 (e)
       /* Constants need no processing.  In fact, we should never reach
 	 here.  */
       return e;
-      
+
     case '2':
       /* Recursively stabilize each operand.  */
       result = build_nt (code, stabilize_reference_1 (TREE_OPERAND (e, 0)),
@@ -1990,7 +1990,7 @@ stabilize_reference_1 (e)
       result = build_nt (code, stabilize_reference_1 (TREE_OPERAND (e, 0)));
       break;
     }
-  
+
   TREE_TYPE (result) = TREE_TYPE (e);
   TREE_READONLY (result) = TREE_READONLY (e);
   TREE_SIDE_EFFECTS (result) = TREE_SIDE_EFFECTS (e);
@@ -2008,21 +2008,18 @@ stabilize_reference_1 (e)
    Constants, decls, types and misc nodes cannot be.  */
 
 tree
-build (va_alist)
-     va_dcl
+build (enum tree_code code, tree type, ...)
 {
   va_list p;
-  enum tree_code code;
   register tree t;
   register int length;
   register int i;
 
-  va_start (p);
+  va_start (p, type);
 
-  code = va_arg (p, enum tree_code);
   t = make_node (code);
   length = tree_code_length[(int) code];
-  TREE_TYPE (t) = va_arg (p, tree);
+  TREE_TYPE (t) = type;
 
   if (length == 2)
     {
@@ -2126,18 +2123,15 @@ build1 (code, type, node)
    or even garbage if their values do not matter.  */
 
 tree
-build_nt (va_alist)
-     va_dcl
+build_nt (enum tree_code code, ...)
 {
   va_list p;
-  register enum tree_code code;
   register tree t;
   register int length;
   register int i;
 
-  va_start (p);
+  va_start (p, code);
 
-  code = va_arg (p, enum tree_code);
   t = make_node (code);
   length = tree_code_length[(int) code];
 
@@ -2152,21 +2146,18 @@ build_nt (va_alist)
    on the temp_decl_obstack, regardless.  */
 
 tree
-build_parse_node (va_alist)
-     va_dcl
+build_parse_node (enum tree_code code, ...)
 {
   register struct obstack *ambient_obstack = expression_obstack;
   va_list p;
-  register enum tree_code code;
   register tree t;
   register int length;
   register int i;
 
   expression_obstack = &temp_decl_obstack;
 
-  va_start (p);
+  va_start (p, code);
 
-  code = va_arg (p, enum tree_code);
   t = make_node (code);
   length = tree_code_length[(int) code];
 
@@ -3036,7 +3027,7 @@ build_complex_type (component_type)
    OP must have integer, real or enumeral type.  Pointers are not allowed!
 
    There are some cases where the obvious value we could return
-   would regenerate to OP if converted to OP's type, 
+   would regenerate to OP if converted to OP's type,
    but would not extend like OP to wider types.
    If FOR_TYPE indicates such extension is contemplated, we eschew such values.
    For example, if OP is (unsigned short)(signed char)-1,

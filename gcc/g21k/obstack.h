@@ -321,20 +321,21 @@ __extension__								\
 /* These assume that the obstack alignment is good enough for pointers or ints,
    and that the data added so far to the current object
    shares that much alignment.  */
-   
+
 #define obstack_ptr_grow(OBSTACK,datum)					\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
-   ((__o->next_free + sizeof (void *) > __o->chunk_limit)		\
-    ? (_obstack_newchunk (__o, sizeof (void *)), 0) : 0),		\
-   *((void **)__o->next_free)++ = ((void *)datum);			\
+   if (__o->next_free + sizeof (void *) > __o->chunk_limit)		\
+     _obstack_newchunk (__o, sizeof (void *));				\
+   *((void **)__o->next_free) = ((void *)datum);			\
+   __o->next_free += sizeof(void*);					\
    (void) 0; })
 
 #define obstack_int_grow(OBSTACK,datum)					\
 __extension__								\
 ({ struct obstack *__o = (OBSTACK);					\
-   ((__o->next_free + sizeof (int) > __o->chunk_limit)			\
-    ? (_obstack_newchunk (__o, sizeof (int)), 0) : 0),			\
+   if (__o->next_free + sizeof (int) > __o->chunk_limit)		\
+     _obstack_newchunk (__o, sizeof (int));				\
    *((int *)__o->next_free)++ = ((int)datum);				\
    (void) 0; })
 

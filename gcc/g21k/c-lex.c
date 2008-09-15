@@ -24,7 +24,7 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #include <setjmp.h>
 
 #include "config.h"
-#include "rtl.h"
+/*#include "rtl.h"*/
 #include "tree.h"
 #include "input.h"
 #include "c-lex.h"
@@ -95,7 +95,7 @@ static int ignore_escape_flag = 0;
 /* starting time is 17:10:16 */
 /* C code produced by gperf version 2.5 (GNU C++ version) */
 /* Command-line: gperf -p -j1 -i 1 -g -o -t -N is_reserved_word -k1,3,$ c-parse.gperf  */
-/* Command-line: gperf -p -j1 -i 1 -g -o -t -N is_reserved_word -k1,3,$ c-parse.gperf  */ 
+/* Command-line: gperf -p -j1 -i 1 -g -o -t -N is_reserved_word -k1,3,$ c-parse.gperf  */
 struct resword { char *name; short token; enum rid rid; };
 
 #define TOTAL_KEYWORDS 65
@@ -153,10 +153,10 @@ is_reserved_word (str, len)
 {
   static struct resword wordlist[] =
     {
-      {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, 
-      {"",}, {"",}, {"",}, {"",}, 
+      {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",},
+      {"",}, {"",}, {"",}, {"",},
       {"__typeof__",  TYPEOF, NORID},
-      {"",}, {"",}, {"",}, 
+      {"",}, {"",}, {"",},
       {"__label__",  LABEL, NORID},
       {"__const",  TYPE_QUAL, RID_CONST},
       {"__conj__",  COMPLEX_CONJ, NORID},
@@ -169,30 +169,30 @@ is_reserved_word (str, len)
       {"__extension__",  EXTENSION, NORID},
       {"int",  TYPESPEC, RID_INT},
       {"__alignof__",  ALIGNOF, NORID},
-      {"",}, 
+      {"",},
       {"__attribute__",  ATTRIBUTE, NORID},
-      {"",}, 
+      {"",},
       {"__typeof",  TYPEOF, NORID},
-      {"",}, 
+      {"",},
       {"__inline__",  SCSPEC, RID_INLINE},
-      {"",}, 
+      {"",},
       {"__iterator__",  SCSPEC, RID_ITERATOR},
-      {"",}, 
+      {"",},
       {"__attribute",  ATTRIBUTE, NORID},
-      {"",}, 
+      {"",},
       {"while",  WHILE, NORID},
       {"__cimag",  IMAGPART, NORID},
       {"__inline",  SCSPEC, RID_INLINE},
-      {"",}, {"",}, 
+      {"",}, {"",},
       {"inline",  SCSPEC, RID_INLINE},
       {"if",  IF, NORID},
       {"__alignof",  ALIGNOF, NORID},
-      {"",}, 
+      {"",},
       {"__conj",  COMPLEX_CONJ, NORID},
       {"__complex",  TYPESPEC, RID_COMPLEX},
       {"typeof",  TYPEOF, NORID},
       {"typedef",  SCSPEC, RID_TYPEDEF},
-      {"",}, {"",}, 
+      {"",}, {"",},
       {"default",  DEFAULT, NORID},
       {"char",  TYPESPEC, RID_CHAR},
       {"const",  TYPE_QUAL, RID_CONST},
@@ -200,13 +200,13 @@ is_reserved_word (str, len)
       {"double",  TYPESPEC, RID_DOUBLE},
       {"extern",  SCSPEC, RID_EXTERN},
       {"__iterator",  SCSPEC, RID_ITERATOR},
-      {"",}, 
+      {"",},
       {"__volatile__",  TYPE_QUAL, RID_VOLATILE},
-      {"",}, 
+      {"",},
       {"do",  DO, NORID},
       {"float",  TYPESPEC, RID_FLOAT},
       {"goto",  GOTO, NORID},
-      {"",}, 
+      {"",},
       {"__asm",  ASM_KEYWORD, NORID},
       {"continue",  CONTINUE, NORID},
       {"__volatile",  TYPE_QUAL, RID_VOLATILE},
@@ -216,32 +216,32 @@ is_reserved_word (str, len)
       {"dm",  TYPE_QUAL, RID_DM},
       {"long",  TYPESPEC, RID_LONG},
       {"return",  RETURN, NORID},
-      {"",}, {"",}, 
+      {"",}, {"",},
       {"enum",  ENUM, NORID},
       {"for",  FOR, NORID},
-      {"",}, 
+      {"",},
       {"__cmplx_cons",  COMPLEX_CONS, NORID},
-      {"",}, 
+      {"",},
       {"case",  CASE, NORID},
       {"union",  UNION, NORID},
       {"else",  ELSE, NORID},
       {"register",  SCSPEC, RID_REGISTER},
-      {"",}, 
+      {"",},
       {"sizeof",  SIZEOF, NORID},
       {"static",  SCSPEC, RID_STATIC},
       {"switch",  SWITCH, NORID},
-      {"",}, {"",}, 
+      {"",}, {"",},
       {"__signed",  TYPESPEC, RID_SIGNED},
       {"struct",  STRUCT, NORID},
-      {"",}, {"",}, {"",}, 
+      {"",}, {"",}, {"",},
       {"void",  TYPESPEC, RID_VOID},
-      {"",}, {"",}, {"",}, {"",}, 
+      {"",}, {"",}, {"",}, {"",},
       {"short",  TYPESPEC, RID_SHORT},
-      {"",}, {"",}, {"",}, {"",}, {"",}, 
+      {"",}, {"",}, {"",}, {"",}, {"",},
       {"unsigned",  TYPESPEC, RID_UNSIGNED},
-      {"",}, {"",}, 
+      {"",}, {"",},
       {"asm",  ASM_KEYWORD, NORID},
-      {"",}, 
+      {"",},
       {"signed",  TYPESPEC, RID_SIGNED},
     };
 
@@ -1030,7 +1030,7 @@ struct try_type
   char long_long_flag;
 };
 
-struct try_type type_sequence[] = 
+struct try_type type_sequence[] =
 {
   { &integer_type_node, 0, 0, 0},
   { &unsigned_type_node, 1, 0, 0},
@@ -1395,14 +1395,14 @@ yylex ()
 
 	if (floatflag != NOT_FLOAT)
 	  {
-#ifdef ADI	    
+#ifdef ADI
 	    /*
 	     * On the 21k we want to make floating point constants and
 	     * not double constants.  This will make the code more efficent.
 	     */
 	    extern int flag_no_nonansi_builtin;
-  	    tree type = (!flag_no_nonansi_builtin 
-			  ? float_type_node 
+  	    tree type = (!flag_no_nonansi_builtin
+			  ? float_type_node
 			    : double_type_node);
 #else
 	    tree type = double_type_node;
@@ -1483,8 +1483,8 @@ yylex ()
 		break;
 
 	      }
-	    
-	    if (garbage_chars == -1) 
+
+	    if (garbage_chars == -1)
 	      {
 		if (p >= token_buffer + maxtoken - 3)
 		  p = extend_token_buffer (p);
@@ -1625,7 +1625,7 @@ yylex ()
 			 << (i * HOST_BITS_PER_CHAR));
 		low |= (HOST_WIDE_INT) parts[i] << (i * HOST_BITS_PER_CHAR);
 	      }
-	    
+
 	    yylval.ttype = build_int_2 (low, high);
 	    TREE_TYPE (yylval.ttype) = long_long_unsigned_type_node;
 

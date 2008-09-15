@@ -141,7 +141,7 @@ static rtx const_int_rtx[MAX_SAVED_CONST_INT * 2 + 1];
 
 /* The ends of the doubly-linked chain of rtl for the current function.
    Both are reset to null at the start of rtl generation for the function.
-   
+
    start_sequence saves both of these on `sequence_stack' and then
    starts a new, nested sequence of insns.  */
 
@@ -238,21 +238,16 @@ void init_emit ();
 
 /*VARARGS2*/
 rtx
-gen_rtx (va_alist)
-     va_dcl
+gen_rtx (enum rtx_code code, enum machine_mode mode, ...)
 {
   va_list p;
-  enum rtx_code code;
-  enum machine_mode mode;
   register int i;		/* Array indices...			*/
   register char *fmt;		/* Current rtx's format...		*/
   register rtx rt_val;		/* RTX to return to caller...		*/
   int iam_pointer;
   rtx val;
 
-  va_start (p);
-  code = va_arg (p, enum rtx_code);
-  mode = va_arg (p, enum machine_mode);
+  va_start (p, mode);
 
   if (code == CONST_INT)
     {
@@ -307,7 +302,7 @@ gen_rtx (va_alist)
 	 Also don't do this when we are making new REGs in reload,
 	 since we don't want to get confused with the real pointers.  */
 
-      if (frame_pointer_rtx && regno == FRAME_POINTER_REGNUM 
+      if (frame_pointer_rtx && regno == FRAME_POINTER_REGNUM
 #if defined(ADI) && defined(MEMSEG)
 	  && mode == stack_pmode
 #else
@@ -317,7 +312,7 @@ gen_rtx (va_alist)
 	return frame_pointer_rtx;
 
 #if FRAME_POINTER_REGNUM != ARG_POINTER_REGNUM
-      if (arg_pointer_rtx && regno == ARG_POINTER_REGNUM 
+      if (arg_pointer_rtx && regno == ARG_POINTER_REGNUM
 #if defined(ADI) && defined(MEMSEG)
 	  && mode == DEFAULT_DATA_Pmode
 #else
@@ -327,7 +322,7 @@ gen_rtx (va_alist)
 	return arg_pointer_rtx;
 #endif
 
-      if (stack_pointer_rtx && regno == STACK_POINTER_REGNUM 
+      if (stack_pointer_rtx && regno == STACK_POINTER_REGNUM
 #if defined(ADI) && defined(MEMSEG)
 	  && mode == DEFAULT_DATA_Pmode
 #else
@@ -385,7 +380,7 @@ gen_rtx (va_alist)
 	      abort();
 	    }
 
-	  if (iam_pointer 
+	  if (iam_pointer
 	      && (code == PLUS
 		  || code == CONST
 		  || code == SUBREG))
@@ -404,15 +399,13 @@ gen_rtx (va_alist)
 
 /*VARARGS1*/
 rtvec
-gen_rtvec (va_alist)
-     va_dcl
+gen_rtvec (int n, ...)
 {
-  int n, i;
+  int i;
   va_list p;
   rtx *vector;
 
-  va_start (p);
-  n = va_arg (p, int);
+  va_start (p, n);
 
   if (n == 0)
     return NULL_RTVEC;		/* Don't allocate an empty rtvec...	*/
@@ -529,7 +522,7 @@ get_first_label_num ()
 
 /* Return a value representing some low-order bits of X, where the number
    of low-order bits is given by MODE.  Note that no conversion is done
-   between floating-point and fixed-point values, rather, the bit 
+   between floating-point and fixed-point values, rather, the bit
    representation is returned.
 
    This function handles the cases in common between gen_lowpart, below,
@@ -649,7 +642,7 @@ gen_lowpart_common (mode, x)
   /* If X is an integral constant but we want it in floating-point, it
      must be the case that we have a union of an integer and a floating-point
      value.  If the machine-parameters allow it, simulate that union here
-     and return the result.  The two-word and single-word cases are 
+     and return the result.  The two-word and single-word cases are
      different.  */
 
   else if (((HOST_FLOAT_FORMAT == TARGET_FLOAT_FORMAT
@@ -822,7 +815,7 @@ gen_lowpart (mode, x)
     abort ();
 }
 
-/* Like `gen_lowpart', but refer to the most significant part. 
+/* Like `gen_lowpart', but refer to the most significant part.
    This is used to access the imaginary part of a complex number.  */
 
 rtx
@@ -1010,7 +1003,7 @@ operand_subword (op, i, validate_address, mode)
     }
 
 #ifdef DSP21XX
-/* The case we're trying to handle here is 
+/* The case we're trying to handle here is
    taking one of the subreg's of a const_double:SF.
    If we are, then we can do it! */
 
@@ -1071,10 +1064,10 @@ operand_subword (op, i, validate_address, mode)
       u.f = d;
       return GEN_INT (u.i);
     }
-      
+
   /* The only remaining cases that we can handle are integers.
      Convert to proper endianness now since these cases need it.
-     At this point, i == 0 means the low-order word.  
+     At this point, i == 0 means the low-order word.
 
      Note that it must be that BITS_PER_WORD <= HOST_BITS_PER_INT.
      This is because if it were greater, it could only have been two
@@ -1110,7 +1103,7 @@ operand_subword (op, i, validate_address, mode)
    the required subword, put OP into a register and try again.  If that fails,
    abort.  We always validate the address in this case.  It is not valid
    to call this function after reload; it is mostly meant for RTL
-   generation. 
+   generation.
 
    MODE is the mode of OP, in case it is CONST_INT.  */
 
@@ -1169,22 +1162,22 @@ reverse_comparison (insn)
 }
 
 #if defined (A21C0) && defined( SCRATCH_MREG_FOR_SPILL)
-/* If we are accessing a stack slot which is out of the range of an 8bit 
+/* If we are accessing a stack slot which is out of the range of an 8bit
    constant than; we need to use a fixed scratch register to avoid additional
    spillage.
-   
+
             dm(fp-128)
             we need an M
 	    M=-128
-	    but the M needs to be spilled so we spill and spill again. 
+	    but the M needs to be spilled so we spill and spill again.
 	    mmh */
-static int 
+static int
 access_stack_slot_for_reload (rtx memref, enum machine_mode mode, rtx *addr)
 {
     rtx p = *addr;
     if (GET_CODE (p) == PLUS
 	&& XEXP (p, 0) == frame_pointer_rtx
-	&& ! CONSTANT_8bitP(XEXP (p, 1))) 
+	&& ! CONSTANT_8bitP(XEXP (p, 1)))
     {
 	rtx scratchmreg = gen_rtx (REG, GET_MODE (p), SCRATCH_MREG_FOR_SPILL);
 	emit_move_insn (scratchmreg, XEXP (p,1));
@@ -1224,7 +1217,7 @@ change_address (memref, mode, addr)
       if (! memory_address_p (mode, addr))
 #if defined (A21C0) && defined( SCRATCH_MREG_FOR_SPILL)
 	  /* if we get here then we might have fp-const>8bit. */
-	  if (reload_in_progress 
+	  if (reload_in_progress
 	      && !access_stack_slot_for_reload (memref, mode, &addr))
 #endif
 	      abort ();
@@ -2876,7 +2869,7 @@ restore_reg_data (first)
   /* Don't duplicate the uids already in use.  */
   cur_insn_uid = max_uid + 1;
 
-  /* If any regs are missing, make them up.  
+  /* If any regs are missing, make them up.
 
      ??? word_mode is not necessarily the right mode.  Most likely these REGs
      are never used.  At some point this should be checked.  */
@@ -3003,11 +2996,11 @@ init_emit ()
 
   regno_pointer_flag_length = LAST_VIRTUAL_REGISTER + 101;
 
-  regno_pointer_flag 
+  regno_pointer_flag
     = (char *) oballoc (regno_pointer_flag_length);
   bzero (regno_pointer_flag, regno_pointer_flag_length);
 
-  regno_reg_rtx 
+  regno_reg_rtx
     = (rtx *) oballoc (regno_pointer_flag_length * sizeof (rtx));
   bzero (regno_reg_rtx, regno_pointer_flag_length * sizeof (rtx));
 
@@ -3157,7 +3150,7 @@ init_emit_once (line_numbers)
 #ifdef STRUCT_VALUE
   struct_value_rtx = STRUCT_VALUE;
 #else
-  struct_value_rtx = gen_rtx (REG, Pmode1 (DEFAULT_DATA_Pmode), 
+  struct_value_rtx = gen_rtx (REG, Pmode1 (DEFAULT_DATA_Pmode),
 			      STRUCT_VALUE_REGNUM);
 #endif
   mark_reg_pointer (struct_value_rtx);

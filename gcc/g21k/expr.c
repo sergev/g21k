@@ -225,7 +225,7 @@ init_expr_once ()
     movstr_optab[(int) TImode] = CODE_FOR_movstrti;
 #endif
 }
-      
+
 /* This is run at the start of compiling a function.  */
 
 void
@@ -939,7 +939,7 @@ convert_move (to, from, unsignedp)
 	}
     }
 
-  /* Support special truncate insns for certain modes.  */ 
+  /* Support special truncate insns for certain modes.  */
 
   if (from_mode == DImode && to_mode == SImode)
     {
@@ -1021,7 +1021,7 @@ convert_move (to, from, unsignedp)
 
 
 #if defined(ADI) && defined(MEMSEG)
-  
+
   /*** We allow truncations from SImode to DMmode and PMmode ***/
 
   if (from_mode == SImode && to_mode == DMmode)
@@ -1127,7 +1127,7 @@ convert_to_mode (mode, x, unsignedp)
      int unsignedp;
 {
   register rtx temp;
- 
+
   /* If FROM is a SUBREG that indicates that we have already done at least
      the required extension, strip it.  */
 
@@ -1169,7 +1169,7 @@ convert_to_mode (mode, x, unsignedp)
     emit_move_insn (reg, x);
     return x;
   }
-#endif	  
+#endif
 #endif
 
   if (GET_CODE (x) == CONST_INT
@@ -1245,7 +1245,7 @@ move_by_pieces (to, from, len, align)
   data.reverse
     = (GET_CODE (to_addr) == PRE_DEC || GET_CODE (to_addr) == POST_DEC
 #if defined (DSP21XX) || defined (A21C0)
-       || (GET_CODE(to_addr)==POST_MODIFY && 
+       || (GET_CODE(to_addr)==POST_MODIFY &&
 	   REG_P(XEXP(to_addr,1)) &&
 	   (mod_reg_equiv_const[REGNO(XEXP(to_addr,1))]<0))
 #endif
@@ -1300,15 +1300,15 @@ move_by_pieces (to, from, len, align)
 	      mod_reg_equiv_const[REGNO(temp)]=1;
 	      data.from_addr=copy_addr_to_reg(from_addr);
 	    }
-	  data.from_addr = gen_rtx(POST_MODIFY, 
-				   GET_MODE(from_addr), 
+	  data.from_addr = gen_rtx(POST_MODIFY,
+				   GET_MODE(from_addr),
 				   data.from_addr,
 				   temp);
 	  data.explicit_inc_from=0;
 	  data.autinc_from=1;
 	}
 #endif
-#if defined HAVE_POST_INCREMENT 
+#if defined HAVE_POST_INCREMENT
       if (! data.autinc_from)
 	{
 	  data.autinc_from = 1;
@@ -1465,7 +1465,7 @@ move_by_pieces_1 (genfun, mode, data)
 
       emit_insn ((*genfun) (to1, from1));
 #ifdef ADI
-#ifdef HAVE_POST_INCREMENT 
+#ifdef HAVE_POST_INCREMENT
       if (data->explicit_inc_to != 0)
 	emit_insn (gen_add2_insn (data->to_addr,
 				  gen_rtx (CONST_INT, VOIDmode, size*data->explicit_inc_to)));
@@ -1579,17 +1579,17 @@ emit_block_move (x, y, size, align)
 #ifdef POLYMORPH_LIBRARY_CALLS
       emit_library_call (polymorph_library_calls_2(memcpy_libfunc,
 						   XEXP(x,0), XEXP(y,0)),
-			 0, VOIDmode, 3, XEXP (x, 0), 
+			 0, VOIDmode, 3, XEXP (x, 0),
 			 Pmode1 (Extract_rtx_Pmode (XEXP (x,0))),
 			 XEXP (y, 0), Pmode1 (Extract_rtx_Pmode (XEXP (y,0))),
 			 convert_to_mode (Pmode1 (Extract_rtx_Pmode (size)),
-					  size, 1), 
+					  size, 1),
 			 Pmode1 (Extract_rtx_Pmode (size)));
 #else
       emit_library_call (memcpy_libfunc, 0,
 			 VOIDmode, 3, XEXP (x, 0), Pmode1 (Extract_rtx_Pmode (XEXP (x,0))),
 			 XEXP (y, 0), Pmode1 (Extract_rtx_Pmode (XEXP (y,0))),
-			 convert_to_mode (Pmode1 (Extract_rtx_Pmode (size)), size, 1), 
+			 convert_to_mode (Pmode1 (Extract_rtx_Pmode (size)), size, 1),
 			 Pmode1 (Extract_rtx_Pmode (size)));
 #endif
 #else
@@ -1727,24 +1727,24 @@ clear_storage (object, size)
       emit_library_call (polymorph_library_calls_1(memset_libfunc,
 						   XEXP(object,0)),
 			 0, VOIDmode, 3,
-			 XEXP (object, 0), 
-			 Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))), 
+			 XEXP (object, 0),
+			 Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))),
 			 const0_rtx, Pmode1 (Extract_rtx_Pmode(const0_rtx)),
-			 GEN_INT (size), 
+			 GEN_INT (size),
 			 Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))));
 #else
       emit_library_call (memset_libfunc, 0,
 			 VOIDmode, 3,
-			 XEXP (object, 0), Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))), 
+			 XEXP (object, 0), Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))),
 			 const0_rtx, Pmode1 (Extract_rtx_Pmode(const0_rtx)),
-			 GEN_INT (size), 
+			 GEN_INT (size),
 			 Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))));
 #endif
 #else
       emit_library_call (bzero_libfunc, 0,
 			 VOIDmode, 2,
 			 XEXP (object, 0), Pmode1 (Extract_rtx_Pmode(XEXP (object, 0))),
-			 GEN_INT (size), 
+			 GEN_INT (size),
 			 Pmode1 (Extract_rtx_Pmode (XEXP (object, 0))));
 #endif
     }
@@ -1796,11 +1796,11 @@ emit_move_insn (x, y)
 
   if (mode == BLKmode)
     abort ();
-  
-  /* If moving one thing to another copy the pointer 
+
+  /* If moving one thing to another copy the pointer
      information around. */
 
-  if (/*REG_P (y) && shouldn't this be every thing??? mmh 2/13/97 */ 
+  if (/*REG_P (y) && shouldn't this be every thing??? mmh 2/13/97 */
       RTX_ISPOINTER_P (y))
     mark_reg_pointer (x);
 
@@ -1881,7 +1881,7 @@ emit_move_insn_1 (x, y)
     {
       rtx last_insn = 0;
       rtx insns;
-      
+
 #ifdef PUSH_ROUNDING
 
       /* If X is a push on the stack, do the push now and replace
@@ -1892,7 +1892,7 @@ emit_move_insn_1 (x, y)
 	  x = change_address (x, VOIDmode, stack_pointer_rtx);
 	}
 #endif
-			     
+
       /* Show the output dies here.  */
       emit_insn (gen_rtx (CLOBBER, VOIDmode, x));
 
@@ -2072,7 +2072,7 @@ emit_push_insn (x, mode, type, size, align, partial, reg, extra,
       int used = partial * UNITS_PER_WORD;
       int offset = used % (PARM_BOUNDARY / BITS_PER_UNIT);
       int skip;
-      
+
       if (size == 0)
 	abort ();
 
@@ -2153,7 +2153,7 @@ emit_push_insn (x, mode, type, size, align, partial, reg, extra,
 						  skip + INTVAL (args_so_far)));
 	  else
 	    temp = memory_address (BLKmode,
-				   plus_constant (gen_rtx (PLUS, 
+				   plus_constant (gen_rtx (PLUS,
 							   Pmode1 (Extract_rtx_Pmode(stack_pointer_rtx)),
 							   args_addr, args_so_far),
 						  skip));
@@ -2227,21 +2227,21 @@ emit_push_insn (x, mode, type, size, align, partial, reg, extra,
       emit_library_call(polymorph_library_calls_2(memcpy_libfunc,
 						  temp, XEXP(xinner, 0)),
 			0, VOIDmode, 3, temp,
-			Pmode1 (Extract_rtx_Pmode(temp)), 
-			XEXP (xinner, 0), 
+			Pmode1 (Extract_rtx_Pmode(temp)),
+			XEXP (xinner, 0),
 			Pmode1 (Extract_rtx_Pmode(XEXP (xinner,0))),
 			size, Pmode1 (Extract_rtx_Pmode(size)));
 #else
 	  emit_library_call (memcpy_libfunc, 0,
-			     VOIDmode, 3, temp, Pmode1 (Extract_rtx_Pmode(temp)), 
+			     VOIDmode, 3, temp, Pmode1 (Extract_rtx_Pmode(temp)),
 			     XEXP (xinner, 0), Pmode1 (Extract_rtx_Pmode(XEXP (xinner,0))),
 			     size, Pmode1 (Extract_rtx_Pmode(size)));
 
 #endif
 #else
 	  emit_library_call (bcopy_libfunc, 0,
-			     VOIDmode, 3, 
-			     XEXP (xinner, 0), Pmode1 (Extract_rtx_Pmode(XEXP (xinner, 0))), 
+			     VOIDmode, 3,
+			     XEXP (xinner, 0), Pmode1 (Extract_rtx_Pmode(XEXP (xinner, 0))),
 			     temp, Pmode1 (Extract_rtx_Pmode(temp)),
 			     size, Pmode1 (Extract_rtx_Pmode(size)));
 #endif
@@ -2333,7 +2333,7 @@ emit_push_insn (x, mode, type, size, align, partial, reg, extra,
 	    = memory_address (mode,
 			      plus_constant (args_addr, INTVAL (args_so_far)));
       else
-	addr = memory_address (mode, gen_rtx (PLUS, Pmode1 (Extract_rtx_Pmode(stack_pointer_rtx)), 
+	addr = memory_address (mode, gen_rtx (PLUS, Pmode1 (Extract_rtx_Pmode(stack_pointer_rtx)),
 					      args_addr,
 					      args_so_far));
 
@@ -2372,8 +2372,7 @@ emit_push_insn (x, mode, type, size, align, partial, reg, extra,
    move memory references across the non-const call.  */
 
 void
-emit_library_call (va_alist)
-     va_dcl
+emit_library_call (rtx fun, int no_queue, enum machine_mode outmode, int nargs, ...)
 {
   va_list p;
   /* Total size in bytes of all the stack-parms scanned so far.  */
@@ -2381,9 +2380,6 @@ emit_library_call (va_alist)
   /* Size of arguments before any adjustments (such as rounding).  */
   struct args_size original_args_size;
   register int argnum;
-  enum machine_mode outmode;
-  int nargs;
-  rtx fun;
   rtx orgfun;
   int inc;
   int count;
@@ -2393,14 +2389,10 @@ emit_library_call (va_alist)
 	       struct args_size offset; struct args_size size; };
   struct arg *argvec;
   int old_inhibit_defer_pop = inhibit_defer_pop;
-  int no_queue = 0;
   rtx use_insns;
 
-  va_start (p);
-  orgfun = fun = va_arg (p, rtx);
-  no_queue = va_arg (p, int);
-  outmode = va_arg (p, enum machine_mode);
-  nargs = va_arg (p, int);
+  va_start (p, nargs);
+  orgfun = fun;
 
   /* Copy all the libcall-arguments out of the varargs data
      and into a vector ARGVEC.
@@ -2624,8 +2616,8 @@ emit_library_call (va_alist)
    (If VALUE is zero, the result comes in the function value register.)  */
 
 void
-emit_library_call_value (va_alist)
-     va_dcl
+emit_library_call_value (rtx fun, rtx value, int no_queue, enum machine_mode outmode,
+	int nargs, ...)
 {
   va_list p;
   /* Total size in bytes of all the stack-parms scanned so far.  */
@@ -2633,9 +2625,6 @@ emit_library_call_value (va_alist)
   /* Size of arguments before any adjustments (such as rounding).  */
   struct args_size original_args_size;
   register int argnum;
-  enum machine_mode outmode;
-  int nargs;
-  rtx fun;
   rtx orgfun;
   int inc;
   int count;
@@ -2645,17 +2634,11 @@ emit_library_call_value (va_alist)
 	       struct args_size offset; struct args_size size; };
   struct arg *argvec;
   int old_inhibit_defer_pop = inhibit_defer_pop;
-  int no_queue = 0;
   rtx use_insns;
-  rtx value;
   rtx mem_value = 0;
 
-  va_start (p);
-  orgfun = fun = va_arg (p, rtx);
-  value = va_arg (p, rtx);
-  no_queue = va_arg (p, int);
-  outmode = va_arg (p, enum machine_mode);
-  nargs = va_arg (p, int);
+  va_start (p, nargs);
+  orgfun = fun;
 
   /* If this kind of value comes back in memory,
      decide where in memory it should come back.  */
@@ -3009,9 +2992,9 @@ expand_assignment (to, from, want_value, suggest_reg)
 	  if (GET_CODE (to_rtx) != MEM)
 	    abort ();
 	  to_rtx = change_address (to_rtx, VOIDmode,
-				   gen_rtx (PLUS, Pmode1 (Extract_rtx_Pmode (to_rtx)) , 
+				   gen_rtx (PLUS, Pmode1 (Extract_rtx_Pmode (to_rtx)) ,
 					    XEXP (to_rtx, 0),
-					    force_reg (Pmode1 (Extract_rtx_Pmode (to_rtx)), 
+					    force_reg (Pmode1 (Extract_rtx_Pmode (to_rtx)),
 						       offset_rtx)));
 	}
       if (volatilep)
@@ -3059,28 +3042,28 @@ expand_assignment (to, from, want_value, suggest_reg)
 
 #ifdef TARGET_MEM_FUNCTIONS
 #ifdef POLYMORPH_LIBRARY_CALLS
-      emit_library_call 
-	(polymorph_library_calls_2 
+      emit_library_call
+	(polymorph_library_calls_2
 	 (memcpy_libfunc,
 	  XEXP (to_rtx, 0),
 	  XEXP (from_rtx, 0)),
-	 0, VOIDmode, 3, XEXP (to_rtx, 0), 
+	 0, VOIDmode, 3, XEXP (to_rtx, 0),
 	 Pmode1 (Extract_rtx_Pmode (XEXP (to_rtx, 0))),
-	 XEXP (from_rtx, 0), 
+	 XEXP (from_rtx, 0),
 	 Pmode1 (Extract_rtx_Pmode (XEXP (from_rtx, 0))),
 	 size, Pmode1 (Extract_rtx_Pmode (size)));
 #else
-      emit_library_call 
+      emit_library_call
 	(memcpy_libfunc, 0,
-	 VOIDmode, 3, XEXP (to_rtx, 0), 
+	 VOIDmode, 3, XEXP (to_rtx, 0),
 	 Pmode1 (Extract_rtx_Pmode(XEXP (to_rtx, 0))),
 	 XEXP (from_rtx, 0), Pmode1 (Extract_rtx_Pmode(XEXP (from_rtx, 0))),
 	 size, Pmode1 (Extract_rtx_Pmode (size)));
 #endif
 #else
-      emit_library_call 
+      emit_library_call
 	(bcopy_libfunc, 0,
-	 VOIDmode, 3, XEXP (from_rtx, 0), 
+	 VOIDmode, 3, XEXP (from_rtx, 0),
 	 Pmode1 (Extract_rtx_Pmode(XEXP (from_rtx, 0))),
 	 XEXP (to_rtx, 0), Pmode1 (Extract_rtx_Pmode(XEXP (to_rtx, 0))),
 	 size, Pmode1 (Extract_rtx_Pmode(size)));
@@ -3290,19 +3273,19 @@ store_expr (exp, target, suggest_reg)
 #ifdef POLYMORPH_LIBRARY_CALLS
 		    emit_library_call
 			(polymorph_library_calls_1(memset_libfunc, temp),
-			 0, VOIDmode, 3, temp, 
-			 Pmode1 (Extract_rtx_Pmode(temp)), 
-			 const0_rtx, Pmode1 (Extract_rtx_Pmode(const0_rtx)), 
+			 0, VOIDmode, 3, temp,
+			 Pmode1 (Extract_rtx_Pmode(temp)),
+			 const0_rtx, Pmode1 (Extract_rtx_Pmode(const0_rtx)),
 			 size, Pmode1 (Extract_rtx_Pmode(size)));
 #else
 		  emit_library_call (memset_libfunc, 0, VOIDmode, 3,
-				     temp, Pmode1 (Extract_rtx_Pmode(temp)), 
-				     const0_rtx, Pmode1 (Extract_rtx_Pmode(const0_rtx)), 
+				     temp, Pmode1 (Extract_rtx_Pmode(temp)),
+				     const0_rtx, Pmode1 (Extract_rtx_Pmode(const0_rtx)),
 				     size, Pmode1 (Extract_rtx_Pmode(size)));
 #endif
 #else
 		  emit_library_call (bzero_libfunc, 0, VOIDmode, 2,
-				     temp, Pmode1 (Extract_rtx_Pmode(temp)), 
+				     temp, Pmode1 (Extract_rtx_Pmode(temp)),
 				     size, Pmode1 (Extract_rtx_Pmode(size)));
 #endif
 		}
@@ -3638,7 +3621,7 @@ get_inner_reference (exp, pbitsize, pbitpos, poffset, pmode, punsignedp, pvolati
       *pbitsize = GET_MODE_BITSIZE (mode);
       *punsignedp = TREE_UNSIGNED (TREE_TYPE (exp));
     }
-      
+
   if (size_tree)
     {
       if (TREE_CODE (size_tree) != INTEGER_CST)
@@ -3806,7 +3789,7 @@ force_operand (value, target)
 			       force_operand (XEXP (XEXP (value, 0), 1), 0),
 			       target, 0, OPTAB_LIB_WIDEN);
 	}
-				   
+
       tmp = force_operand (XEXP (value, 0), subtarget);
       return expand_binop (GET_MODE (value), binoptab, tmp,
 			   force_operand (op2, NULL_RTX),
@@ -4039,17 +4022,17 @@ fixed_type_p (exp)
 }
 
 #ifdef HAVE_macdisi3
-/* Try to generate multiply accumulate if HAVE_macsi3 or HAVE_smacsi3 
+/* Try to generate multiply accumulate if HAVE_macsi3 or HAVE_smacsi3
    This function is envoked from PLUS_EXPR or MINUS_EXPR
-   
+
       PLUS_EXPR
          MULT_EXPR
-   
+
    Emit if possible DI = DI + SI * SI
 
    This is a fundamental element of DSP compilers.
 
-   This function works in conjunction with 
+   This function works in conjunction with
      macdisi3   Multiply Accumulate with Widening Multiplication
      smacdisi3  Multiply Decimate with Widening Multiplication
 
@@ -4083,7 +4066,7 @@ expand_multiply_accumulate (exp, target, code)
 	      && TREE_CODE (TREE_TYPE (TREE_OPERAND (TREE_OPERAND (exp, 1), 0))) == INTEGER_TYPE)))
     {
       sum = TREE_OPERAND (exp, 0);
-      
+
       if (TREE_CODE (TREE_OPERAND (exp, 1)) == NOP_EXPR) {
 	x0 = TREE_OPERAND (TREE_OPERAND (TREE_OPERAND (exp, 1), 0), 0);
 	x1 = TREE_OPERAND (TREE_OPERAND (TREE_OPERAND (exp, 1), 0), 1);
@@ -4102,7 +4085,7 @@ expand_multiply_accumulate (exp, target, code)
       op1 = expand_expr (x1, NULL_RTX, VOIDmode, 0);
       rout = expand_expr (sum, target, VOIDmode, 0);
 
-      if (target == NULL_RTX 
+      if (target == NULL_RTX
 	  && ! REG_P (rout))
 	rout = target = force_reg (TYPE_MODE (TREE_TYPE (sum)), rout);
 
@@ -4128,7 +4111,7 @@ expand_multiply_accumulate (exp, target, code)
 	  set = PATTERN (XVECEXP (mac, 0, XVECLEN (mac, 0)-1));
 	else
 	  set = mac;
-	
+
 	dest = SET_DEST (set);
 	if (!rtx_equal_p (dest, target)) {
 	  if (GET_MODE (dest) == DImode
@@ -4136,7 +4119,7 @@ expand_multiply_accumulate (exp, target, code)
 	    /* The 1 is a potential bug depending on the machine endianess. */
 	    target = gen_rtx (SUBREG, GET_MODE (target), dest, 1);
 	}
-	
+
 	emit_insn (mac);
 	return target;
       }
@@ -4251,7 +4234,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	  forced_labels = gen_rtx (EXPR_LIST, VOIDmode,
 				   label_rtx (exp), forced_labels);
 	temp = gen_rtx (MEM, FUNCTION_MODE,
-			gen_rtx (LABEL_REF, Pmode1 (DEFAULT_CODE_Pmode), 
+			gen_rtx (LABEL_REF, Pmode1 (DEFAULT_CODE_Pmode),
 				 label_rtx (exp)));
 
 	if (function != current_function_decl && function != 0)
@@ -4297,7 +4280,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	    abort ();
 	  addr = XEXP (DECL_RTL (exp), 0);
 	  if (GET_CODE (addr) == MEM)
-	    addr = gen_rtx (MEM, Pmode1 (Extract_rtx_Pmode (addr)), 
+	    addr = gen_rtx (MEM, Pmode1 (Extract_rtx_Pmode (addr)),
 			    fix_lexical_addr (XEXP (addr, 0), exp));
 	  else
 	    addr = fix_lexical_addr (addr, exp);
@@ -4374,8 +4357,8 @@ expand_expr_1 (exp, target, tmode, modifier)
 
     case REAL_CST:
       /* If optimized, generate immediate CONST_DOUBLE
-	 which will be turned into memory by reload if necessary. 
-     
+	 which will be turned into memory by reload if necessary.
+
 	 We used to force a register so that loop.c could see it.  But
 	 this does not allow gen_* patterns to perform optimizations with
 	 the constants.  It also produces two insns in cases like "x = 1.0;".
@@ -4386,7 +4369,7 @@ expand_expr_1 (exp, target, tmode, modifier)
       return immed_real_const (exp);
 
     case FRACT_CST:
-      return immed_double_const (TREE_FRACT_CST_HIGH(exp), 
+      return immed_double_const (TREE_FRACT_CST_HIGH(exp),
 				 0, mode);
     case COMPLEX_CST:
     case STRING_CST:
@@ -4601,7 +4584,7 @@ expand_expr_1 (exp, target, tmode, modifier)
           {
             op0 = expand_expr (TREE_OPERAND (exp1, 0), NULL_RTX,
                                 VOIDmode, EXPAND_SUM);
- 
+
 #ifdef ADI
             /* Retain mode for *(int PM *)100 */
             if (GET_MODE (op0) == VOIDmode)
@@ -4619,7 +4602,7 @@ expand_expr_1 (exp, target, tmode, modifier)
             if (GET_MODE (op0) == VOIDmode)
               op0 = gen_rtx (CONST, TYPE_MODE (TREE_TYPE (exp1)), op0);
 #endif
- 
+
             op0 = memory_address (mode, op0);
           }
 
@@ -4639,7 +4622,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 		    || TREE_CODE (TREE_TYPE (exp2)) == RECORD_TYPE
 		    || TREE_CODE (TREE_TYPE (exp2)) == UNION_TYPE)))
 	  MEM_IN_STRUCT_P (temp) = 1;
-	MEM_VOLATILE_P (temp) = TREE_THIS_VOLATILE (exp) 
+	MEM_VOLATILE_P (temp) = TREE_THIS_VOLATILE (exp)
 				| flag_volatile;
 #if 0 /* It is incorrect to set RTX_UNCHANGING_P here, because the fact that
 	 a location is accessed through a pointer to const does not mean
@@ -4671,7 +4654,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 						  TREE_THIS_VOLATILE (exp)
 #if defined(ADI) && defined(MEMSEG)
 	    /* This plus is subtle: the memory segment must be that
-	       of the array, not of the expression itself (memory 
+	       of the array, not of the expression itself (memory
 	       segments are not promoted to expressions */
 						  , TREE_MEMSEG(exp)
 #endif
@@ -4699,7 +4682,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	  /*** prefer do it as integer and then convert. ***/
 	  /*** Also: we cheat for dsp21k since we know that index is **/
 	  /*** always a signed integer (see type for OFFSET) ***/
-	  
+
 	{
 	    tree offset;
 	    offset = fold (build (MULT_EXPR, integer_type_node,
@@ -4777,7 +4760,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 				    tmode, modifier);
 	    }
 	}
-	  
+
       else if (TREE_READONLY (TREE_OPERAND (exp, 0))
 	       && ! TREE_SIDE_EFFECTS (TREE_OPERAND (exp, 0))
 	       && TREE_CODE (TREE_TYPE (TREE_OPERAND (exp, 0))) == ARRAY_TYPE
@@ -4861,9 +4844,9 @@ expand_expr_1 (exp, target, tmode, modifier)
 	    if (GET_CODE (op0) != MEM)
 	      abort ();
 	    op0 = change_address (op0, VOIDmode,
-				  gen_rtx (PLUS, Pmode1 (Extract_rtx_Pmode (op0)), 
+				  gen_rtx (PLUS, Pmode1 (Extract_rtx_Pmode (op0)),
 					   XEXP (op0, 0),
-					   force_reg (Pmode1 (Extract_rtx_Pmode (op0)), 
+					   force_reg (Pmode1 (Extract_rtx_Pmode (op0)),
 						      offset_rtx)));
 	  }
 
@@ -4989,7 +4972,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	lo_r = expand_expr (set_low_bound, 0, VOIDmode, 0);
 	hi_r = expand_expr (set_high_bound, 0, VOIDmode, 0);
 	setval = expand_expr (set, 0, VOIDmode, 0);
-	setaddr = XEXP (setval, 0); 
+	setaddr = XEXP (setval, 0);
 
 	/* Compare index against bounds, if they are constant.  */
 	if (GET_CODE (index_val) == CONST_INT
@@ -5191,7 +5174,7 @@ expand_expr_1 (exp, target, tmode, modifier)
       this_optab = add_optab;
 
 #ifdef HAVE_macdisi3
-      if (optimize > 1 
+      if (optimize > 1
 	  && (temp = expand_multiply_accumulate (exp, target, PLUS)))
 	return temp;
 #endif
@@ -5295,7 +5278,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	      op1 = force_reg (mode, op1);
 	      mark_reg_pointer (op1);
 	      op0 = gen_rtx (PLUS, mode, op1, op0);
-	      
+
 	      if (modifier != EXPAND_SUM && modifier != EXPAND_INITIALIZER)
 		op0 = force_operand (op0, target);
 
@@ -5356,7 +5339,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	  op0 = eliminate_constant_term (op0, &constant_term);
 
 	  /* CONSTANT_TERM and XEXP (op1, 1) are known to be constant, so
-	     their sum should be a constant.  Form it into OP1, since the 
+	     their sum should be a constant.  Form it into OP1, since the
 	     result we want will then be OP0 + OP1.  */
 
 	  temp = simplify_binary_operation (PLUS, mode, constant_term,
@@ -5503,7 +5486,7 @@ expand_expr_1 (exp, target, tmode, modifier)
       op1 = expand_expr (TREE_OPERAND (exp, 1), NULL_RTX, VOIDmode, 0);
 
       if(TREE_CODE(type) == FRACT_TYPE)
-	return expand_binop (mode, fr_smul_optab, op0, op1, target, unsignedp, 
+	return expand_binop (mode, fr_smul_optab, op0, op1, target, unsignedp,
 			     OPTAB_LIB_WIDEN);
       return expand_mult (mode, op0, op1, target, unsignedp);
 
@@ -5532,7 +5515,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	  if (target == NULL_RTX)
 	    target = gen_reg_rtx (GET_MODE (op0));
 
-	  avgrtx = gen_avgsi3 (target, 
+	  avgrtx = gen_avgsi3 (target,
 			       force_reg (SImode, op0),
 			       force_reg (SImode, op1));
 	  if (avgrtx)
@@ -5549,7 +5532,7 @@ expand_expr_1 (exp, target, tmode, modifier)
       op1 = expand_expr (TREE_OPERAND (exp, 1), NULL_RTX, VOIDmode, 0);
 
       if (TREE_CODE (type) == FRACT_TYPE)
-	return expand_binop (mode, fr_sdiv_optab, op0, op1, target, unsignedp, 
+	return expand_binop (mode, fr_sdiv_optab, op0, op1, target, unsignedp,
 			     OPTAB_LIB_WIDEN);
       return expand_divmod (0, code, mode, op0, op1, target, unsignedp);
 
@@ -5591,9 +5574,9 @@ expand_expr_1 (exp, target, tmode, modifier)
 				op0);
       if (FRACT_TYPE == TREE_CODE (TREE_TYPE (TREE_OPERAND (exp, 0))))
 	return expand_float_from_fract (mode,
-					expand_expr (TREE_OPERAND (exp, 0), 
+					expand_expr (TREE_OPERAND (exp, 0),
 						     NULL, VOIDmode, modifier),
-					target, 
+					target,
 					TREE_TYPE (TREE_OPERAND (exp,0)));
 
       expand_float (target, op0,
@@ -5874,7 +5857,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 
 	/* If we are not to produce a result, we have no target.  Otherwise,
 	   if a target was specified use it; it will not be used as an
-	   intermediate target unless it is safe.  If no target, use a 
+	   intermediate target unless it is safe.  If no target, use a
 	   temporary.  */
 
 	if (mode == VOIDmode || ignore)
@@ -5964,7 +5947,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 	      TREE_OPERAND (exp, 0)
 		= invert_truthvalue (TREE_OPERAND (exp, 0));
 	  }
-	    
+
 	NO_DEFER_POP;
 	op0 = gen_label_rtx ();
 
@@ -6014,7 +5997,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 #if 0
 	/* This is now done in jump.c and is better done there because it
 	   produces shorter register lifetimes.  */
-	   
+
 	/* Check for both possibilities either constants or variables
 	   in registers (but not the same as the target!).  If so, can
 	   save branches by assigning one, branching, and assigning the
@@ -6302,7 +6285,7 @@ expand_expr_1 (exp, target, tmode, modifier)
 			      ? modifier : EXPAND_CONST_ADDRESS));
 	  if (GET_CODE (op0) != MEM)
 	    abort ();
-  
+
 	  if (modifier == EXPAND_SUM || modifier == EXPAND_INITIALIZER)
 	    return XEXP (op0, 0);
 	  op0 = force_operand (XEXP (op0, 0), target);
@@ -6351,7 +6334,7 @@ expand_expr_1 (exp, target, tmode, modifier)
     case REALPART_EXPR:
       op0 = expand_expr (TREE_OPERAND (exp, 0), 0, VOIDmode, 0);
       return gen_realpart (mode, op0);
-      
+
     case IMAGPART_EXPR:
       op0 = expand_expr (TREE_OPERAND (exp, 0), 0, VOIDmode, 0);
       return gen_imagpart (mode, op0);
@@ -6361,12 +6344,12 @@ expand_expr_1 (exp, target, tmode, modifier)
 	enum machine_mode mode = TYPE_MODE (TREE_TYPE (TREE_TYPE (exp)));
 	rtx imag_t;
 	rtx prev;
-	
+
 	op0  = expand_expr (TREE_OPERAND (exp, 0), 0, VOIDmode, 0);
 
 	if (! target)
 	  target = gen_reg_rtx (TYPE_MODE (TREE_TYPE (exp)));
-								    
+
 	prev = get_last_insn ();
 
 	/* Tell flow that the whole of the destination is being set.  */
@@ -6426,8 +6409,8 @@ expand_expr (exp, target, tmode, modifier)
   tcode = TREE_CODE (TREE_TYPE (exp));
   if (TREE_CODE (exp) != CONVERT_EXPR
       && (tcode == POINTER_TYPE
-	  || tcode == RECORD_TYPE 
-	  || tcode == UNION_TYPE 
+	  || tcode == RECORD_TYPE
+	  || tcode == UNION_TYPE
 	  || tcode == ARRAY_TYPE))
     mark_reg_pointer (rval);
   return rval;
@@ -6738,7 +6721,7 @@ expand_builtin (exp, target, subtarget, mode, ignore)
       insns = get_insns ();
       end_sequence ();
       emit_insns (insns);
- 
+
       return target;
 
     case BUILT_IN_SAVEREGS:
@@ -6941,7 +6924,7 @@ expand_builtin (exp, target, subtarget, mode, ignore)
 	}
       else
 	{
-	  int count = TREE_INT_CST_LOW (TREE_VALUE (arglist)); 
+	  int count = TREE_INT_CST_LOW (TREE_VALUE (arglist));
 	  rtx tem = frame_pointer_rtx;
 	  int i;
 
@@ -6984,7 +6967,7 @@ expand_builtin (exp, target, subtarget, mode, ignore)
 	  return RETURN_ADDR_RTX (count, tem);
 #else
 	  tem = memory_address (Pmode1 (Extract_rtx_Pmode (tem)),
-				plus_constant (tem, 
+				plus_constant (tem,
 					       GET_MODE_SIZE (Pmode1 (Extract_rtx_Pmode (tem)) )));
 	  return copy_to_reg (gen_rtx (MEM, Pmode1 (Extract_rtx_Pmode(tem)), tem));
 #endif
@@ -7284,12 +7267,12 @@ expand_builtin (exp, target, subtarget, mode, ignore)
 
 	emit_insn (gen_cmpstrsi (result,
 				 gen_rtx (MEM, BLKmode,
-					  expand_expr (arg1, NULL_RTX, 
-						       Pmode1 (Extract_rtx_Pmode (arg1)), 
+					  expand_expr (arg1, NULL_RTX,
+						       Pmode1 (Extract_rtx_Pmode (arg1)),
 						       EXPAND_NORMAL)),
 				 gen_rtx (MEM, BLKmode,
-					  expand_expr (arg2, NULL_RTX, 
-						       Pmode1 (Extract_rtx_Pmode (arg2)), 
+					  expand_expr (arg2, NULL_RTX,
+						       Pmode1 (Extract_rtx_Pmode (arg2)),
 						       EXPAND_NORMAL)),
 				 expand_expr (len, NULL_RTX, VOIDmode, 0),
 				 GEN_INT (MIN (arg1_align, arg2_align))));
@@ -7305,7 +7288,7 @@ expand_builtin (exp, target, subtarget, mode, ignore)
 	  }
 	else
 	  return convert_to_mode (mode, result, 0);
-      }	
+      }
 #else
     case BUILT_IN_STRCMP:
     case BUILT_IN_MEMCMP:
@@ -7792,7 +7775,7 @@ do_jump (exp, if_false_label, if_true_label)
 	do_jump (TREE_OPERAND (exp, 0), if_true_label, if_false_label);
       else if ((GET_MODE_CLASS (TYPE_MODE (TREE_TYPE (TREE_OPERAND (exp, 0))))
 		== MODE_INT)
-	       && 
+	       &&
 	       !can_compare_p (TYPE_MODE (TREE_TYPE (TREE_OPERAND (exp, 0)))))
 	do_jump_by_parts_equality (exp, if_false_label, if_true_label);
       else
@@ -7804,7 +7787,7 @@ do_jump (exp, if_false_label, if_true_label)
 	do_jump (TREE_OPERAND (exp, 0), if_false_label, if_true_label);
       else if ((GET_MODE_CLASS (TYPE_MODE (TREE_TYPE (TREE_OPERAND (exp, 0))))
 		== MODE_INT)
-	       && 
+	       &&
 	       !can_compare_p (TYPE_MODE (TREE_TYPE (TREE_OPERAND (exp, 0)))))
 	do_jump_by_parts_equality (exp, if_true_label, if_false_label);
       else
@@ -8202,7 +8185,7 @@ compare_from_rtx (op0, op1, code, unsignedp, mode, size, align)
       unsignedp = 1;
     }
 #endif
-	
+
   emit_cmp_insn (op0, op1, code, size, mode, unsignedp, align);
 
   return gen_rtx (code, VOIDmode, cc0_rtx, const0_rtx);
@@ -8379,7 +8362,7 @@ do_store_flag (exp, target, mode, only_cheap)
       else
 	return 0;
     }
-      
+
   preexpand_calls (exp);
   if (subtarget == 0 || GET_CODE (subtarget) != REG
       || GET_MODE (subtarget) != operand_mode

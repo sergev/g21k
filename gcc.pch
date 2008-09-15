@@ -1,0 +1,662 @@
+diff -u -b -r g21k-3.3.4/adiach/atfile.h gcc/adiach/atfile.h
+--- g21k-3.3.4/adiach/atfile.h	1997-09-17 21:50:15.000000000 +0400
++++ gcc/adiach/atfile.h	2008-09-12 19:49:57.000000000 +0400
+@@ -14,8 +14,6 @@
+ #define CDR(C) ((C)->next)
+ #define CAR(C) ((C)->str)
+
+-extern CONS *allocated_pool;
+-
+ extern void process_atfiles (int *pargc, char ***pargv);
+ extern char **atfile_expand_argv (int, char *[], int, int);
+ extern int atfile_get_length(CONS* );
+@@ -26,4 +24,3 @@
+ int    get_length(CONS*);
+ char **expand_argv(int, char**, int, int);
+ void   copy_list(char**, CONS*);
+-
+diff -u -b -r g21k-3.3.4/adiach/gcc_ach.c gcc/adiach/gcc_ach.c
+--- g21k-3.3.4/adiach/gcc_ach.c	1998-09-13 13:20:06.000000000 +0400
++++ gcc/adiach/gcc_ach.c	2008-09-12 19:49:31.000000000 +0400
+@@ -94,7 +94,7 @@
+
+ #endif /* TEST_ACHFILE */
+
+-#define obsolete(x) ach_error ("switch is obsolete " ## x ## " refer to manual")
++#define obsolete(x) ach_error ("switch is obsolete " x " refer to manual")
+
+ /**************************************************************/
+
+diff -u -b -r g21k-3.3.4/g21k/cccp.c gcc/g21k/cccp.c
+--- g21k-3.3.4/g21k/cccp.c	1998-09-13 13:20:37.000000000 +0400
++++ gcc/g21k/cccp.c	2008-09-15 18:35:52.000000000 +0400
+@@ -90,7 +90,7 @@
+ #include <errno.h> /*EK*/
+
+ #ifndef VMS
+-#ifndef USG
++#if !defined (USG) && !defined (__linux__)
+ #include <sys/time.h>           /* for __DATE__ and __TIME__ */
+ #include <sys/resource.h>
+ #else
+diff -u -b -r g21k-3.3.4/g21k/c-lex.c gcc/g21k/c-lex.c
+--- g21k-3.3.4/g21k/c-lex.c	1997-09-17 21:50:26.000000000 +0400
++++ gcc/g21k/c-lex.c	2008-09-12 20:33:48.000000000 +0400
+@@ -24,7 +24,7 @@
+ #include <setjmp.h>
+
+ #include "config.h"
+-#include "rtl.h"
++/*#include "rtl.h"*/
+ #include "tree.h"
+ #include "input.h"
+ #include "c-lex.h"
+diff -u -b -r g21k-3.3.4/g21k/combine.c gcc/g21k/combine.c
+--- g21k-3.3.4/g21k/combine.c	1997-09-17 21:50:30.000000000 +0400
++++ gcc/g21k/combine.c	2008-09-12 21:11:44.000000000 +0400
+@@ -381,7 +381,7 @@
+ static rtx simplify_shift_const ();
+ static int recog_for_combine ();
+ static rtx gen_lowpart_for_combine ();
+-static rtx gen_rtx_combine ();
++static rtx gen_rtx_combine (enum rtx_code code, enum machine_mode mode, ...);
+ static rtx gen_binary ();
+ static rtx gen_unary ();
+ static enum rtx_code simplify_comparison ();
+@@ -7753,21 +7753,16 @@
+
+ /*VARARGS2*/
+ static rtx
+-gen_rtx_combine (va_alist)
+-     va_dcl
++gen_rtx_combine (enum rtx_code code, enum machine_mode mode, ...)
+ {
+   va_list p;
+-  enum rtx_code code;
+-  enum machine_mode mode;
+   int n_args;
+   rtx args[3];
+   int i, j;
+   char *fmt;
+   rtx rt;
+
+-  va_start (p);
+-  code = va_arg (p, enum rtx_code);
+-  mode = va_arg (p, enum machine_mode);
++  va_start (p, mode);
+   n_args = GET_RTX_LENGTH (code);
+   fmt = GET_RTX_FORMAT (code);
+
+diff -u -b -r g21k-3.3.4/g21k/config/21k/21k.h gcc/g21k/config/21k/21k.h
+--- g21k-3.3.4/g21k/config/21k/21k.h	1998-09-13 13:20:48.000000000 +0400
++++ gcc/g21k/config/21k/21k.h	2008-09-12 19:47:44.000000000 +0400
+@@ -620,7 +620,7 @@
+ #endif /* ACH_PARSE */
+
+ #ifdef ACH_PARSE
+-#define ACH_SWITCH(x,y,z) { z, "-m"##x }
++#define ACH_SWITCH(x,y,z) { z, "-m"x }
+ #else /*  ACH_PARSE */
+ #define ACH_SWITCH(x,y,z) { x, y }
+ #endif /*  ACH_PARSE */
+@@ -829,13 +829,13 @@
+ #define USE_ADI_DSP            "ADI_DSP"
+
+ #ifndef __MSDOS__
+-#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE ## "/include"
+-#define CC1_LOCATION           DEFAULT_TARGET_MACHINE ## "/etc/"
+-#define LIB_LOCATION           DEFAULT_TARGET_MACHINE ## "/lib/"
++#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE "/include"
++#define CC1_LOCATION           DEFAULT_TARGET_MACHINE "/etc/"
++#define LIB_LOCATION           DEFAULT_TARGET_MACHINE "/lib/"
+ #else /* __MSDOS__ */
+-#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE ## "\\include"
+-#define CC1_LOCATION           DEFAULT_TARGET_MACHINE ## "\\etc\\"
+-#define LIB_LOCATION           DEFAULT_TARGET_MACHINE ## "\\lib\\"
++#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE "\\include"
++#define CC1_LOCATION           DEFAULT_TARGET_MACHINE "\\etc\\"
++#define LIB_LOCATION           DEFAULT_TARGET_MACHINE "\\lib\\"
+ #endif /* __MSDOS__ */
+
+ #define STANDARD_EXEC_PREFIX   0
+diff -u -b -r g21k-3.3.4/g21k/config/i386/xm-linux.h gcc/g21k/config/i386/xm-linux.h
+--- g21k-3.3.4/g21k/config/i386/xm-linux.h	1998-08-23 01:06:24.000000000 +0400
++++ gcc/g21k/config/i386/xm-linux.h	2008-09-12 20:32:22.000000000 +0400
+@@ -9,6 +9,8 @@
+ /*EK* removed: #include "xm-svr3.h" */
+
+ /*EK* new bits follows... */
++#include <stdlib.h>
++#include <string.h>
+
+ #define bcopy(src,dst,len) memcpy ((dst),(src),(len))
+ #define bzero(dst,len) memset ((dst),0,(len))
+@@ -24,6 +26,7 @@
+ #endif
+ #define HAVE_VPRINTF
+ #define HAVE_PUTENV
++#define HAVE_STRERROR
+
+ #ifndef SVR4
+ #define SVR4
+@@ -37,9 +40,9 @@
+
+ #undef BSTRING
+ #define BSTRING
+-#undef bcmp
+-#undef bcopy
+-#undef bzero
++/*#undef bcmp*/
++/*#undef bcopy*/
++/*#undef bzero*/
+ #undef index
+ #undef rindex
+
+diff -u -b -r g21k-3.3.4/g21k/emit-rtl.c gcc/g21k/emit-rtl.c
+--- g21k-3.3.4/g21k/emit-rtl.c	1997-09-17 21:50:35.000000000 +0400
++++ gcc/g21k/emit-rtl.c	2008-09-12 21:09:26.000000000 +0400
+@@ -238,21 +238,16 @@
+
+ /*VARARGS2*/
+ rtx
+-gen_rtx (va_alist)
+-     va_dcl
++gen_rtx (enum rtx_code code, enum machine_mode mode, ...)
+ {
+   va_list p;
+-  enum rtx_code code;
+-  enum machine_mode mode;
+   register int i;		/* Array indices...			*/
+   register char *fmt;		/* Current rtx's format...		*/
+   register rtx rt_val;		/* RTX to return to caller...		*/
+   int iam_pointer;
+   rtx val;
+
+-  va_start (p);
+-  code = va_arg (p, enum rtx_code);
+-  mode = va_arg (p, enum machine_mode);
++  va_start (p, mode);
+
+   if (code == CONST_INT)
+     {
+@@ -404,15 +399,13 @@
+
+ /*VARARGS1*/
+ rtvec
+-gen_rtvec (va_alist)
+-     va_dcl
++gen_rtvec (int n, ...)
+ {
+-  int n, i;
++  int i;
+   va_list p;
+   rtx *vector;
+
+-  va_start (p);
+-  n = va_arg (p, int);
++  va_start (p, n);
+
+   if (n == 0)
+     return NULL_RTVEC;		/* Don't allocate an empty rtvec...	*/
+diff -u -b -r g21k-3.3.4/g21k/expr.c gcc/g21k/expr.c
+--- g21k-3.3.4/g21k/expr.c	1997-09-17 21:50:36.000000000 +0400
++++ gcc/g21k/expr.c	2008-09-12 20:28:27.000000000 +0400
+@@ -2372,8 +2372,7 @@
+    move memory references across the non-const call.  */
+
+ void
+-emit_library_call (va_alist)
+-     va_dcl
++emit_library_call (rtx fun, int no_queue, enum machine_mode outmode, int nargs, ...)
+ {
+   va_list p;
+   /* Total size in bytes of all the stack-parms scanned so far.  */
+@@ -2381,9 +2380,6 @@
+   /* Size of arguments before any adjustments (such as rounding).  */
+   struct args_size original_args_size;
+   register int argnum;
+-  enum machine_mode outmode;
+-  int nargs;
+-  rtx fun;
+   rtx orgfun;
+   int inc;
+   int count;
+@@ -2393,14 +2389,10 @@
+ 	       struct args_size offset; struct args_size size; };
+   struct arg *argvec;
+   int old_inhibit_defer_pop = inhibit_defer_pop;
+-  int no_queue = 0;
+   rtx use_insns;
+
+-  va_start (p);
+-  orgfun = fun = va_arg (p, rtx);
+-  no_queue = va_arg (p, int);
+-  outmode = va_arg (p, enum machine_mode);
+-  nargs = va_arg (p, int);
++  va_start (p, nargs);
++  orgfun = fun;
+
+   /* Copy all the libcall-arguments out of the varargs data
+      and into a vector ARGVEC.
+@@ -2624,8 +2616,8 @@
+    (If VALUE is zero, the result comes in the function value register.)  */
+
+ void
+-emit_library_call_value (va_alist)
+-     va_dcl
++emit_library_call_value (rtx fun, rtx value, int no_queue, enum machine_mode outmode,
++	int nargs, ...)
+ {
+   va_list p;
+   /* Total size in bytes of all the stack-parms scanned so far.  */
+@@ -2633,9 +2625,6 @@
+   /* Size of arguments before any adjustments (such as rounding).  */
+   struct args_size original_args_size;
+   register int argnum;
+-  enum machine_mode outmode;
+-  int nargs;
+-  rtx fun;
+   rtx orgfun;
+   int inc;
+   int count;
+@@ -2645,17 +2634,11 @@
+ 	       struct args_size offset; struct args_size size; };
+   struct arg *argvec;
+   int old_inhibit_defer_pop = inhibit_defer_pop;
+-  int no_queue = 0;
+   rtx use_insns;
+-  rtx value;
+   rtx mem_value = 0;
+
+-  va_start (p);
+-  orgfun = fun = va_arg (p, rtx);
+-  value = va_arg (p, rtx);
+-  no_queue = va_arg (p, int);
+-  outmode = va_arg (p, enum machine_mode);
+-  nargs = va_arg (p, int);
++  va_start (p, nargs);
++  orgfun = fun;
+
+   /* If this kind of value comes back in memory,
+      decide where in memory it should come back.  */
+diff -u -b -r g21k-3.3.4/g21k/expr.h gcc/g21k/expr.h
+--- g21k-3.3.4/g21k/expr.h	1997-09-17 21:50:36.000000000 +0400
++++ gcc/g21k/expr.h	2008-09-12 20:23:39.000000000 +0400
+@@ -533,7 +533,7 @@
+ /* Emit code to push some arguments and call a library routine,
+    storing the value in a specified place.  Calling sequence is
+    complicated.  */
+-extern void emit_library_call ();
++extern void emit_library_call PROTO((rtx, int, enum machine_mode, int, ...));
+
+ /* Given an rtx that may include add and multiply operations,
+    generate them as insns and return a pseudo-reg containing the value.
+diff -u -b -r g21k-3.3.4/g21k/final.c gcc/g21k/final.c
+--- g21k-3.3.4/g21k/final.c	1998-09-13 13:21:26.000000000 +0400
++++ gcc/g21k/final.c	2008-09-12 21:15:45.000000000 +0400
+@@ -107,6 +107,10 @@
+ #define DIR_SEPARATOR '/'
+ #endif
+
++#ifdef __linux__
++#define __USE_STDARGS__
++#endif
++
+ rtx peephole ();
+ void output_asm_insn ();
+ rtx alter_subreg ();
+@@ -3180,8 +3184,3 @@
+     }
+ }
+ #endif
+-
+-
+-
+-
+-
+diff -u -b -r g21k-3.3.4/g21k/genattrtab.c gcc/g21k/genattrtab.c
+--- g21k-3.3.4/g21k/genattrtab.c	1997-09-17 21:50:40.000000000 +0400
++++ gcc/g21k/genattrtab.c	2008-09-15 18:24:46.000000000 +0400
+@@ -310,8 +310,8 @@
+
+ rtx frame_pointer_rtx, stack_pointer_rtx, arg_pointer_rtx;
+
+-static rtx attr_rtx ();
+-static char *attr_printf ();
++static rtx attr_rtx (enum rtx_code code, ...);
++static char *attr_printf (int len, char *fmt, ...);
+ static char *attr_string ();
+ static rtx check_attr_test ();
+ static rtx check_attr_value ();
+@@ -468,11 +468,9 @@
+
+ /*VARARGS1*/
+ static rtx
+-attr_rtx (va_alist)
+-     va_dcl
++attr_rtx (enum rtx_code code, ...)
+ {
+   va_list p;
+-  enum rtx_code code;
+   register int i;		/* Array indices...			*/
+   register char *fmt;		/* Current rtx's format...		*/
+   register rtx rt_val;		/* RTX to return to caller...		*/
+@@ -480,8 +478,7 @@
+   register struct attr_hash *h;
+   struct obstack *old_obstack = rtl_obstack;
+
+-  va_start (p);
+-  code = va_arg (p, enum rtx_code);
++  va_start (p, code);
+
+   /* For each of several cases, search the hash table for an existing entry.
+      Use that entry if one is found; otherwise create a new RTL and add it
+@@ -663,19 +660,14 @@
+
+ /*VARARGS2*/
+ static char *
+-attr_printf (va_alist)
+-     va_dcl
++attr_printf (int len, char *fmt, ...)
+ {
+   va_list p;
+-  register int len;
+-  register char *fmt;
+   register char *str;
+
+   /* Print the string into a temporary location.  */
+-  va_start (p);
+-  len = va_arg (p, int);
++  va_start (p, fmt);
+   str = (char *) alloca (len);
+-  fmt = va_arg (p, char *);
+   vsprintf (str, fmt, p);
+   va_end (p);
+
+diff -u -b -r g21k-3.3.4/g21k/gvarargs.h gcc/g21k/gvarargs.h
+--- g21k-3.3.4/g21k/gvarargs.h	1997-09-17 21:50:43.000000000 +0400
++++ gcc/g21k/gvarargs.h	2008-09-12 20:07:46.000000000 +0400
+@@ -1,7 +1,11 @@
+-#ifndef __GNUC__
+-/* Use the system's macros with the system's compiler.  */
+-#include <varargs.h>
++#if 1
++#include <stdarg.h>
++#define va_dcl
+ #else
++/*#ifndef __GNUC__*/
++/* Use the system's macros with the system's compiler.  */
++/*#include <varargs.h>*/
++/*#else*/
+ /* Record that this is varargs.h; this turns off stdarg.h.  */
+
+ #ifndef _VARARGS_H
+diff -u -b -r g21k-3.3.4/g21k/obstack.h gcc/g21k/obstack.h
+--- g21k-3.3.4/g21k/obstack.h	1997-09-17 21:50:48.000000000 +0400
++++ gcc/g21k/obstack.h	2008-09-12 21:43:29.000000000 +0400
+@@ -325,16 +325,17 @@
+ #define obstack_ptr_grow(OBSTACK,datum)					\
+ __extension__								\
+ ({ struct obstack *__o = (OBSTACK);					\
+-   ((__o->next_free + sizeof (void *) > __o->chunk_limit)		\
+-    ? (_obstack_newchunk (__o, sizeof (void *)), 0) : 0),		\
+-   *((void **)__o->next_free)++ = ((void *)datum);			\
++   if (__o->next_free + sizeof (void *) > __o->chunk_limit)		\
++     _obstack_newchunk (__o, sizeof (void *));				\
++   *((void **)__o->next_free) = ((void *)datum);			\
++   __o->next_free += sizeof(void*);					\
+    (void) 0; })
+
+ #define obstack_int_grow(OBSTACK,datum)					\
+ __extension__								\
+ ({ struct obstack *__o = (OBSTACK);					\
+-   ((__o->next_free + sizeof (int) > __o->chunk_limit)			\
+-    ? (_obstack_newchunk (__o, sizeof (int)), 0) : 0),			\
++   if (__o->next_free + sizeof (int) > __o->chunk_limit)		\
++     _obstack_newchunk (__o, sizeof (int));				\
+    *((int *)__o->next_free)++ = ((int)datum);				\
+    (void) 0; })
+
+diff -u -b -r g21k-3.3.4/g21k/output.h gcc/g21k/output.h
+--- g21k-3.3.4/g21k/output.h	1997-09-17 21:50:49.000000000 +0400
++++ gcc/g21k/output.h	2008-09-12 21:16:29.000000000 +0400
+@@ -24,7 +24,7 @@
+
+ /* Output a string of assembler code, substituting numbers, strings
+    and fixed syntactic prefixes.  */
+-extern void asm_fprintf ();
++extern void asm_fprintf (FILE *file, ...);
+
+ /* Print an integer constant expression in assembler syntax.
+    Addition and subtraction are the only arithmetic
+diff -u -b -r g21k-3.3.4/g21k/rtl.h gcc/g21k/rtl.h
+--- g21k-3.3.4/g21k/rtl.h	1998-09-13 13:21:57.000000000 +0400
++++ gcc/g21k/rtl.h	2008-09-12 21:08:58.000000000 +0400
+@@ -647,19 +647,9 @@
+
+ #define GEN_INT(N) gen_rtx (CONST_INT, VOIDmode, (N))
+
+-#if 0
+-/* We cannot define prototypes for the variable argument functions,
+-   since they have not been ANSI-fied, and an ANSI compiler would
+-   complain when compiling the definition of these functions.  */
+-
+ extern rtx gen_rtx			PROTO((enum rtx_code, enum machine_mode, ...));
+ extern rtvec gen_rtvec			PROTO((int, ...));
+
+-#else
+-extern rtx gen_rtx ();
+-extern rtvec gen_rtvec ();
+-#endif
+-
+ #ifdef BUFSIZ			/* stdio.h has been included */
+ extern rtx read_rtx			PROTO((FILE *));
+ #else
+diff -u -b -r g21k-3.3.4/g21k/tree.c gcc/g21k/tree.c
+--- g21k-3.3.4/g21k/tree.c	1997-09-17 21:50:57.000000000 +0400
++++ gcc/g21k/tree.c	2008-09-12 20:18:22.000000000 +0400
+@@ -2008,21 +2008,18 @@
+    Constants, decls, types and misc nodes cannot be.  */
+
+ tree
+-build (va_alist)
+-     va_dcl
++build (enum tree_code code, tree type, ...)
+ {
+   va_list p;
+-  enum tree_code code;
+   register tree t;
+   register int length;
+   register int i;
+
+-  va_start (p);
++  va_start (p, type);
+
+-  code = va_arg (p, enum tree_code);
+   t = make_node (code);
+   length = tree_code_length[(int) code];
+-  TREE_TYPE (t) = va_arg (p, tree);
++  TREE_TYPE (t) = type;
+
+   if (length == 2)
+     {
+@@ -2126,18 +2123,15 @@
+    or even garbage if their values do not matter.  */
+
+ tree
+-build_nt (va_alist)
+-     va_dcl
++build_nt (enum tree_code code, ...)
+ {
+   va_list p;
+-  register enum tree_code code;
+   register tree t;
+   register int length;
+   register int i;
+
+-  va_start (p);
++  va_start (p, code);
+
+-  code = va_arg (p, enum tree_code);
+   t = make_node (code);
+   length = tree_code_length[(int) code];
+
+@@ -2152,21 +2146,18 @@
+    on the temp_decl_obstack, regardless.  */
+
+ tree
+-build_parse_node (va_alist)
+-     va_dcl
++build_parse_node (enum tree_code code, ...)
+ {
+   register struct obstack *ambient_obstack = expression_obstack;
+   va_list p;
+-  register enum tree_code code;
+   register tree t;
+   register int length;
+   register int i;
+
+   expression_obstack = &temp_decl_obstack;
+
+-  va_start (p);
++  va_start (p, code);
+
+-  code = va_arg (p, enum tree_code);
+   t = make_node (code);
+   length = tree_code_length[(int) code];
+
+diff -u -b -r g21k-3.3.4/g21k/tree.h gcc/g21k/tree.h
+--- g21k-3.3.4/g21k/tree.h	1998-09-13 13:22:12.000000000 +0400
++++ gcc/g21k/tree.h	2008-09-12 20:35:30.000000000 +0400
+@@ -1059,19 +1059,9 @@
+ #define build_int_2(LO,HI)  \
+   build_int_2_wide ((HOST_WIDE_INT) (LO), (HOST_WIDE_INT) (HI))
+
+-#if 0
+-/* We cannot define prototypes for the variable argument functions,
+-   since they have not been ANSI-fied, and an ANSI compiler would
+-   complain when compiling the definition of these functions.  */
+-
+ extern tree build			PROTO((enum tree_code, tree, ...));
+ extern tree build_nt			PROTO((enum tree_code, ...));
+ extern tree build_parse_node		PROTO((enum tree_code, ...));
+-#else
+-extern tree build ();
+-extern tree build_nt ();
+-extern tree build_parse_node ();
+-#endif
+
+ extern tree build_int_2_wide		PROTO((HOST_WIDE_INT, HOST_WIDE_INT));
+ extern tree build_real			PROTO((tree, REAL_VALUE_TYPE));
+@@ -1483,5 +1473,5 @@
+
+ #ifdef ADI
+ #define GET_SEG_ATTR(D)   ((tree) DECL_LANG_SPECIFIC (D))
+-#define PUT_SEG_ATTR(D,S) ((tree) (DECL_LANG_SPECIFIC (D)) = (S))
++#define PUT_SEG_ATTR(D,S) ((DECL_LANG_SPECIFIC (D)) = (S))
+ #endif
+diff -u -b -r g21k-3.3.4/g21xx/config/21k/21k.h gcc/g21xx/config/21k/21k.h
+--- g21k-3.3.4/g21xx/config/21k/21k.h	1998-09-13 13:20:48.000000000 +0400
++++ gcc/g21xx/config/21k/21k.h	2008-09-12 19:47:44.000000000 +0400
+@@ -620,7 +620,7 @@
+ #endif /* ACH_PARSE */
+
+ #ifdef ACH_PARSE
+-#define ACH_SWITCH(x,y,z) { z, "-m"##x }
++#define ACH_SWITCH(x,y,z) { z, "-m"x }
+ #else /*  ACH_PARSE */
+ #define ACH_SWITCH(x,y,z) { x, y }
+ #endif /*  ACH_PARSE */
+@@ -829,13 +829,13 @@
+ #define USE_ADI_DSP            "ADI_DSP"
+
+ #ifndef __MSDOS__
+-#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE ## "/include"
+-#define CC1_LOCATION           DEFAULT_TARGET_MACHINE ## "/etc/"
+-#define LIB_LOCATION           DEFAULT_TARGET_MACHINE ## "/lib/"
++#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE "/include"
++#define CC1_LOCATION           DEFAULT_TARGET_MACHINE "/etc/"
++#define LIB_LOCATION           DEFAULT_TARGET_MACHINE "/lib/"
+ #else /* __MSDOS__ */
+-#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE ## "\\include"
+-#define CC1_LOCATION           DEFAULT_TARGET_MACHINE ## "\\etc\\"
+-#define LIB_LOCATION           DEFAULT_TARGET_MACHINE ## "\\lib\\"
++#define INCLUDE_FILES_LOCATION DEFAULT_TARGET_MACHINE "\\include"
++#define CC1_LOCATION           DEFAULT_TARGET_MACHINE "\\etc\\"
++#define LIB_LOCATION           DEFAULT_TARGET_MACHINE "\\lib\\"
+ #endif /* __MSDOS__ */
+
+ #define STANDARD_EXEC_PREFIX   0
+diff -u -b -r g21k-3.3.4/g21xx/config/i386/xm-linux.h gcc/g21xx/config/i386/xm-linux.h
+--- g21k-3.3.4/g21xx/config/i386/xm-linux.h	1998-08-23 01:06:24.000000000 +0400
++++ gcc/g21xx/config/i386/xm-linux.h	2008-09-12 20:32:22.000000000 +0400
+@@ -9,6 +9,8 @@
+ /*EK* removed: #include "xm-svr3.h" */
+
+ /*EK* new bits follows... */
++#include <stdlib.h>
++#include <string.h>
+
+ #define bcopy(src,dst,len) memcpy ((dst),(src),(len))
+ #define bzero(dst,len) memset ((dst),0,(len))
+@@ -24,6 +26,7 @@
+ #endif
+ #define HAVE_VPRINTF
+ #define HAVE_PUTENV
++#define HAVE_STRERROR
+
+ #ifndef SVR4
+ #define SVR4
+@@ -37,9 +40,9 @@
+
+ #undef BSTRING
+ #define BSTRING
+-#undef bcmp
+-#undef bcopy
+-#undef bzero
++/*#undef bcmp*/
++/*#undef bcopy*/
++/*#undef bzero*/
+ #undef index
+ #undef rindex
+
+diff -u -b -r g21k-3.3.4/g21xx/obstack.h gcc/g21xx/obstack.h
+--- g21k-3.3.4/g21xx/obstack.h	1997-09-17 21:50:48.000000000 +0400
++++ gcc/g21xx/obstack.h	2008-09-12 21:43:29.000000000 +0400
+@@ -325,16 +325,17 @@
+ #define obstack_ptr_grow(OBSTACK,datum)					\
+ __extension__								\
+ ({ struct obstack *__o = (OBSTACK);					\
+-   ((__o->next_free + sizeof (void *) > __o->chunk_limit)		\
+-    ? (_obstack_newchunk (__o, sizeof (void *)), 0) : 0),		\
+-   *((void **)__o->next_free)++ = ((void *)datum);			\
++   if (__o->next_free + sizeof (void *) > __o->chunk_limit)		\
++     _obstack_newchunk (__o, sizeof (void *));				\
++   *((void **)__o->next_free) = ((void *)datum);			\
++   __o->next_free += sizeof(void*);					\
+    (void) 0; })
+
+ #define obstack_int_grow(OBSTACK,datum)					\
+ __extension__								\
+ ({ struct obstack *__o = (OBSTACK);					\
+-   ((__o->next_free + sizeof (int) > __o->chunk_limit)			\
+-    ? (_obstack_newchunk (__o, sizeof (int)), 0) : 0),			\
++   if (__o->next_free + sizeof (int) > __o->chunk_limit)		\
++     _obstack_newchunk (__o, sizeof (int));				\
+    *((int *)__o->next_free)++ = ((int)datum);				\
+    (void) 0; })
+
+diff -u -b -r g21k-3.3.4/Makefile gcc/Makefile
+--- g21k-3.3.4/Makefile	1998-09-13 15:59:07.000000000 +0400
++++ gcc/Makefile	2008-09-12 19:35:03.000000000 +0400
+@@ -5,6 +5,10 @@
+
+ all:
+ 	@echo "Please read the file README first"
++	cd g21k ;\
++	./configure --target=21k --host=i686-unknown-linux ;\
++	make clean;\
++	make
+
+ which.host:
+ 	echo -n "HOST=" >which.host

@@ -24,7 +24,7 @@ extern void output_asm_insn ();
 
 /* Output a string of assembler code, substituting numbers, strings
    and fixed syntactic prefixes.  */
-extern void asm_fprintf ();
+extern void asm_fprintf (FILE *file, ...);
 
 /* Print an integer constant expression in assembler syntax.
    Addition and subtraction are the only arithmetic

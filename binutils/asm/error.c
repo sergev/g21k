@@ -7,6 +7,7 @@
 #include "error.h"
 #include <signal.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 static int assembler_errors = 0;
 static int warnings = 0;
@@ -166,7 +167,7 @@ void message( long error_type )
 	    while( ptr && *ptr++ == '\t' )
 	    {
 		   fputc( '\t', stderr );
-		   num_tabs++;          
+		   num_tabs++;
 	    }
 
 	    for( i = 0; i < strlen(lex_buff) - strlen(yytext) - num_tabs; ++i )
@@ -174,10 +175,10 @@ void message( long error_type )
 
 	    fputc( '^', stderr );
 	    for( i= 0; i < strlen(buf) + strlen(yytext) - ((strlen(buf) <= 1) ? 3 : 2); i++ )
-		 fputc( '-', stderr );    
+		 fputc( '-', stderr );
 	  }
 
-	fprintf( stderr, "\n\n\t" );    
+	fprintf( stderr, "\n\n\t" );
 #endif
       }
 ptr;
@@ -235,7 +236,7 @@ void user_warn( char *file, int line, char *error_string, ... )
 
     if( !warn_flag )
 	return;
-    
+
     va_start(optional, error_string);
     oa1 = va_arg( optional, char * );
     oa2 = va_arg( optional, char * );
@@ -383,7 +384,7 @@ void assembler_error( char *file, int line, char *error_string, ... )
 *     mkc     8/4/89        updated with va_arg handling               *
 ***********************************************************************/
 
-void fatal_assembler_error( char *file, int line, char *error_string, ... ) 
+void fatal_assembler_error( char *file, int line, char *error_string, ... )
 {
     char *oa1, *oa2, *oa3, *oa4, *oa5;
     va_list optional;
@@ -518,15 +519,15 @@ void asm_exit( int exit_code )
 	fclose( src_stream );
 
     if( duplicate_src_stream != NULL )
-	fclose( src_stream );
+	fclose( duplicate_src_stream );
 
     if( listing_file != NULL )
     {
 	fclose( listing_file );
 	if( exit_code == FATAL || check_if_errors() )
-	    unlink( list_name );        
+	    unlink( list_name );
     }
-     
+
     if( exit_code == FATAL )
 	unlink( obj_name );
 
@@ -539,4 +540,3 @@ void asm_exit( int exit_code )
     delete_temp_files();
     exit( exit_code );
 }
-
