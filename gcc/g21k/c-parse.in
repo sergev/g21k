@@ -30,7 +30,7 @@ ifobjc
 %expect 56
 end ifobjc
 ifc
-%expect 8
+%expect 10
 
 /* These are the 8 conflicts you should get in parse.output;
    the state numbers may vary if minor changes in the grammar are made.
@@ -448,21 +448,21 @@ unary_expr:
                 { $$ = build_unary_op (IMAGPART_EXPR, $3, 0); }
 
         | COMPLEX_CONS '(' cast_expr ',' cast_expr ')'
-                { 
+                {
 		  $$ = fold (build (COMPLEX_EXPR,
 				    build_complex_type (TREE_TYPE ($3)),
 				    fold ($3), fold ($5)));
 		}
         | COMPLEX_CONJ '(' cast_expr ')'
-                { 
+                {
 		  if (TREE_CODE (TREE_TYPE ($3)) == COMPLEX_TYPE)
-		    $$ = fold 
+		    $$ = fold
 		      (build (COMPLEX_EXPR,
 			      TREE_TYPE ($3),
 			      fold (build1 (REALPART_EXPR, TREE_TYPE (TREE_TYPE ($3)), $3)),
-			      fold (build1 (NEGATE_EXPR, 
+			      fold (build1 (NEGATE_EXPR,
 					    TREE_TYPE (TREE_TYPE ($3)),
-					    fold (build1 (IMAGPART_EXPR, 
+					    fold (build1 (IMAGPART_EXPR,
 							  TREE_TYPE (TREE_TYPE ($3)), $3))))));
 		  else
 		    {
@@ -1590,7 +1590,7 @@ stmt_or_label:
 stmt:
 	  compstmt
 		{ stmt_count++; }
-        | all_iter_stmt 
+        | all_iter_stmt
 	| expr ';'
 		{ stmt_count++;
 		  emit_line_note ($<filename>-1, $<lineno>0);
@@ -1663,7 +1663,7 @@ stmt:
 		{ $<lineno>7 = lineno;
 		  $<filename>$ = input_filename; }
 	  xexpr ')'
-		{ 
+		{
 		  /* Start the loop.  Doing this after parsing
 		     all the expressions ensures we will end the loop.  */
 		  expand_start_loop_continue_elsewhere (1);
@@ -1771,10 +1771,10 @@ all_iter_stmt:
 	;
 
 all_iter_stmt_simple:
-	  FOR '(' primary ')' 
+	  FOR '(' primary ')'
 	  {
 	    /* The value returned by this action is  */
-	    /*      1 if everything is OK */ 
+	    /*      1 if everything is OK */
 	    /*      0 in case of error or already bound iterator */
 
 	    $<itype>$ = 0;
@@ -1802,10 +1802,10 @@ all_iter_stmt_simple:
     for generality.  Fix it before turning it back on.
 
 all_iter_stmt_with_decl:
-	  FOR '(' ITERATOR pushlevel setspecs iterator_spec ')' 
+	  FOR '(' ITERATOR pushlevel setspecs iterator_spec ')'
 	  {
 */	    /* The value returned by this action is  */
-	    /*      1 if everything is OK */ 
+	    /*      1 if everything is OK */
 	    /*      0 in case of error or already bound iterator */
 /*
 	    iterator_for_loop_start ($6);
@@ -1816,7 +1816,7 @@ all_iter_stmt_with_decl:
 	    emit_line_note (input_filename, lineno);
 	    expand_end_bindings (getdecls (), 1, 0);
 	    $<ttype>$ = poplevel (1, 1, 0);
-	    pop_momentary ();	    
+	    pop_momentary ();
 	  }
 */
 
