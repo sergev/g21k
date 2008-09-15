@@ -1,0 +1,52 @@
+
+3.3.4PL2
+	Fixed a cc1 core dump situation in g21k/reload.c
+
+
+3.3.4PL1
+	Merged version 3.3.4 from AD.
+
+
+3.3.1PL3
+	Added the old and "safe" 21xx version to a seperate source tree.
+
+	Added a main Makefile.
+
+	Added support for various other host machines (m68k, vax etc), 
+	taken from the original GCC 2.3.3 distribution.
+
+	Identical files have been replaced by symbolic links in the 
+	interest of reducing the size of the distribution, as well as
+	being an aid for possible future integration.
+
+	Removed some stuff relating to C++ plus some orig-files in the
+	interest of decreasing the size of the distribution.
+
+
+3.3.1PL2
+	A couple of adjustments for the glibc was required.
+
+	A man-page for g21k has been prepared.
+
+	The distribution was made by "make realclean".
+
+
+3.3.1PL1
+	A few small changes has been made, as indicated below. The original
+	files have been left intact with an .orig suffix, and most changes has
+	been marked by *EK*.
+
+	A number of fixes concerning the Linux host configuration.
+
+	The adi_dsp tree contains some sample 21k architecture files -
+	an essential part of g21k.
+
+	Introduced g21k/patchlevel.h (PLx).
+
+	In the interest of keeping the distribution small, files for
+	targetting other processors than the AD DSPs has been removed.
+	They serve no useful purpose here, anyway. Similarily, the original
+	changelogs for GCC 2.3.3 has been removed - they were unchanged
+	from the GCC distribution - and archeologists will find them there.
+
+

@@ -1,0 +1,65 @@
+INSTALL=cp
+RANLIB = :
+RANLIB_TEST = false
+CROSS_TO_HOST_CC = g386 -fno-builtin
+CCLIBFLAGS =
+X_CFLAGS = -DMSDOS -D__MSDOS__ -D__GNUDOS__ -D__WINNT__ -O6
+#
+#  It seems that the built in alloca is not working
+#
+ALLOCA=alloca.o
+exe=.exe
+dexe=
+
+# Build the driver using the MSC/Oasys cross compiler.
+
+.SUFFIXES:.obj
+
+# -F specifies stack size (in hex)
+# -Os means optimize for space
+# -G2 means generate 286 code
+
+CLFLAGS= -DMSC -F 2000 -Os -G2 -D__MSDOS__ -DMSDOS
+
+TOOLS=/nfs/thor3/tools/oasys/sun4/bin
+MSCLIB=/nfs/thor3/tools/oasys/sun4/lib
+MSCINCLUDE=/nfs/thor3/tools/oasys/sun4/include
+
+CL=  MSCINCLUDE=$(MSCINCLUDE) $(TOOLS)/cl86 $(CLFLAGS)
+CLK= MSCLIB=$(MSCLIB) $(TOOLS)/cl86 $(CLFLAGS) -Fe$@
+
+CLLIBS = obstack.obj
+
+DRIVER_OBJS = $(GCC_OBJS:.o=.obj)
+
+$(DRIVER).exe: $(DRIVER).obj $(DRIVER_OBJS) $(CLLIBS)
+	$(CLK) $(DRIVER).obj $(DRIVER_OBJS) $(CLLIBS)
+
+$(DRIVER)-lite.exe: $(DRIVER)-lite.obj $(DRIVER_OBJS) $(CLLIBS)
+	$(CLK) $(DRIVER)-lite.obj $(DRIVER_OBJS) $(CLLIBS)
+
+$(DRIVER).obj: gcc.c tm.h gvarargs.h obstack.h
+	$(CL) $(ALL_CPPFLAGS) $(INCLUDES) -c -Fo$@ \
+	-DDEFAULT_TARGET_MACHINE=\"$(target)\" \
+	`echo $(srcdir)/gcc.c | sed 's,^\./,,'`
+
+$(DRIVER)-lite.obj: gcc.c tm.h gvarargs.h obstack.h
+	$(CL) $(ALL_CPPFLAGS) $(INCLUDES) -c -Fo$@ \
+	-DDEFAULT_TARGET_MACHINE=\"$(target)\" \
+	-DCRIPPLE \
+	`echo $(srcdir)/gcc.c | sed 's,^\./,,'`
+
+.c.obj:
+	$(CL) $(INCLUDES) -I. -c $<
+
+%.obj : $(LIB21K_SUPPORT)/%.c
+	cp $< $*.c
+	$(CL) $(INCLUDES) -I. -I$(LIB21K_INC) -c $*.c
+	rm -f $*.c
+
+cpp.exe: cccp.exe cccp
+	-rm -f cpp.exe
+	ln cccp.exe cpp.exe
+
+cc1.exe: cc1
+

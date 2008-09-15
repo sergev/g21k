@@ -1,0 +1,110 @@
+
+This is the binary utilities (assembler, linker) based on the debugger 
+and related sources published by Analog Devices for their 21k/Sharc DSP,
+with adaptations and patches for Unices. The original source code can be
+found at:
+
+    ftp://ftp.analog.com/pub/dsp/dev_tool/21k_tool/gnu_src/sharcdebug.zip
+
+
+IMPORTANT NOTES
+
+This tarball only contains those parts of the source code required for the
+binutils. The debugger/emulator requires much more work. Please refer to
+the original AD zip file if a full set of files is required.
+
+Although these tools are from the stable AD release, but have been patched
+for use with Unices.
+
+The source code as provided is not very portable. It has been tested on 
+Linux and Intel x86, and may well work on other 32-bit CPUs.
+On other architectures, further work is probably required. It will not
+work on 64-bit (Alpha), for instance.
+
+Major changes compared to the original AD release:
+
+    PL4
+	Fixes from Jouni Ryno <jouni.ryno@fmi.fi> and Gregory
+	McGarry <g.mcgarry@ieee.org> re. packing of structures used
+	for external file formats.
+
+	Fixes from Jouni Ryno <jouni.ryno@fmi.fi> re. multiple 
+	file closes and related memory corruption.
+
+	Fix based on observation by Jouni Ryno <jouni.ryno@fmi.fi> re.
+	a bug in the assembler preprocessor redefinition warning
+	mechanism.
+
+    PL3
+	Added GPL message to the copyright statement.
+
+	Introduced rudimentary man pages.
+
+	Made RPM package.
+
+    PL2
+	Introduced autoconf - should handle endianness and more.
+
+	Cleaned up fix for GCC structure sizeof by specifying packed
+	structures.
+
+    PL1
+	Made makefiles, since there were noen suitable for Unices
+
+	Introduced -DCSCAPE for Cscape GUI on sun (which may be pretty
+	obsolete, anyway). In addition, we already have -DWIN31 for
+	Windows 3.1.
+
+	Many thanks to Peter Berg <root@line1.slipneu.tu-freiberg.de> for
+	doing the debugging of the COFF structure sizeof problem with
+	gcc. My current fix for this problem is ugly as sin, but should
+	work.
+
+	Moved local time string stuff to util.c
+
+	Added guard and fatal error traps in link/output.c
+
+	Implemented reasonable default for ADI_DSP environment variable,
+	so that we normally don't have to set it in our environment. It can
+	explicitly be set to "" if this feature is not desired.
+
+	Cleaned up support for various architectures somewhat.
+
+
+COPYRIGHT
+
+These source files have been licensed under the GPL in accordance to an 
+agreement between Analog Devices and the Free Software Foundation, whereby 
+they are made available under the Gnu Public License.
+
+    Copyright (c) 1991-1997 Analog Devices, Inc.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+
+COMMENTS
+
+Please send comments, patches etc to:
+
+    bug-g21@kvaleberg.no
+
+
+INSTALLATION
+
+To install, try:
+
+    ./configure
+    make dep
+    make
+    su
+    make install
+
+

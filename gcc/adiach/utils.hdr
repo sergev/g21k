@@ -1,0 +1,64 @@
+\input texinfo			@c -*- texinfo -*-
+@set VERSION 1.0
+
+@ifinfo
+@format
+START-INFO-DIR-ENTRY
+* General Utilities Library: (adilib).        An Interface Library
+END-INFO-DIR-ENTRY
+@end format
+@end ifinfo
+
+@setfilename utils.info
+@settitle Utilities Library
+@setchapternewpage odd
+@setchapternewpage odd
+@finalout
+@titlepage
+@title Utilities Library
+@subtitle The @sc{adi} General Utilities Library
+@subtitle Managing User Configurable Paramaters.
+@subtitle Version 1.0
+@subtitle December 1995
+@author Marc M. Hoffman
+@author Analog Devices Inc.
+@page
+
+@vskip 0pt plus 1filll
+Copyright @copyright{} 1995 Analog Devices Inc.
+
+All rights reserved.
+
+@end titlepage
+
+@ignore
+@comment %**start of header
+@comment %W% %G% %R%
+@setfilename utils.info
+@settitle Utilities Library
+@setchapternewpage odd
+@comment @smallbook
+@comment %**end of header
+
+@titlepage
+@sp 4
+@center @titlefont{Generic Utilities Library}
+@sp 2
+@center Marc Hoffman
+@sp 2
+@center @today
+@center December, 1995
+@sp 2
+@center Analog Devices, Signal Processing Division
+@center Three Technology Way
+@center	P.O. BOX 9106
+@center	Norwood Ma. 02062
+@center	marc.hoffman@@analog.com
+@center	(617)-461-3667
+@end titlepage
+
+@node Top,,,
+@top
+@end ignore
+
+@node Overview

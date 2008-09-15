@@ -1,0 +1,135 @@
+#IF YOU WANT THAT STATS STUFF -DCOMPUTE_STATS
+
+X_DEBUG_OBJS =  debug-trace.$o stat-md.$o debug-prints.$o debug-tree.$o
+DEBUG_OBJS = 
+#EXTRA_OBJS = $(X_DEBUG_OBJS) atof.$o atfile.$o
+EXTRA_OBJS = $(X_DEBUG_OBJS) atfile.$o
+CLIB=-lm
+CC = gcc
+CC_OBJ_OUT = $(CC_OUT)
+
+blank=
+
+dexe=${exe}
+
+EXTRA_OBJS =   $(X_DEBUG_OBJS) atfile.$o
+EXTRA_CPPOBJS = atfile.$o
+LANGUAGES = c
+#*EK* added g21k-lite here for make clean to work:
+GCC_PASSES=g21k${exe} cc1 cpp g21k-lite${exe} $(EXTRA_PASSES)
+#*EK* so that we loose this file on make clean:
+EXTRA_PARTS=   21klibs.h
+ADISUPPORT = $(srcdir)/../adiach
+
+DRIVER=g21k
+
+#*EK* is this used?:
+GCC_FOR_TARGET = ./g21k -B./
+
+# exe isn't defined until later (in the host fragment), so we can't use it
+# in dependency lists here (only in the command parts).  So we recurse.  Sigh.
+
+ALL=all.adi
+INSTALL_TARGET=install.adi
+
+#*EK* make a default ADI_DSP location:
+ADI_DSP=$(prefix)
+etcdir=$(ADI_DSP)/$(target)/etc
+
+install.adi:
+	$(MAKE) exe=${exe} dexe=${dexe} o=$o LIBDEPS="${LIBDEPS}" install.21k
+
+# *EK* was: install.21k: $(GCC_PASSES)
+install.21k: all.21k
+	-parent=`echo $(bindir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(bindir) ] ; then true ; else mkdir -p $(bindir) ; fi
+	-parent=`echo $(etcdir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(etcdir) ] ; then true ; else mkdir -p $(etcdir) ; fi
+	$(INSTALL_DATA) g21k${exe} $(bindir)/g21k${exe}
+	$(INSTALL_DATA) g21k-lite${exe} $(bindir)/g21k-lite${exe}
+	$(INSTALL_DATA) cc1${exe} $(etcdir)/cc1${exe}
+	$(INSTALL_DATA) cccp${exe} $(etcdir)/cpp${exe}
+
+all.adi:
+	$(MAKE) exe=${exe} dexe=${dexe} o=$o LIBDEPS="${LIBDEPS}" all.21k
+
+all.21k: g21k${exe} cc1${exe} cpp${exe} g21k-lite${exe}
+
+LIB21K_SUPPORT  = $(ADISUPPORT)
+LIB21K_INC      = $(ADISUPPORT)
+
+GCC_OBJS = version.$o gcc_ach.$o achparse.$o atfile.$o
+
+EXTRA_CPPOBJS = atfile.$o
+
+%.$o : $(LIB21K_SUPPORT)/%.c
+	$(CC) -c $(ALL_CFLAGS) $(INCLUDES) -I$(LIB21K_INC) $< $(CC_OBJ_OUT)
+
+# ADI common files - from [...]/xsoft/21k/lib
+
+# These are .o/.obj instead of .$o because for some hosts (i386go32) we use
+# a hybrid, and may actually need to build both .o and .obj.
+
+gcc_ach.o gcc_ach.obj : \
+	tm.h $(LIB21K_SUPPORT)/gcc_ach.c $(LIB21K_INC)/app.h \
+	$(LIB21K_INC)/achparse.h $(LIB21K_INC)/gcc_ach.h \
+	$(LIB21K_INC)/atfile.h $(LIB21K_INC)/util.h 
+
+achparse.o achparse.obj : \
+	$(LIB21K_SUPPORT)/achparse.c $(LIB21K_INC)/app.h \
+	$(LIB21K_INC)/util.h $(LIB21K_INC)/achparse.h
+
+atfile.o atfile.obj : $(LIB21K_SUPPORT)/atfile.c $(LIB21K_INC)/atfile.h
+
+util.$o : $(LIB21K_SUPPORT)/util.c $(LIB21K_INC)/app.h $(LIB21K_INC)/util.h
+
+atof.$o : atof.c
+
+$(DRIVER).$o: gcc.c tm.h gvarargs.h obstack.h
+	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -I$(LIB21K_INC) \
+	-DADI_DSP=\"$(ADI_DSP)\" \
+	-DDEFAULT_TARGET_MACHINE=\"$(target)\" \
+	`echo $(srcdir)/gcc.c | sed 's,^\./,,'` \
+	-c $(CC_OBJ_OUT)
+
+$(DRIVER)${dexe}: $(DRIVER).$o $(GCC_OBJS) $(LIBDEPS)
+	$(CC) $(ALL_CFLAGS) $(LDFLAGS) $(CC_OUT) $(DRIVER).$o $(GCC_OBJS) $(LIBS)
+	if [ "${exe}" != "" -a "${dexe}" != "${exe}" ]; then rm -f $@.exe ; fi
+
+$(DRIVER)-lite.$o: gcc.c tm.h gvarargs.h obstack.h
+	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -I$(LIB21K_INC) \
+	-DADI_DSP=\"$(ADI_DSP)\" \
+	-DDEFAULT_TARGET_MACHINE=\"$(target)\" \
+	-DCRIPPLE \
+	`echo $(srcdir)/gcc.c | sed 's,^\./,,'` \
+	-c $(CC_OBJ_OUT)
+
+$(DRIVER)-lite: $(DRIVER)-lite.$o $(GCC_OBJS) $(LIBDEPS)
+	$(CC) $(ALL_CFLAGS) $(LDFLAGS) $(CC_OUT) $(DRIVER)-lite.$o $(GCC_OBJS) $(LIBS)
+	if [ "${exe}" != "" -a "${dexe}" != "${exe}" ]; then rm -f $@.exe ; fi
+
+#
+# Rule to build perfect hash for special function names
+#
+# flags mean
+#       -p      return pointer to struct
+#       -j1     collision jump
+#       -i 1    initial value for assocate values array
+#       -g      assume gnu compiler
+#       -o      reorder the keywords for faster generation
+#       -t      user-defined type present
+#       -N name lookup function name
+aux-output.$o : 21klibs.h
+#       -D      handle duplicate hashes
+#       
+21klibs.h : ${srcdir}/config/${target}/21klibs.gperf
+	gperf -p -j1 -i 1 -g -o -t -N is_library_function -k '1-4,$$' \
+	-D ${srcdir}/config/${target}/21klibs.gperf > $@
+
+#
+# Add extra dependency
+#
+aux-output.$o : 21klibs.h
+

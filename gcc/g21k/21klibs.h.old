@@ -1,0 +1,320 @@
+/* C code produced by gperf version 2.5 (GNU C++ version) */
+/* Command-line: gperf -p -j1 -i 1 -g -o -t -N is_library_function -k 1-4,$ -D ./config/21k/21klibs.gperf  */
+struct lib_func {char *name; int num_pptrs; int dountils; enum call_modifier_tag modifier,fname;};
+/*
+ * function	#DM/PM	-HW	PM/DM modifier	FLOAT/DOUBLE
+ *		ptrs	loops
+ */;
+
+#define TOTAL_KEYWORDS 177
+#define MIN_WORD_LENGTH 3
+#define MAX_WORD_LENGTH 14
+#define MIN_HASH_VALUE 10
+#define MAX_HASH_VALUE 507
+/* maximum key range = 498, duplicates = 1 */
+
+#ifdef __GNUC__
+inline
+#endif
+static unsigned int
+hash (str, len)
+     register char *str;
+     register int unsigned len;
+{
+  static unsigned short asso_values[] =
+    {
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508,   1,   1,
+      25, 508,  32, 508,  17, 508,  60, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508, 508, 508, 508, 508, 508,
+     508, 508, 508, 508, 508,  32, 508,   1,  48,   5,
+     111,   8, 128,  35,  93,   1,   1,   6,  72, 133,
+     147,   2, 111,  41,  12,  44,   1,  13,   3,   3,
+       9,   7,   2, 508, 508, 508, 508, 508,
+    };
+  register int hval = len;
+
+  switch (hval)
+    {
+      default:
+      case 4:
+        hval += asso_values[str[3]];
+      case 3:
+        hval += asso_values[str[2]];
+      case 2:
+        hval += asso_values[str[1]];
+      case 1:
+        hval += asso_values[str[0]];
+        break;
+    }
+  return hval + asso_values[str[len - 1]];
+}
+
+#ifdef __GNUC__
+inline
+#endif
+struct lib_func *
+is_library_function (str, len)
+     register char *str;
+     register unsigned int len;
+{
+  static struct lib_func wordlist[] =
+    {
+      {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, {"",}, 
+      {"",}, 
+      {"atoi", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"cot", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"exit", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"texit", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"atexit", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"iir", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"var", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"autocorr", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xiir", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xvar", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xautocorr", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xcrosscorr", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"getc", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"getchar", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strcat", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"strtok", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"raise", 		0,	-1,	MODIFY_BY_020,	MODIFY_BY_NILL,},
+      {"strcpy", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"zero_cross", 	1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"strchr", 		1,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"crosscorr", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strerror", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xzero_cross", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strrchr", 	1,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"localeconv", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"a_compress", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"tolower", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cos", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"acos", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"sqrt", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"realloc", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"clearerr", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"set_alloc_type", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"sgu", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"rsqrt", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"log10", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"autocoh", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xsgu", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strstr", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"div", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"pow", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"xautocoh", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"isalpha", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xcrosscoh", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strtol", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"strtoul", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"islower", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"putc", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"abs", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strcoll", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"setlocale", 	1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"matinv", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"toupper", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"log", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"putchar", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xabs", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"atol", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"timer_set", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xmatinv", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"fir", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xmatscalmult", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"calloc", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"ceil", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"crosscoh", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"isdigit", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xfir", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"interrupt", 	0,	-1,	MODIFY_BY_020,	MODIFY_BY_NILL,},
+      {"free", 		1,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"a_expand", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"setjmp", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"isxdigit", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strtod", 		2,	-1,	MODIFY_DD,	MODIFY_F,},
+      {"isprint", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"ispunct", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"ferror", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strcmp", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"atan2", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"strpbrk", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"fgetc", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"acosf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"isupper", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"matscalmult", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"isgraph", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strtodf", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"ldiv", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xmatsub", 	3,	-1,	MODIFY_DDD,	MODIFY_BY_NILL,},
+      {"idle", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strxfrm", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"strncat", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"labs", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"isspace", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strcspn", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"xbiquad", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strncpy", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"ceilf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"biquad", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"floor", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"xmatmul", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"sqrtf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"matsub", 		3,	-1,	MODIFY_DDD,	MODIFY_BY_NILL,},
+      {"system", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"rms", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"mu_compress", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cosh", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"exp", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"rsqrtf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"log10f", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xrms", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"matadd", 		3,	-1,	MODIFY_DDD,	MODIFY_BY_NILL,},
+      {"strspn", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"isalnum", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"xmatadd", 	3,	-1,	MODIFY_DDD,	MODIFY_BY_NILL,},
+      {"cotf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"fabs", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"frexp", 		1,	-1,	MODIFY_FD,	MODIFY_F,},
+      {"iscntrl", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"coshf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"timer_off", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"histogram", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"strlen", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"atanf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"atan2f", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft16", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft256", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft4096", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft65536", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"malloc", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"frexpf", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"memcpy", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"cfft32", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft512", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft8192", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"memchr", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"timer_on", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"tan", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"cfft64", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"atan", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"cfft1024", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft16384", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"signal", 		0,	-1,	MODIFY_BY_020,	MODIFY_BY_NILL,},
+      {"mu_expand", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cosf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"ldexp", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"srand", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"strncmp", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"ifft8", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"memset", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"asinf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft8", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft128", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft2048", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"cfft32768", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"ldexpf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"floorf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"tanh", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"sin", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"asin", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"matmul", 		3,	-1,	MODIFY_DDD,	MODIFY_BY_NILL,},
+      {"fabsf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"logf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"longjmp", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"tanhf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"powf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"sinh", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"rand", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"expf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"memcmp", 		2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"feof", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"tanf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"poll_flag_in", 	0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"sinhf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"memmove", 	2,	-1,	MODIFY_DD,	MODIFY_BY_NILL,},
+      {"sinf", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_BY_NILL,},
+      {"fmod", 		0,	-1,	MODIFY_BY_NILL,	MODIFY_F,},
+      {"modf", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,},
+      {"fmodf", 		0,	-1,	MODIFY_BY_NILL, MODIFY_BY_NILL,	/* hashes same as modff */},
+      {"modff", 		1,	-1,	MODIFY_D,	MODIFY_BY_NILL,		/* Hashes same as fmodf */},
+    };
+
+  static short lookup[] =
+    {
+        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  10,  -1,  11,  -1,
+        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  12,  13,  14,  -1,
+        -1,  15,  -1,  16,  -1,  -1,  -1,  -1,  -1,  17,  -1,  18,  -1,  19,
+        -1,  -1,  -1,  20,  -1,  -1,  -1,  -1,  21,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  22,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  23,  24,
+        25,  26,  -1,  -1,  -1,  27,  -1,  -1,  28,  -1,  29,  -1,  -1,  -1,
+        30,  31,  32,  -1,  33,  -1,  -1,  -1,  -1,  34,  35,  -1,  36,  -1,
+        37,  -1,  38,  -1,  -1,  39,  -1,  40,  41,  42,  43,  -1,  -1,  -1,
+        -1,  -1,  -1,  44,  45,  46,  47,  48,  -1,  49,  50,  -1,  -1,  51,
+        52,  -1,  -1,  -1,  53,  -1,  -1,  -1,  -1,  -1,  54,  55,  56,  57,
+        58,  59,  60,  -1,  -1,  61,  62,  63,  -1,  64,  65,  -1,  66,  67,
+        68,  -1,  69,  70,  -1,  -1,  -1,  71,  72,  -1,  73,  74,  75,  76,
+        77,  78,  -1,  79,  -1,  -1,  80,  81,  82,  83,  84,  85,  86,  87,
+        88,  -1,  -1,  89,  -1,  -1,  90,  -1,  -1,  91,  92,  93,  94,  -1,
+        -1,  -1,  -1,  95,  -1,  -1,  -1,  -1,  96,  -1,  97,  -1,  -1,  -1,
+        -1,  -1,  98,  99,  -1, 100, 101, 102, 103, 104, 105, 106,  -1, 107,
+        -1,  -1,  -1,  -1,  -1,  -1,  -1, 108,  -1, 109,  -1, 110, 111,  -1,
+       112,  -1,  -1, 113, 114, 115, 116,  -1, 117,  -1,  -1,  -1,  -1,  -1,
+        -1, 118, 119,  -1,  -1,  -1, 120,  -1,  -1,  -1, 121,  -1,  -1,  -1,
+        -1,  -1, 122, 123,  -1,  -1,  -1, 124,  -1,  -1, 125, 126,  -1,  -1,
+       127, 128, 129, 130, 131, 132, 133, 134, 135, 136,  -1, 137, 138, 139,
+       140, 141,  -1, 142, 143, 144, 145, 146, 147, 148,  -1, 149, 150,  -1,
+        -1,  -1,  -1, 151,  -1,  -1,  -1,  -1, 152,  -1,  -1,  -1, 153,  -1,
+       154, 155,  -1, 156, 157, 158,  -1, 159, 160, 161,  -1,  -1, 162,  -1,
+        -1,  -1, 163, 164,  -1,  -1, 165,  -1, 166,  -1, 167,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1, 168,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1,  -1, 169,  -1,  -1,  -1,  -1, 170, 171, 172,  -1,
+        -1,  -1,  -1,  -1, 173,  -1,  -1,  -1, 174,  -1, 175,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1, 176,  -1, 177,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  -1, 178,  -1,  -1,  -1,  -1,  -1,  -1, 179,  -1, 180,  -1,
+        -1,  -1, 181,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1, 182,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, 183,
+        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+      -185,  -2, 184,-510,
+    };
+
+  if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
+    {
+      register int key = hash (str, len);
+
+      if (key <= MAX_HASH_VALUE && key >= 0)
+        {
+          register int index = lookup[key];
+
+          if (index >= 0 && index < MAX_HASH_VALUE)
+            {
+              register char *s = wordlist[index].name;
+
+              if (*s == *str && !strcmp (str + 1, s + 1))
+                return &wordlist[index];
+            }
+          else if (index < 0 && index >= -MAX_HASH_VALUE)
+            return 0;
+          else
+            {
+              register int offset = key + index + (index > 0 ? -MAX_HASH_VALUE : MAX_HASH_VALUE);
+              register struct lib_func *base = &wordlist[-lookup[offset]];
+              register struct lib_func *ptr = base + -lookup[offset + 1];
+
+              while (--ptr >= base)
+                if (*str == *ptr->name && !strcmp (str + 1, ptr->name + 1))
+                  return ptr;
+            }
+        }
+    }
+  return 0;
+}

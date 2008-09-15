@@ -1,0 +1,238 @@
+/* -*- C -*-
+	This is the set of BERT CODES hey what the heck does ERNIE think
+	
+	#if 0 wraps the pre_existing entries the grammar resolves these.
+*/
+#ifdef DEFBERT9
+/* Page-6 verbatim */
+/*      const YY  CC  C0  name */
+#if 0
+DEFBERT9 (0000, 00, 00, 00, pre_existing)
+#endif
+DEFBERT9 (0x0001, 00, 00, 01, bit0)
+DEFBERT9 (0x0002, 00, 01, 01, bit1)
+DEFBERT9 (0x0004, 00, 02, 01, bit2)
+DEFBERT9 (0x0008, 00, 03, 01, bit3)
+DEFBERT9 (0x0010, 01, 00, 01, bit4)
+DEFBERT9 (0x0020, 01, 01, 01, bit5)
+DEFBERT9 (0x0040, 01, 02, 01, bit6)
+DEFBERT9 (0x0080, 01, 03, 01, bit7)
+DEFBERT9 (0x0100, 02, 00, 01, bit8)
+DEFBERT9 (0x0200, 02, 01, 01, bit9)
+DEFBERT9 (0x0400, 02, 02, 01, bit10)
+DEFBERT9 (0x0800, 02, 03, 01, bit11)
+DEFBERT9 (0x1000, 03, 00, 01, bit12)
+DEFBERT9 (0x2000, 03, 01, 01, bit13)
+DEFBERT9 (0x4000, 03, 02, 01, bit14)
+DEFBERT9 (0x8000, 03, 03, 01, bit15)
+DEFBERT9 (0xFFFE, 00, 00, 03, nbit0)
+DEFBERT9 (0xFFFD, 00, 01, 03, nbit1)
+DEFBERT9 (0xFFFB, 00, 02, 03, nbit2)
+DEFBERT9 (0xFFF7, 00, 03, 03, nbit3)
+DEFBERT9 (0xFFEF, 01, 00, 03, nbit4)
+DEFBERT9 (0xFFDF, 01, 01, 03, nbit5)
+DEFBERT9 (0xFFBF, 01, 02, 03, nbit6)
+DEFBERT9 (0xFF7F, 01, 03, 03, nbit7)
+DEFBERT9 (0xFEFF, 02, 00, 03, nbit8)
+DEFBERT9 (0xFDFF, 02, 01, 03, nbit9)
+DEFBERT9 (0xFBFF, 02, 02, 03, nbit10)
+DEFBERT9 (0xF7FF, 02, 03, 03, nbit11)
+DEFBERT9 (0xEFFF, 03, 00, 03, nbit12)
+DEFBERT9 (0xDFFF, 03, 01, 03, nbit13)
+DEFBERT9 (0xBFFF, 03, 02, 03, nbit14)
+DEFBERT9 (0x7FFF, 03, 03, 03, nbit15)
+#endif
+
+#ifdef DEFBERTXY
+
+/* Page-7 verbatim */
+#if 0
+DEFBERTXY (0,     pre_existing)
+#endif
+DEFBERTXY (1,     bit0)
+DEFBERTXY (2,     bit1)
+DEFBERTXY (4,     bit2)
+DEFBERTXY (8,     bit3)
+DEFBERTXY (16,    bit4)
+DEFBERTXY (32,    bit5)
+DEFBERTXY (64,    bit6)
+DEFBERTXY (128,   bit7)
+DEFBERTXY (256,   bit8)
+DEFBERTXY (512,   bit9)
+DEFBERTXY (1024,  bit10)
+DEFBERTXY (2048,  bit11)
+DEFBERTXY (4096,  bit12)
+DEFBERTXY (8192,  bit13)
+DEFBERTXY (16384, bit14)
+DEFBERTXY (32768, bit15)
+DEFBERTXY (-2,    nbit0)
+DEFBERTXY (-3,    nbit1)
+DEFBERTXY (-5,    nbit2)
+DEFBERTXY (-9,    nbit3)
+DEFBERTXY (-17,   nbit4)
+DEFBERTXY (-33,   nbit5)
+DEFBERTXY (-65,   nbit6)
+DEFBERTXY (-129,  nbit7)
+DEFBERTXY (-257,  nbit8)
+DEFBERTXY (-513,  nbit9)
+DEFBERTXY (-1025, nbit10)
+DEFBERTXY (-2049, nbit11)
+DEFBERTXY (-4097, nbit12)
+DEFBERTXY (-8193, nbit13)
+DEFBERTXY (-16385,nbit14)
+DEFBERTXY (32767, nbit15)
+
+#endif
+/* .c2.2.2.3	Source code for new ALU Bit operations
+   
+   
+   	The instructions described in the previous section can be used
+   to code bit test, set, clear, and toggle operations by careful
+   choice of constant and ALU function. In order to make the user's
+   code easier to understand, the source code for these operations can
+   also be specified as:
+   
+   					AR	
+   		[IF condition]	 or 	=  TSTBIT n of xop;
+   					AF
+   
+   					AR	
+   		[IF condition]	 or 	=  SETBIT n of xop;
+   					AF
+   
+   					AR	
+   		[IF condition]	 or 	=  CLRBIT n of xop;
+   					AF
+   
+   					AR	
+   		[IF condition]	 or 	=  TGLBIT n of xop;
+   					AF
+   
+   	These source code instructions specify operations as shown in the following table:
+   
+   Source
+   operation	ALU
+   function	
+   constant
+   TSTBIT	AND	Bit n
+   SETBIT	OR	Bit n
+   CLRBIT	AND	! Bit n
+   TGLBIT	XOR	Bit n */
+
+
+/*
+   .c2.2.2.4	Source code for new ALU PASS operations
+   
+   
+   	The ALU PASS operation supports a number of new values. The instruction source code is as shown:
+   
+   					AR
+   		[IF condition] 	 or	 =  PASS value;
+   					AF
+   
+   	where value is taken from the next table. 
+   
+   	Derivation			Derivation	
+   Value	AMF	opcode	Value	AMF	opcode */
+
+#ifdef DEFBERTPASS
+
+#undef _Y
+#undef _MINUS_Y
+#undef _Y_PLUS_ONE
+#undef _Y_MINUS_ONE
+
+#define	_Y			0x10L
+#define	_MINUS_Y		0x15L
+#define	_Y_PLUS_ONE		0x11L
+#define	_Y_MINUS_ONE		0x18L
+
+
+DEFBERTPASS (2,		_Y,		bit1)
+DEFBERTPASS (-2,	_MINUS_Y,	bit1)
+DEFBERTPASS (3,		_Y_PLUS_ONE,	bit1)
+DEFBERTPASS (-3,	_Y,		nbit1)
+DEFBERTPASS (4,		_Y,		bit2)
+DEFBERTPASS (-4,	_MINUS_Y,	bit2)
+DEFBERTPASS (5,		_Y_PLUS_ONE,	bit2)
+DEFBERTPASS (-5,	_Y,		nbit2)
+DEFBERTPASS (-6,	_Y_MINUS_ONE,	nbit2)
+DEFBERTPASS (7,		_Y_MINUS_ONE,	bit3)
+DEFBERTPASS (8,		_Y,		bit3)
+DEFBERTPASS (-8,	_MINUS_Y,	bit3)
+DEFBERTPASS (9,		_Y_PLUS_ONE,	bit3)
+DEFBERTPASS (-9,	_Y,		nbit3)
+DEFBERTPASS (-10,	_Y_MINUS_ONE,	nbit3)
+DEFBERTPASS (15,	_Y_MINUS_ONE,	bit4)
+DEFBERTPASS (16,	_Y,		bit4)
+DEFBERTPASS (-16,       _MINUS_Y,	bit4)
+DEFBERTPASS (17,	_Y_PLUS_ONE,	bit4)
+DEFBERTPASS (-17,	_Y,		nbit4)
+DEFBERTPASS (-18,	_Y_MINUS_ONE,	nbit4)
+DEFBERTPASS (31,	_Y_MINUS_ONE,	bit5)
+DEFBERTPASS (32,	_Y,		bit5)
+DEFBERTPASS (-32,	_MINUS_Y,	bit5)
+DEFBERTPASS (33,	_Y_PLUS_ONE,	bit5)
+DEFBERTPASS (-33,	_Y,		nbit5)
+DEFBERTPASS (-34,	_Y_MINUS_ONE,	nbit5)
+DEFBERTPASS (63,	_Y_MINUS_ONE,	bit6)
+DEFBERTPASS (64,	_Y,		bit6)
+DEFBERTPASS (-64,	_MINUS_Y,	bit6)
+DEFBERTPASS (65,	_Y_PLUS_ONE,	bit6)
+DEFBERTPASS (-65,	_Y,		nbit6)
+DEFBERTPASS (-66,	_Y_MINUS_ONE,	nbit6)
+DEFBERTPASS (127,	_Y_MINUS_ONE,	bit7)
+DEFBERTPASS (128,	_Y,		bit7)
+DEFBERTPASS (-128,	_MINUS_Y,	bit7)
+DEFBERTPASS (129,	_Y_PLUS_ONE,	bit7)
+DEFBERTPASS (-129,	_Y,		nbit7)
+DEFBERTPASS (-130,	_Y_MINUS_ONE,	nbit7)
+DEFBERTPASS (255,	_Y_MINUS_ONE,	bit8)
+DEFBERTPASS (256,	_Y,		bit8)
+DEFBERTPASS (-256,	_MINUS_Y,	bit8)
+DEFBERTPASS (257,	_Y_PLUS_ONE,	bit8)
+DEFBERTPASS (-257,	_Y,		nbit8)
+DEFBERTPASS (-258,	_Y_MINUS_ONE,	nbit8)
+DEFBERTPASS (511,	_Y_MINUS_ONE,	bit9)
+DEFBERTPASS (512,	_Y,		bit9)
+DEFBERTPASS (-512,	_MINUS_Y,	bit9)
+DEFBERTPASS (513,	_Y_PLUS_ONE,	bit9)
+DEFBERTPASS (-513,	_Y,		nbit9)
+DEFBERTPASS (-514,	_Y_MINUS_ONE,	nbit9)
+DEFBERTPASS (1023,	_Y_MINUS_ONE,	bit10)
+DEFBERTPASS (1024,	_Y,		bit10)
+DEFBERTPASS (-1024,	_MINUS_Y,	bit10)
+DEFBERTPASS (1025,	_Y_PLUS_ONE,	bit10)
+DEFBERTPASS (-1025,	_Y,		nbit10)
+DEFBERTPASS (-1026,	_Y_MINUS_ONE,	nbit10)
+DEFBERTPASS (2047,	_Y_MINUS_ONE,	bit11)
+DEFBERTPASS (2048,	_Y,		bit11)
+DEFBERTPASS (-2048,	_MINUS_Y,	bit11)
+DEFBERTPASS (2049,	_Y_PLUS_ONE,	bit11)
+DEFBERTPASS (-2049,	_Y,		nbit11)
+DEFBERTPASS (-2050,	_Y_MINUS_ONE,	nbit11)
+DEFBERTPASS (4095,	_Y_MINUS_ONE,	bit12)
+DEFBERTPASS (4096,	_Y,		bit12)
+DEFBERTPASS (-4096,	_MINUS_Y,	bit12)
+DEFBERTPASS (4097,	_Y_PLUS_ONE,	bit12)
+DEFBERTPASS (-4097,	_Y,		nbit12)
+DEFBERTPASS (-4098,	_Y_MINUS_ONE,	nbit12)
+DEFBERTPASS (8191,	_Y_MINUS_ONE,	bit13)
+DEFBERTPASS (8192,	_Y,		bit13)
+DEFBERTPASS (-8192,	_MINUS_Y,	bit13)
+DEFBERTPASS (8193,	_Y_PLUS_ONE,	bit13)
+DEFBERTPASS (-8193,	_Y,		nbit13)
+DEFBERTPASS (-8194,	_Y_MINUS_ONE,	nbit13)
+DEFBERTPASS (16383,	_Y_MINUS_ONE,	bit14)
+DEFBERTPASS (16384,	_Y,		bit14)
+DEFBERTPASS (-16384,	_MINUS_Y,	bit14)
+DEFBERTPASS (16385,	_Y_PLUS_ONE,	bit14)
+DEFBERTPASS (-16385,	_Y,		nbit14)
+DEFBERTPASS (-16386,	_Y_MINUS_ONE,	nbit14)
+DEFBERTPASS (32766,	_Y_MINUS_ONE,	nbit15)
+DEFBERTPASS (32767,	_Y,		nbit15)
+DEFBERTPASS (-32767,	_Y_PLUS_ONE,	bit15)
+DEFBERTPASS (-32768,	_Y,		bit15)
+
+
+#endif

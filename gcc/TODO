@@ -1,0 +1,13 @@
+
+Document about available assmeblers and linkers.
+
+Remove sys-errlist for glibc
+
+The 21xx version provided here is a bit old, and we are eagerly 
+awaiting AD to publish the newest source code at their FTP site. 
+They have promised to do so once they have ironed out a couple of 
+bugs.
+
+Misc scripts to /usr/local/21k/etc
+
+Standard place /usr/local/21k/include does not work?

@@ -1,0 +1,207 @@
+#    Makefile template for Configure for the adiach library.
+#    Copyright (C) 1990, 1991, 1992 Free Software Foundation, Inc.
+#    Written by Marc Hoffman.
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+srcdir = .
+
+prefix = /usr/local
+
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+libdir = $(exec_prefix)/lib
+
+datadir = $(prefix)/lib
+mandir = $(prefix)/man
+man1dir = $(mandir)/man1
+man2dir = $(mandir)/man2
+man3dir = $(mandir)/man3
+man4dir = $(mandir)/man4
+man5dir = $(mandir)/man5
+man6dir = $(mandir)/man6
+man7dir = $(mandir)/man7
+man8dir = $(mandir)/man8
+man9dir = $(mandir)/man9
+infodir = $(prefix)/info
+includedir = $(prefix)/include
+oldincludedir =
+docdir = $(srcdir)/doc
+
+SHELL = /bin/sh
+
+INSTALL = install -c
+INSTALL_PROGRAM = $(INSTALL)
+INSTALL_DATA = $(INSTALL)
+
+CC = gcc
+AR = ar
+AR_FLAGS = qc
+CFLAGS = -g
+BISON = bison
+MAKEINFO = makeinfo
+RANLIB = ranlib
+YACC= bison -y
+
+CL=cl86
+CLFLAGS=-AL -DMSC -F 5000 -Os -D__MSDOS__ 
+
+INCDIR = $(srcdir)/../include 
+BFDDIR = $(srcdir)/../bfd
+CSEARCH = -I. -I$(srcdir) -I$(INCDIR) -I$(BFDDIR)
+DEP = mkdep
+
+
+TARGETLIB = libutils.a
+
+# To circumvent a Sun make VPATH bug, each file listed here
+# should also have a foo.o: foo.c line further along in this file.
+
+OFILES = clargpar.o inifile.o hash.o mobstack.o achparse.o atfile.o tgttrace.o symaddr.o dbgmon.o
+#### host and target dependent Makefile fragments come in here.
+###
+
+FLAGS_TO_PASS = \
+	"against=$(against)" \
+	"AR=$(AR)" \
+	"AR_FLAGS=$(AR_FLAGS)" \
+	"CC=$(CC)" \
+	"CFLAGS=$(CFLAGS)" \
+	"RANLIB=$(RANLIB)" \
+	"MAKEINFO=$(MAKEINFO)" \
+	"INSTALL=$(INSTALL)" \
+	"INSTALL_DATA=$(INSTALL_DATA)" \
+	"INSTALL_PROGRAM=$(INSTALL_PROGRAM)" \
+	"BISON=$(BISON)"
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(HDEFINES) $(TDEFINES) $(CSEARCH) $(CSWITCHES) $<
+
+.SUFFIXES: .obj
+.c.obj:
+	$(CL) $(CLFLAGS) $(CSEARCH) -I. -c $<
+
+# C source files that correspond to .o's.
+CFILES = clargpar.c achparse.c atfile.c gcc_ach.c tgttrace.c symaddr.c
+
+STAGESTUFF = $(TARGETLIB) $(OFILES)
+
+all: $(TARGETLIB) 
+
+mungedoc: mungedoc.o $(TARGETLIB)
+	$(CC) mungedoc.o -o mungedoc $(LDFLAGS) ../libiberty/libiberty.a $(TARGETLIB)
+
+UTILS_SRC=$(srcdir)/clargpar.c $(srcdir)/inifile.c $(srcdir)/mobstack.c $(srcdir)/hash.c
+
+utils.texi:  mungedoc $(UTILS_SRC)
+	mungedoc $(UTILS_SRC)\
+		 -o utils.texi --include-header $(srcdir)/utils.hdr
+utils.dvi: utils.texi
+	tex utils.texi
+
+.NOEXPORT:
+
+installcheck check:
+
+info:
+clean-info:
+install-info:
+dvi: utils.dvi
+
+# HDEPFILES comes from the host config; TDEPFILES from the target config.
+
+
+$(TARGETLIB): $(OFILES)
+	 rm -f $(TARGETLIB)
+	 $(AR) $(AR_FLAGS) $(TARGETLIB) $(OFILES)
+	 $(RANLIB) $(TARGETLIB)
+
+utils.lib: $(OFILES:.o=.obj)
+	rm -f utils.lib
+	lib86 utils.lib +atfile+clargpar+hash+inifile+mobstack+tgttrace+symaddr+dbgmon , utils.lst
+
+# Circumvent Sun Make bug with VPATH.
+symaddr.o:symaddr.c
+tgttrace.o:tgttrace.c
+clargpar.o:clargpar.c
+atfile.o:atfile.c
+util.o:util.c
+gcc_ach.o:gcc_ach.c
+achparse.o:achparse.c
+hash.o:hash.c
+inifile.o:inifile.c
+mobstack.o:mobstack.c
+mungedoc.o:mungedoc.c
+dbgmon.o:dbgmon.y
+
+tags etags: TAGS
+
+TAGS: force
+	etags $(INCDIR)/*.h $(srcdir)/*.h $(srcdir)/*.c
+
+MOSTLYCLEAN = *.o core *.E *.p *.ip
+mostyclean:
+	rm -rf $(MOSTLYCLEAN)
+clean:
+	rm -f *.a $(MOSTLYCLEAN)
+distclean: clean
+	rm -rf Makefile config.status sysdep.h TAGS
+clobber realclean: distclean
+
+# Mark everything as depending on config.status, since the timestamp on
+# sysdep.h might actually move backwards if we reconfig and relink it
+# to a different hosts/h-xxx.h file.  This will force a recompile anyway.
+RECONFIG = config.status
+
+
+
+# This target should be invoked before building a new release.
+# 'VERSION' file must be present and contain a string of the form "x.y"
+#
+roll:
+	@V=`cat VERSION`		; \
+	MAJ=`sed 's/\..*//' VERSION`	; \
+	MIN=`sed 's/.*\.//' VERSION`	; \
+	V=$$MAJ.`expr $$MIN + 1`	; \
+	rm -f VERSION			; \
+	echo $$V >VERSION		; \
+	echo Version $$V
+
+# Dummy target to force execution of dependent targets.
+#
+force:
+
+install:
+	-parent=`echo $(bindir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(bindir) ] ; then true ; else mkdir $(bindir) ; fi
+	$(INSTALL_DATA) mungedoc $(bindir)/mungedoc
+
+
+Makefile: $(srcdir)/Makefile.in $(host_makefile_frag) $(target_makefile_frag)
+	$(SHELL) ./config.status
+
+dep: $(CFILES)
+	mkdep $(CFLAGS) $?
+
+
+# What appears below is generated by a hacked mkdep using gcc -MM.
+
+# DO NOT DELETE THIS LINE -- mkdep uses it.
+# DO NOT PUT ANYTHING AFTER THIS LINE, IT WILL GO AWAY.
+
+
+# IF YOU PUT ANYTHING HERE IT WILL GO AWAY
+

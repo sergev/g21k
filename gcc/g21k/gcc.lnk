@@ -1,0 +1,7 @@
+g21k.o
+version.o 
+gcc_ach.o 
+achparse.o 
+util.o 
+atfile.o 
+obstack.o

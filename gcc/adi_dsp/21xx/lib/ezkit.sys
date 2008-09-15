@@ -1,0 +1,8 @@
+.SYSTEM                 EZKIT;
+.ADSP2181;
+
+.SEG/PM/RAM/ABS=0X0000/CODE/DATA    int_pm_user[0x3800];
+
+.SEG/DM/RAM/ABS=0x0000/DATA         int_dm_user[0x3E00];
+
+.ENDSYS;

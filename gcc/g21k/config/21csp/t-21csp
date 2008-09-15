@@ -1,0 +1,85 @@
+#all: cc1 cpp g21c
+CC = gcc
+
+X_DEBUG_OBJS = debug-trace.o stat-md.o debug-prints.o debug-tree.o
+# /usr/lib/debug/malloc.o
+CLIB=-lm
+EXTRA_OBJS =   $(X_DEBUG_OBJS) parallel.o atfile.o
+EXTRA_CPPOBJS = atfile.o
+LANGUAGES = c
+GCC_PASSES=g21c cc1 cpp $(EXTRA_PASSES)
+ADISUPPORT = $(srcdir)/../adiach
+ALL=all.adi
+INSTALL_TARGET=install.adi
+
+GCC_FOR_TARGET = ./g21 -B./
+
+#*EK* make a default ADI_DSP location:
+ADI_DSP=$(prefix)
+etcdir=$(ADI_DSP)/$(target)/etc
+
+install.adi: $(GCC_PASSES)
+	-parent=`echo $(bindir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(bindir) ] ; then true ; else mkdir -p $(bindir) ; fi
+	-parent=`echo $(etcdir)|sed -e 's@/[^/]*$$@@'`; \
+	if [ -d $$parent ] ; then true ; else mkdir $$parent ; fi
+	-if [ -d $(etcdir) ] ; then true ; else mkdir -p $(etcdir) ; fi
+	$(INSTALL_DATA) g21c${exe} $(bindir)/g21c${exe}
+	$(INSTALL_DATA) cc1${exe} $(etcdir)/cc1${exe}
+	$(INSTALL_DATA) cccp${exe} $(etcdir)/cpp${exe}
+	
+# This is how we make an ADI specific target
+# mmh 11/29/95
+all.adi: g21c cc1 cpp #native specs $(EXTRA_PARTS)
+#all.adi: native specs $(EXTRA_PARTS)
+
+
+EXTRA_GCCOBJS = atfile.o # gcc_ach.o atfile.o
+
+%.o : $(ADISUPPORT)/%.c
+	$(CC) -c $(ALL_CFLAGS) $(INCLUDES) -I$(ADISUPPORT) $< -o $@
+# ADI common files - from [...]/xsoft/21/lib
+
+gcc_ach.o : tm.h gcc_ach.c $(ADISUPPORT)/app.h \
+		$(ADISUPPORT)/gcc_ach.h \
+		$(ADISUPPORT)/atfile.h $(ADISUPPORT)/util.h 
+	$(CC) -c $(ALL_CFLAGS) $(ALL_CPPFLAGS) -I$(ADISUPPORT) $(INCLUDES) \
+	-o gcc_ach.o gcc_ach.c
+
+atfile.o : $(ADISUPPORT)/atfile.c $(ADISUPPORT)/atfile.h
+atof.o : atof.c
+parallel.o : parallel.c
+debug-trace.o : debug-trace.c
+stat-md.o: stat-md.c
+debug-prints.o : debug-prints.c
+debug-tree.o : debug-tree.c
+
+g21c.o : gcc.c tm.h gvarargs.h obstack.h 
+	$(CC) -I$(ADISUPPORT) $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) \
+	-DADI_DSP=\"$(ADI_DSP)\" \
+	-DDEFAULT_TARGET_MACHINE=\"$(target)\" \
+	`echo $(srcdir)/gcc.c | sed 's,^\./,,'` \
+	-c -o g21c.o
+
+g21c: g21c.o version.o obstack.o $(LIBDEPS) $(EXTRA_GCCOBJS) alloca.o
+	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o g21c g21c.o version.o  $(EXTRA_GCCOBJS) $(LIBS)
+
+.SUFFIXES:.obj
+CLFLAGS= -DMSC -F 5000 -Os -D__MSDOS__ -DMSDOS
+G21C_EXE_O=gcc.obj obstack.obj version.obj atfile.obj
+
+g21c.exe: $(G21C_EXE_O)
+	cl86 $(CLFLAGS) -Feg21c.exe $(G21C_EXE_O)
+
+atfile.o : $(ADISUPPORT)/atfile.c $(ADISUPPORT)/atfile.h
+
+.c.obj:
+	cl86 $(CLFLAGS) $(INCLUDES) -I. -c $*.c
+
+atfile.obj : $(ADISUPPORT)/atfile.c $(ADISUPPORT)/atfile.h
+	cp $(ADISUPPORT)/atfile.c .
+	cl86 $(CLFLAGS) $(INCLUDES) -I. -I$(ADISUPPORT) -D__MSDOS__ -c atfile.c
+	rm -f atfile.c
+
+gcc.obj : gcc.c

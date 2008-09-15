@@ -1,0 +1,5 @@
+Note: Don't use watcom to compile g21.exe since protected
+mode programs can't call other protected mode programs under
+windows.  Instead use the following oasys line (on the sun):
+
+cl86 -DMSC -Feg21.exe gcc.c obstack.c version.c
