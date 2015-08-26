@@ -1,0 +1,1 @@
+G21k is a reincarnation of Analog Devices's GCC port for SHARC architecture.
